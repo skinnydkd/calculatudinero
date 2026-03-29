@@ -1,0 +1,28 @@
+---
+/**
+ * Google Analytics 4 (gtag.js) component.
+ *
+ * Loads GA4 asynchronously with minimal performance impact.
+ * Only loads in production (import.meta.env.PROD).
+ *
+ * Set the GA_MEASUREMENT_ID environment variable or replace the fallback below.
+ */
+
+const GA_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX';
+const isProd = import.meta.env.PROD;
+---
+
+{isProd && GA_ID !== 'G-XXXXXXXXXX' && (
+  <>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+    <script define:vars={{ GA_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', GA_ID, {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure',
+      });
+    </script>
+  </>
+)}
