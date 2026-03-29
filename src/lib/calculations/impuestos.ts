@@ -10,7 +10,16 @@
 
 import { round2 } from '../formatters';
 import { calcularCuotaPorTramos, esForalCcaa } from './shared';
-import type { ComunidadAutonoma, IRPFData, IRPFInput, IRPFResult, TramoIRPF } from '../types';
+import type {
+  ComunidadAutonoma,
+  IRPFData,
+  IRPFInput,
+  IRPFResult,
+  IVAData,
+  IVAInput,
+  IVAResult,
+  TramoIRPF,
+} from '../types';
 
 /**
  * Calculate the reducción por rendimientos del trabajo.
@@ -204,5 +213,112 @@ export function calcularIRPF(input: IRPFInput, irpfData: IRPFData): IRPFResult {
     reduccionTrabajo: round2(reduccionTrabajo),
     rendimientosNetos: round2(rendimientosNetos),
     desgloseTramos,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// IVA / IGIC / IPSI calculator
+// ---------------------------------------------------------------------------
+
+/**
+ * Map an IVA tier name to the equivalent IGIC tier rate.
+ * - general → IGIC general (7%)
+ * - reducido → IGIC reducido (3%)
+ * - superreducido → IGIC cero (0%)
+ */
+function igicRate(tipoIVA: IVAInput['tipoIVA'], igicTipos: Record<string, number>): number {
+  const map: Record<IVAInput['tipoIVA'], string> = {
+    general: 'general',
+    reducido: 'reducido',
+    superreducido: 'cero',
+  };
+  return igicTipos[map[tipoIVA]] ?? igicTipos['general'];
+}
+
+/**
+ * Map an IVA tier name to the equivalent IPSI tier rate.
+ * - general → IPSI general (10%)
+ * - reducido → IPSI reducido (4%)
+ * - superreducido → IPSI mínimo (0.5%)
+ */
+function ipsiRate(tipoIVA: IVAInput['tipoIVA'], ipsiTipos: Record<string, number>): number {
+  const map: Record<IVAInput['tipoIVA'], string> = {
+    general: 'general',
+    reducido: 'reducido',
+    superreducido: 'minimo',
+  };
+  return ipsiTipos[map[tipoIVA]] ?? ipsiTipos['general'];
+}
+
+/**
+ * Calculate IVA (or IGIC / IPSI) for a given amount.
+ *
+ * Supports bidirectional calculation (base → total or total → base),
+ * optional recargo de equivalencia (only for mainland IVA, not IGIC/IPSI),
+ * and automatic detection of special regimes based on CCAA.
+ *
+ * @param input - Calculator inputs
+ * @param ivaData - IVA rate data from iva-2026.json
+ * @returns Full IVA breakdown
+ */
+export function calcularIVA(input: IVAInput, ivaData: IVAData): IVAResult {
+  const { importe, tipoIVA, direccion, incluyeRecargo, ccaa } = input;
+
+  // Step 1: Determine which tax applies based on CCAA
+  let tipoAplicado: number;
+  let impuestoNombre: string;
+  let esRegimenEspecial = false;
+
+  const isCanarias = ccaa === 'canarias';
+  const isCeutaMelilla = ccaa === 'ceuta' || ccaa === 'melilla';
+
+  if (isCanarias) {
+    tipoAplicado = igicRate(tipoIVA, ivaData.regimenesEspeciales.igic.tipos);
+    impuestoNombre = 'IGIC';
+    esRegimenEspecial = true;
+  } else if (isCeutaMelilla) {
+    tipoAplicado = ipsiRate(tipoIVA, ivaData.regimenesEspeciales.ipsi.tipos);
+    impuestoNombre = 'IPSI';
+    esRegimenEspecial = true;
+  } else {
+    tipoAplicado = ivaData.tiposIVA[tipoIVA].tipo;
+    impuestoNombre = 'IVA';
+  }
+
+  // Step 2: Calculate base and cuota depending on direction
+  let base: number;
+  let cuotaIVA: number;
+  let total: number;
+
+  if (direccion === 'base_a_total') {
+    base = importe;
+    cuotaIVA = round2(base * tipoAplicado / 100);
+    total = round2(base + cuotaIVA);
+  } else {
+    // total_a_base: extract base from total that includes tax
+    base = round2(importe / (1 + tipoAplicado / 100));
+    cuotaIVA = round2(importe - base);
+    total = round2(importe);
+  }
+
+  // Step 3: Recargo de equivalencia (only for mainland IVA, not IGIC/IPSI)
+  let recargoEquivalencia = 0;
+  let totalConRecargo = total;
+
+  if (incluyeRecargo && !esRegimenEspecial) {
+    const tipoRecargo = ivaData.recargo[tipoIVA];
+    recargoEquivalencia = round2(base * tipoRecargo / 100);
+    totalConRecargo = round2(total + recargoEquivalencia);
+  }
+
+  return {
+    base,
+    cuotaIVA,
+    tipoAplicado,
+    total,
+    recargoEquivalencia,
+    totalConRecargo,
+    impuestoNombre,
+    esRegimenEspecial,
   };
 }
