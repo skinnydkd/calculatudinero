@@ -303,3 +303,122 @@ export interface IndemnizacionResult {
     periodoPosterior: { anios: number; dias: number; importe: number };
   };
 }
+
+// ---------------------------------------------------------------------------
+// Calculator: IRPF
+// ---------------------------------------------------------------------------
+
+export interface IRPFInput {
+  rendimientosBrutos: number;
+  ccaa: ComunidadAutonoma;
+  hijosCount: number;
+  mayor65: boolean;
+  mayor75: boolean;
+  situacion: 'soltero' | 'casado';
+  discapacidad: boolean;
+  esAutonomo: boolean;
+  gastoDeducible: number;
+  cotizacionSS: number;
+}
+
+export interface IRPFResult {
+  cuotaIntegra: number;
+  cuotaEstatal: number;
+  cuotaAutonomica: number;
+  tipoEfectivo: number;
+  baseLiquidable: number;
+  minimoPersonalFamiliar: number;
+  reduccionTrabajo: number;
+  rendimientosNetos: number;
+  desgloseTramos: {
+    tramo: string;
+    base: number;
+    tipo: number;
+    cuota: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Cuota Autónomos
+// ---------------------------------------------------------------------------
+
+export interface CuotaAutonomoInput {
+  rendimientosNetosMensuales: number;
+  situacion: 'nuevo' | 'establecido';
+  basePersonalizada?: number;
+}
+
+export interface CuotaAutonomoResult {
+  tramoAplicado: TramoAutonomo;
+  cuotaMensual: number;
+  cuotaAnual: number;
+  baseElegida: number;
+  esTarifaPlana: boolean;
+  ahorroPorTarifaPlana: number;
+  desgloseCotizacion: {
+    contingenciasComunes: number;
+    contingenciasProfesionales: number;
+    ceseProfesional: number;
+    formacionProfesional: number;
+    mei: number;
+  };
+  tablaTramos: {
+    tramoId: number;
+    tabla: string;
+    rango: string;
+    cuotaMinima: number;
+    esActual: boolean;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Finiquito data structures
+// ---------------------------------------------------------------------------
+
+export interface FiniquitoData {
+  pagasExtra: {
+    nota: string;
+    mesesPorPaga: number;
+  };
+  vacaciones: {
+    diasNaturalesAnuales: number;
+    diasLaborablesAnuales: number;
+    nota: string;
+  };
+  retencionIRPF: {
+    nota: string;
+    porDefecto: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Finiquito
+// ---------------------------------------------------------------------------
+
+export interface FiniquitoInput {
+  fechaBaja: Date;
+  salarioBrutoAnual: number;
+  pagasExtra: 12 | 14;
+  pagasProrrateadas: boolean;
+  diasVacacionesTotales: number;
+  diasVacacionesDisfrutados: number;
+  retencionIRPF: number;
+}
+
+export interface FiniquitoResult {
+  diasTrabajadosMesBaja: number;
+  importeDiasTrabajados: number;
+  diasVacacionesPendientes: number;
+  importeVacaciones: number;
+  importeProrrataNavidad: number;
+  importeProrrataVerano: number;
+  totalProrratasPagas: number;
+  totalBruto: number;
+  retencionIRPFImporte: number;
+  cotizacionSS: number;
+  totalNeto: number;
+  desglose: {
+    concepto: string;
+    bruto: number;
+  }[];
+}

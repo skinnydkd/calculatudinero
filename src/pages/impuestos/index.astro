@@ -1,0 +1,172 @@
+---
+import CategoryLayout from '@layouts/CategoryLayout.astro';
+
+const title = 'Calculadoras de Impuestos en España — CalculaTuDinero.net';
+const description = 'Calculadoras gratuitas de impuestos: IRPF, IVA, plusvalía municipal y más. Datos actualizados a 2026.';
+const canonical = 'https://calculatudinero.net/impuestos/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos' },
+];
+
+const calculators = [
+  {
+    icon: '🧾',
+    title: 'Calculadora de IRPF 2026',
+    description: 'Calcula tu cuota de IRPF con los tramos estatales y autonómicos actualizados. Para trabajadores y autónomos.',
+    href: '/impuestos/calculadora-irpf/',
+  },
+];
+
+const faqs = [
+  {
+    question: '¿Qué es el IRPF y cómo funciona?',
+    answer: 'El Impuesto sobre la Renta de las Personas Físicas (IRPF) es un impuesto progresivo que grava las rentas obtenidas durante el año. Se calcula aplicando tramos de tipos impositivos crecientes: a mayor renta, mayor porcentaje se paga sobre el exceso. En España, el IRPF se divide entre la parte estatal y la autonómica, lo que hace que varíe según la comunidad autónoma.',
+  },
+  {
+    question: '¿Cuáles son los tramos de IRPF en 2026?',
+    answer: 'Los tramos estatales del IRPF en 2026 son: de 0 a 12.450 € al 9,50%, de 12.450 a 20.200 € al 12%, de 20.200 a 35.200 € al 15%, de 35.200 a 60.000 € al 18,50%, de 60.000 a 300.000 € al 22,50% y más de 300.000 € al 24,50%. A estos se suman los tramos autonómicos que varían por comunidad.',
+  },
+  {
+    question: '¿Qué diferencia hay entre tipo marginal y tipo efectivo?',
+    answer: 'El tipo marginal es el porcentaje que se aplica al último euro que ganas (el tramo más alto al que llegas). El tipo efectivo es el porcentaje real que pagas sobre el total de tus ingresos. El tipo efectivo siempre es menor que el marginal porque los primeros tramos tienen tipos más bajos.',
+  },
+  {
+    question: '¿Qué es el mínimo personal y familiar?',
+    answer: 'Es la parte de la renta que se considera necesaria para vivir y que está exenta de tributación. En 2026 el mínimo personal es de 5.550 € (6.700 € para mayores de 65 y 8.100 € para mayores de 75). Se incrementa con el mínimo por descendientes: 2.400 € por el primero, 2.700 € por el segundo, 4.000 € por el tercero y 4.500 € por el cuarto y siguientes.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumbItems={breadcrumbItems}
+  categoryTitle="Calculadoras de Impuestos"
+  categoryDescription="Calculadoras gratuitas de impuestos en España: IRPF, IVA, plusvalía municipal y más. Datos actualizados a 2026."
+>
+  {calculators.map((calc) => (
+    <a href={calc.href} class="card card--accent calculator-card">
+      <span class="calculator-card__icon">{calc.icon}</span>
+      <h2 class="calculator-card__title">{calc.title}</h2>
+      <p class="calculator-card__description">{calc.description}</p>
+      <span class="calculator-card__cta">Calcular &rarr;</span>
+    </a>
+  ))}
+</CategoryLayout>
+
+<!-- FAQ Section -->
+<section class="faq container">
+  <h2>Preguntas frecuentes sobre impuestos</h2>
+  {faqs.map((faq) => (
+    <details class="faq__item">
+      <summary class="faq__question">{faq.question}</summary>
+      <p class="faq__answer">{faq.answer}</p>
+    </details>
+  ))}
+</section>
+
+<!-- JSON-LD for FAQPage -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd[0])} />
+
+<style>
+  .calculator-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .calculator-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .calculator-card__icon {
+    font-size: 1.75rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-light);
+    border-radius: 14px;
+    margin-bottom: var(--space-4);
+  }
+
+  .calculator-card__title {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .calculator-card__description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+  }
+
+  .calculator-card__cta {
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-top: var(--space-3);
+  }
+
+  .faq {
+    padding-bottom: var(--space-16);
+  }
+
+  .faq h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
