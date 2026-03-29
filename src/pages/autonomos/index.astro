@@ -2,40 +2,40 @@
 import CategoryLayout from '@layouts/CategoryLayout.astro';
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const title = 'Calculadoras para Autonomos en Espana — CalculaTuDinero.es';
-const description = 'Herramientas gratuitas para autonomos en Espana: calcula tu facturacion, cuota de Seguridad Social, IVA trimestral y mas.';
+const title = 'Calculadoras para Autónomos en España — CalculaTuDinero.net';
+const description = 'Herramientas gratuitas para autónomos en España: calcula tu facturación, cuota de Seguridad Social, IVA trimestral y más.';
 const canonical = 'https://calculatudinero.net/autonomos/';
 
 const breadcrumbItems = [
   { label: 'Inicio', href: '/' },
-  { label: 'Autonomos' },
+  { label: 'Autónomos' },
 ];
 
 const calculators = [
   {
-    icon: '\uD83D\uDCBC',
-    title: 'Cuanto facturar como autonomo',
-    description: 'Calcula cuanto necesitas facturar para conseguir el sueldo neto que quieres, teniendo en cuenta la cuota de autonomos, IRPF e IVA.',
+    icon: '💼',
+    title: 'Cuánto facturar como autónomo',
+    description: 'Calcula cuánto necesitas facturar para conseguir el sueldo neto que quieres, teniendo en cuenta la cuota de autónomos, IRPF e IVA.',
     href: '/autonomos/cuanto-facturar/',
   },
 ];
 
 const faqs = [
   {
-    question: '\u00BFCuanto paga un autonomo de cuota en 2026?',
-    answer: 'En 2026 la cuota de autonomos depende de los rendimientos netos y oscila entre 205,88 \u20AC/mes (para rendimientos hasta 670 \u20AC) y 607,35 \u20AC/mes (para rendimientos superiores a 6.000 \u20AC). La tarifa plana para nuevos autonomos es de 80 \u20AC/mes durante los primeros 12 meses.',
+    question: '¿Cuánto paga un autónomo de cuota en 2026?',
+    answer: 'En 2026 la cuota de autónomos depende de los rendimientos netos y oscila entre 205,88 €/mes (para rendimientos hasta 670 €) y 607,35 €/mes (para rendimientos superiores a 6.000 €). La tarifa plana para nuevos autónomos es de 80 €/mes durante los primeros 12 meses.',
   },
   {
-    question: '\u00BFQue impuestos paga un autonomo en Espana?',
-    answer: 'Un autonomo paga la cuota de Seguridad Social (RETA), IRPF trimestral (modelo 130, entre el 7% y el 20% segun el regimen), IVA trimestral (21% general, modelo 303) y las declaraciones informativas y anuales correspondientes. Ademas, debe presentar la declaracion anual de la renta.',
+    question: '¿Qué impuestos paga un autónomo en España?',
+    answer: 'Un autónomo paga la cuota de Seguridad Social (RETA), IRPF trimestral (modelo 130, entre el 7% y el 20% según el régimen), IVA trimestral (21% general, modelo 303) y las declaraciones informativas y anuales correspondientes. Además, debe presentar la declaración anual de la renta.',
   },
   {
-    question: '\u00BFComo funciona el sistema de cotizacion por ingresos reales?',
-    answer: 'Desde 2023, los autonomos cotizan segun sus rendimientos netos reales. Existen 15 tramos que van desde menos de 670 \u20AC/mes hasta mas de 6.000 \u20AC/mes. Cada tramo tiene una base minima y maxima de cotizacion, y la cuota se calcula aplicando el tipo total del 31,50% sobre la base elegida.',
+    question: '¿Cómo funciona el sistema de cotización por ingresos reales?',
+    answer: 'Desde 2023, los autónomos cotizan según sus rendimientos netos reales. Existen 15 tramos que van desde menos de 670 €/mes hasta más de 6.000 €/mes. Cada tramo tiene una base mínima y máxima de cotización, y la cuota se calcula aplicando el tipo total del 31,50% sobre la base elegida.',
   },
   {
-    question: '\u00BFQue es la tarifa plana de autonomos?',
-    answer: 'La tarifa plana permite a los nuevos autonomos pagar una cuota reducida de 80 \u20AC/mes durante los primeros 12 meses de actividad. Si los rendimientos netos durante ese primer ano son inferiores al SMI, se puede ampliar otros 12 meses mas. El requisito principal es no haber estado dado de alta como autonomo en los 2 anos anteriores.',
+    question: '¿Qué es la tarifa plana de autónomos?',
+    answer: 'La tarifa plana permite a los nuevos autónomos pagar una cuota reducida de 80 €/mes durante los primeros 12 meses de actividad. Si los rendimientos netos durante ese primer año son inferiores al SMI, se puede ampliar otros 12 meses más. El requisito principal es no haber estado dado de alta como autónomo en los 2 años anteriores.',
   },
 ];
 
@@ -60,8 +60,8 @@ const jsonLd = [
   description={description}
   canonical={canonical}
   breadcrumbItems={breadcrumbItems}
-  categoryTitle="Calculadoras para Autonomos"
-  categoryDescription="Herramientas gratuitas para autonomos en Espana: calcula tu facturacion, cuota de Seguridad Social, IVA trimestral y mas."
+  categoryTitle="Calculadoras para Autónomos"
+  categoryDescription="Herramientas gratuitas para autónomos en España: calcula tu facturación, cuota de Seguridad Social, IVA trimestral y más."
 >
   {calculators.map((calc) => (
     <a href={calc.href} class="card card--accent calculator-card">
@@ -75,7 +75,7 @@ const jsonLd = [
 
 <!-- FAQ Section injected after CategoryLayout via BaseLayout slot -->
 <section class="faq container">
-  <h2>Preguntas frecuentes sobre autonomos</h2>
+  <h2>Preguntas frecuentes sobre autónomos</h2>
   {faqs.map((faq) => (
     <details class="faq__item">
       <summary class="faq__question">{faq.question}</summary>
@@ -102,8 +102,15 @@ const jsonLd = [
   }
 
   .calculator-card__icon {
-    font-size: 2rem;
-    margin-bottom: var(--space-3);
+    font-size: 1.75rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-light);
+    border-radius: 14px;
+    margin-bottom: var(--space-4);
   }
 
   .calculator-card__title {

@@ -1,26 +1,26 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 
-const title = 'Calculadoras Financieras para Espana — CalculaTuDinero.es';
-const description = 'Calculadoras financieras gratuitas, actualizadas y precisas para autonomos y trabajadores en Espana. Calcula tu salario neto, facturacion e indemnizacion.';
+const title = 'Calculadoras Financieras para España — CalculaTuDinero.net';
+const description = 'Calculadoras financieras gratuitas, actualizadas y precisas para autónomos y trabajadores en España. Calcula tu salario neto, facturación e indemnización.';
 
 const calculators = [
   {
-    icon: '\uD83D\uDCBC',
-    title: 'Cuanto facturar como autonomo',
-    description: 'Calcula cuanto debes facturar para alcanzar el sueldo neto que deseas, incluyendo cuota de autonomos e IRPF.',
+    icon: '💼',
+    title: 'Cuánto facturar como autónomo',
+    description: 'Calcula cuánto debes facturar para alcanzar el sueldo neto que deseas, incluyendo cuota de autónomos e IRPF.',
     href: '/autonomos/cuanto-facturar/',
   },
   {
-    icon: '\uD83D\uDCB0',
+    icon: '💰',
     title: 'Salario neto',
-    description: 'Calcula tu salario neto a partir del bruto, con las retenciones de Seguridad Social e IRPF de tu comunidad autonoma.',
+    description: 'Calcula tu salario neto a partir del bruto, con las retenciones de Seguridad Social e IRPF de tu comunidad autónoma.',
     href: '/laboral/salario-neto/',
   },
   {
-    icon: '\u2696\uFE0F',
-    title: 'Indemnizacion por despido',
-    description: 'Calcula la indemnizacion que te corresponde segun el tipo de despido, tu antiguedad y salario.',
+    icon: '⚖️',
+    title: 'Indemnización por despido',
+    description: 'Calcula la indemnización que te corresponde según el tipo de despido, tu antigüedad y salario.',
     href: '/laboral/indemnizacion-despido/',
   },
 ];
@@ -29,16 +29,16 @@ const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    'name': 'CalculaTuDinero.es',
+    'name': 'CalculaTuDinero.net',
     'url': 'https://calculatudinero.net',
-    'description': 'Calculadoras financieras gratuitas para autonomos y trabajadores en Espana.',
+    'description': 'Calculadoras financieras gratuitas para autónomos y trabajadores en España.',
     'logo': 'https://calculatudinero.net/logo.png',
     'sameAs': [],
   },
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    'name': 'CalculaTuDinero.es',
+    'name': 'CalculaTuDinero.net',
     'url': 'https://calculatudinero.net',
     'potentialAction': {
       '@type': 'SearchAction',
@@ -53,7 +53,7 @@ const jsonLd = [
   <!-- Hero -->
   <section class="hero">
     <div class="container">
-      <h1 class="hero__title">Calcula tus finanzas personales en Espana</h1>
+      <h1 class="hero__title">Calcula tus finanzas personales en España</h1>
       <p class="hero__subtitle">Calculadoras financieras gratuitas, actualizadas y precisas</p>
     </div>
   </section>
@@ -76,15 +76,15 @@ const jsonLd = [
   <section class="trust container">
     <div class="trust__grid">
       <div class="trust__item">
-        <span class="trust__icon">\uD83D\uDCC5</span>
+        <span class="trust__icon">📅</span>
         <p class="trust__text">Datos actualizados a marzo 2026</p>
       </div>
       <div class="trust__item">
-        <span class="trust__icon">\u2705</span>
-        <p class="trust__text">Formulas verificadas con fuentes oficiales</p>
+        <span class="trust__icon">✅</span>
+        <p class="trust__text">Fórmulas verificadas con fuentes oficiales</p>
       </div>
       <div class="trust__item">
-        <span class="trust__icon">\uD83C\uDD93</span>
+        <span class="trust__icon">🆓</span>
         <p class="trust__text">100% gratuito, sin registro</p>
       </div>
     </div>
@@ -134,8 +134,15 @@ const jsonLd = [
   }
 
   .calculator-card__icon {
-    font-size: 2rem;
-    margin-bottom: var(--space-3);
+    font-size: 1.75rem;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-light);
+    border-radius: 14px;
+    margin-bottom: var(--space-4);
   }
 
   .calculator-card__title {
