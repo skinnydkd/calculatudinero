@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://calculatudinero.es/sitemap-index.xml
+Sitemap: https://calculatudinero.net/sitemap-index.xml

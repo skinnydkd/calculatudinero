@@ -1,4 +1,4 @@
-# CalculaTuDinero.es — Claude Code Instructions
+# CalculaTuDinero.net — Claude Code Instructions
 
 ## Project
 Spanish financial calculator website built with Astro 6 + Preact.

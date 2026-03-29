@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://calculatudinero.es',
+  site: 'https://calculatudinero.net',
   output: 'static',
   integrations: [preact(), sitemap()],
   i18n: {
