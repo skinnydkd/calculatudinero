@@ -1,5 +1,5 @@
 /* ============================================
-   CalculaTuDinero.es — Design System
+   CalculaTuDinero.net — Design System
    ============================================ */
 
 /* --- Google Fonts --- */
@@ -282,7 +282,11 @@ code {
 }
 
 .card--accent {
-  border-left: 4px solid var(--color-accent);
+  border: 1px solid var(--color-border);
+}
+
+.card--accent:hover {
+  border-color: var(--color-accent);
 }
 
 /* --- Forms --- */

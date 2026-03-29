@@ -5,7 +5,7 @@
 /* --- Calculator wrapper --- */
 .calculator {
   background-color: var(--color-surface);
-  border-left: 4px solid var(--color-accent);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   padding: var(--space-8);
