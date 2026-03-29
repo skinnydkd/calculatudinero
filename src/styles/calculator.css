@@ -270,6 +270,191 @@
   box-shadow: 0 0 0 3px var(--color-accent-light);
 }
 
+/* --- Info notice (IGIC / IPSI) --- */
+.iva-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-bg-alt);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.iva-notice__icon {
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: var(--color-info);
+  line-height: 1.5;
+}
+
+.iva-notice__text {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- Breakdown total row highlight --- */
+.calculator__breakdown-total td {
+  border-top: 2px solid var(--color-border);
+  border-bottom: none;
+}
+
+/* --- Range slider --- */
+.form-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 3px;
+  outline: none;
+  margin-top: var(--space-2);
+}
+
+.form-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  border: 2px solid var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  cursor: pointer;
+  border: 2px solid var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+/* --- Interés compuesto: plazo display --- */
+.ic-plazo-display {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  margin-top: var(--space-2);
+}
+
+/* --- Interés compuesto: summary cards --- */
+.ic-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.ic-summary__item {
+  text-align: center;
+  padding: var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.ic-summary__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-1);
+}
+
+.ic-summary__value {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.ic-summary__value--accent {
+  color: var(--color-accent);
+}
+
+/* --- Interés compuesto: growth mini bars --- */
+.ic-growth__chart {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ic-growth__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ic-growth__label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  width: 24px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ic-growth__bar {
+  flex: 1;
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--color-bg-alt);
+}
+
+.ic-growth__segment {
+  transition: width var(--transition-base);
+  min-width: 1px;
+}
+
+/* --- Tabs --- */
+.calculator__tabs {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 0;
+}
+
+.calculator__tab {
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-bottom: -2px;
+}
+
+.calculator__tab:hover {
+  color: var(--color-text);
+}
+
+.calculator__tab--active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
 /* --- Responsive --- */
 @media (max-width: 640px) {
   .calculator {
@@ -286,5 +471,19 @@
 
   .calculator__result-main {
     font-size: 1.75rem;
+  }
+
+  .ic-summary {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .calculator__tabs {
+    gap: 0;
+  }
+
+  .calculator__tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: 0.85rem;
   }
 }

@@ -422,3 +422,245 @@ export interface FiniquitoResult {
     bruto: number;
   }[];
 }
+
+// ---------------------------------------------------------------------------
+// Hipoteca data structures (matching hipoteca-reference.json)
+// ---------------------------------------------------------------------------
+
+export interface HipotecaReferenceData {
+  year: number;
+  lastUpdated: string;
+  source: string;
+  euribor: {
+    actual: number;
+    fecha: string;
+    nota: string;
+  };
+  tiposReferencia: {
+    fijo: {
+      min: number;
+      max: number;
+      media: number;
+      nota: string;
+    };
+    variable: {
+      diferencial: {
+        min: number;
+        max: number;
+        media: number;
+        nota: string;
+      };
+    };
+  };
+  plazoMaximo: number;
+  plazoMinimo: number;
+  porcentajeFinanciacionMax: {
+    primeraVivienda: number;
+    segundaVivienda: number;
+  };
+  gastosCompra: {
+    notaria: { porcentaje: number; nota: string };
+    registro: { porcentaje: number; nota: string };
+    gestoria: { fijo: number; nota: string };
+    tasacion: { fijo: number; nota: string };
+  };
+}
+
+export interface ITPCcaaData {
+  nombre: string;
+  tipo: number;
+  reducido: number;
+  notaReducido: string;
+}
+
+export interface ITPData {
+  year: number;
+  lastUpdated: string;
+  source: string;
+  nota: string;
+  tipoIVAViviendaNueva: number;
+  tipoAJD: number;
+  tiposPorCcaa: Record<string, ITPCcaaData>;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Hipoteca
+// ---------------------------------------------------------------------------
+
+export interface HipotecaInput {
+  precioVivienda: number;
+  ahorroInicial: number;
+  plazoAnios: number;
+  tipoInteres: number;
+  tipoHipoteca: 'fijo' | 'variable';
+  diferencialVariable?: number;
+  euriborActual?: number;
+}
+
+export interface AmortizacionAnual {
+  anio: number;
+  capitalPendiente: number;
+  capitalAmortizado: number;
+  interesesAnuales: number;
+  cuotaAnual: number;
+}
+
+export interface HipotecaResult {
+  capitalPrestamo: number;
+  cuotaMensual: number;
+  totalIntereses: number;
+  totalPagado: number;
+  porcentajeFinanciacion: number;
+  cuadroAmortizacion: AmortizacionAnual[];
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Gastos de compra vivienda
+// ---------------------------------------------------------------------------
+
+export interface GastosCompraInput {
+  precioVivienda: number;
+  ccaa: ComunidadAutonoma;
+  esViviendaNueva: boolean;
+  aplicaTipoReducido: boolean;
+}
+
+export interface GastosCompraResult {
+  impuesto: number;
+  impuestoNombre: string;
+  impuestoTipo: number;
+  notaria: number;
+  registro: number;
+  gestoria: number;
+  tasacion: number;
+  totalGastos: number;
+  totalConPrecio: number;
+}
+
+// ---------------------------------------------------------------------------
+// Desempleo data structures
+// ---------------------------------------------------------------------------
+
+export interface DesempleoData {
+  iprem2026: {
+    mensual: number;
+    anual12pagas: number;
+    anual14pagas: number;
+  };
+  prestacionContributiva: {
+    porcentajePrimeros180Dias: number;
+    porcentajeResto: number;
+    topes: {
+      sinHijos: { porcentajeIPREM: number; importe: number };
+      unHijo: { porcentajeIPREM: number; importe: number };
+      dosOMasHijos: { porcentajeIPREM: number; importe: number };
+    };
+    minimoSinHijos: { porcentajeIPREM: number; importe: number };
+    minimoConHijos: { porcentajeIPREM: number; importe: number };
+    duracionPorCotizacion: {
+      diasCotizadosMin: number;
+      diasCotizadosMax: number | null;
+      mesesPrestacion: number;
+    }[];
+    cotizacionMinima: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Prestación Desempleo
+// ---------------------------------------------------------------------------
+
+export interface DesempleoInput {
+  baseCotizacionMedia: number;
+  diasCotizados: number;
+  hijosCount: number;
+}
+
+export interface DesempleoResult {
+  tieneDerechoPrestacion: boolean;
+  duracionMeses: number;
+  importePrimeros180Dias: number;
+  importeResto: number;
+  importeMensualMedio: number;
+  totalEstimado: number;
+  topeAplicado: number;
+  minimoAplicado: number;
+  baseReguladora: number;
+  desglose: {
+    periodo: string;
+    meses: number;
+    importeMensual: number;
+    subtotal: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// IVA data structures
+// ---------------------------------------------------------------------------
+
+export interface IVAData {
+  tiposIVA: {
+    general: { tipo: number; descripcion: string; ejemplos: string };
+    reducido: { tipo: number; descripcion: string; ejemplos: string };
+    superreducido: { tipo: number; descripcion: string; ejemplos: string };
+  };
+  regimenesEspeciales: {
+    igic: { nombre: string; tipos: Record<string, number>; aplica: string[] };
+    ipsi: { nombre: string; tipos: Record<string, number>; aplica: string[] };
+  };
+  recargo: {
+    general: number;
+    reducido: number;
+    superreducido: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: IVA
+// ---------------------------------------------------------------------------
+
+export interface IVAInput {
+  importe: number;
+  tipoIVA: 'general' | 'reducido' | 'superreducido';
+  direccion: 'base_a_total' | 'total_a_base';
+  incluyeRecargo: boolean;
+  ccaa?: ComunidadAutonoma;
+}
+
+export interface IVAResult {
+  base: number;
+  cuotaIVA: number;
+  tipoAplicado: number;
+  total: number;
+  recargoEquivalencia: number;
+  totalConRecargo: number;
+  impuestoNombre: string;
+  esRegimenEspecial: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Interés Compuesto
+// ---------------------------------------------------------------------------
+
+export interface InteresCompuestoInput {
+  capitalInicial: number;
+  aportacionMensual: number;
+  tasaAnual: number;
+  plazoAnios: number;
+  inflacionAnual: number;
+}
+
+export interface InteresCompuestoResult {
+  capitalFinal: number;
+  capitalFinalReal: number;
+  totalAportado: number;
+  totalIntereses: number;
+  totalInteresesReales: number;
+  evolucionAnual: {
+    anio: number;
+    capitalAcumulado: number;
+    capitalAcumuladoReal: number;
+    aportadoAcumulado: number;
+    interesesAcumulados: number;
+  }[];
+}
