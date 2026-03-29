@@ -1,0 +1,205 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import Finiquito from '@components/calculators/Finiquito';
+import finiquitoData from '@data/finiquito-rules.json';
+
+const title = 'Calculadora de Finiquito 2026 — CalculaTuDinero.net';
+const description = 'Calcula tu finiquito gratis: días trabajados, vacaciones no disfrutadas y prorrata de pagas extra. Actualizado a 2026.';
+const canonical = 'https://calculatudinero.net/laboral/finiquito/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral', href: '/laboral/' },
+  { label: 'Finiquito' },
+];
+
+const faqs = [
+  {
+    question: '¿Qué es el finiquito?',
+    answer: 'El finiquito es la liquidación económica que la empresa debe pagar al trabajador cuando se extingue la relación laboral, independientemente del motivo. Incluye los días trabajados y no cobrados del mes en curso, las vacaciones generadas y no disfrutadas, y la parte proporcional de las pagas extraordinarias si no están prorrateadas. Es un derecho irrenunciable del trabajador reconocido en el Estatuto de los Trabajadores.',
+  },
+  {
+    question: '¿El finiquito es lo mismo que la indemnización?',
+    answer: 'No, son conceptos totalmente distintos. El finiquito es la liquidación de las cantidades pendientes de cobro y se paga siempre, en cualquier tipo de extinción del contrato (despido, baja voluntaria, fin de contrato temporal, jubilación, etc.). La indemnización por despido, en cambio, solo corresponde en determinados tipos de despido (improcedente, objetivo, ERE) y su cuantía depende de la antigüedad y el tipo de despido. Un trabajador puede tener derecho a finiquito sin tener derecho a indemnización.',
+  },
+  {
+    question: '¿Qué conceptos incluye el finiquito?',
+    answer: 'El finiquito incluye: los días trabajados del mes de baja que aún no se han cobrado, las vacaciones devengadas y no disfrutadas (proporcionales al tiempo trabajado en el año), la parte proporcional de las pagas extraordinarias si se cobran aparte (no prorrateadas), y cualquier otro concepto salarial pendiente como horas extra, comisiones o incentivos devengados. No incluye la indemnización por despido, que es un concepto separado.',
+  },
+  {
+    question: '¿El finiquito tiene retención de IRPF?',
+    answer: 'Sí, el finiquito está sujeto a retención de IRPF como rendimiento del trabajo. Se aplica el mismo porcentaje de retención que figura en la nómina del trabajador a todos los conceptos del finiquito: días trabajados, vacaciones no disfrutadas y prorrata de pagas extra. También se aplican las cotizaciones a la Seguridad Social sobre la parte correspondiente. La empresa debe emitir un documento de liquidación detallando todos los conceptos y las deducciones aplicadas.',
+  },
+  {
+    question: '¿Tengo derecho a finiquito si dimito?',
+    answer: 'Sí, el finiquito se cobra siempre, incluso en caso de baja voluntaria o dimisión del trabajador. La empresa está obligada a liquidar todas las cantidades pendientes: los días trabajados del mes, las vacaciones no disfrutadas y la prorrata de pagas extra. Lo que no corresponde en caso de dimisión es la indemnización por despido ni la prestación por desempleo. El trabajador tiene derecho a solicitar la presencia de un representante legal de los trabajadores en el momento de la firma del finiquito.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Finiquito',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de Finiquito"
+>
+  <Finiquito client:load finiquitoData={finiquitoData} />
+
+  <Fragment slot="content">
+    <h2>Qué es el finiquito y qué incluye</h2>
+    <p>
+      El finiquito es el documento de liquidación que la empresa entrega al trabajador cuando
+      finaliza la relación laboral. Recoge todas las cantidades que la empresa debe al trabajador
+      hasta la fecha de baja efectiva, independientemente del motivo de la extinción del contrato.
+    </p>
+    <p>
+      Los conceptos que componen el finiquito son:
+    </p>
+    <ul>
+      <li>
+        <strong>Días trabajados del mes de baja:</strong> la parte proporcional del salario mensual
+        correspondiente a los días efectivamente trabajados en el último mes. Si la fecha de baja es
+        el día 15, se cobran 15 días del salario mensual.
+      </li>
+      <li>
+        <strong>Vacaciones no disfrutadas:</strong> los días de vacaciones generados proporcionalmente
+        al tiempo trabajado en el año que no se han consumido. Si te corresponden 22 días laborables
+        al año y te vas en junio sin haber cogido vacaciones, te corresponden aproximadamente 11 días.
+      </li>
+      <li>
+        <strong>Prorrata de pagas extraordinarias:</strong> si las pagas extra se cobran aparte
+        (normalmente en junio y diciembre), el finiquito incluye la parte proporcional devengada
+        hasta la fecha de baja. Si las pagas están prorrateadas (incluidas en las 12 nóminas
+        mensuales), este concepto no aplica.
+      </li>
+    </ul>
+
+    <h2>Cómo se calcula paso a paso</h2>
+    <p>
+      El cálculo del finiquito parte del <strong>salario mensual bruto</strong>, que se obtiene
+      dividiendo el salario bruto anual entre el número de pagas (12 o 14). A partir de ahí, el
+      salario diario se calcula dividiendo el salario mensual entre 30 días.
+    </p>
+    <p>
+      <strong>1. Días trabajados:</strong> se multiplica el salario diario por el número de días
+      del mes de baja trabajados (desde el día 1 hasta la fecha de baja inclusive).
+    </p>
+    <p>
+      <strong>2. Vacaciones pendientes:</strong> primero se calcula cuántos días de vacaciones
+      corresponden proporcionalmente al periodo trabajado en el año. Luego se restan los días ya
+      disfrutados. Los días pendientes se valoran al salario diario.
+    </p>
+    <p>
+      <strong>3. Prorrata de pagas extra:</strong> si las pagas no están prorrateadas, se calcula
+      la parte proporcional devengada de cada paga. La paga de navidad se devenga de enero a diciembre
+      y la de verano de julio a junio. Se divide la paga completa entre 365 y se multiplica por los
+      días transcurridos desde el inicio del periodo de devengo.
+    </p>
+    <p>
+      <strong>4. Deducciones:</strong> al total bruto se le aplica la retención de IRPF (el mismo
+      porcentaje que en la nómina habitual) y la cotización a la Seguridad Social del trabajador
+      (aproximadamente un 6,5% sobre los conceptos salariales).
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Trabajador con salario bruto anual de 28.000 € en 14 pagas (no prorrateadas),
+      fecha de baja el 15 de marzo, sin vacaciones disfrutadas, retención IRPF del 15%:</strong>
+    </p>
+    <p>
+      Salario mensual: 28.000 / 14 = 2.000 €. Salario diario: 2.000 / 30 = 66,67 €.
+    </p>
+    <ul>
+      <li>Días trabajados (15 días): 15 x 66,67 = <strong>1.000,05 €</strong></li>
+      <li>
+        Vacaciones pendientes: corresponden 22 x (74/365) = 4,5 días.
+        Importe: 4,5 x 66,67 = <strong>300,02 €</strong> (aprox.)
+      </li>
+      <li>
+        Prorrata paga navidad (74 días de 365): 2.000 x (74/365) = <strong>405,48 €</strong> (aprox.)
+      </li>
+      <li>
+        Prorrata paga verano (257 días desde julio): 2.000 x (257/365) = <strong>1.408,22 €</strong> (aprox.)
+      </li>
+    </ul>
+    <p>
+      Total bruto: aproximadamente <strong>3.113,77 €</strong>. Tras aplicar el 15% de IRPF
+      (-467,07 €) y el 6,5% de SS sobre salario y prorratas (-182,84 €), el finiquito neto sería
+      de aproximadamente <strong>2.463,86 €</strong>.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
