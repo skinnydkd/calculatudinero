@@ -49,24 +49,29 @@ export default function SalarioNeto({ ssData, irpfData }: Props) {
       return;
     }
 
-    const res = calcularSalarioNeto(
-      {
-        salarioBrutoAnual: bruto,
-        numeroPagas: numPagas,
-        ccaa,
-        situacionPersonal: {
-          estado,
-          hijosCount: hijos,
-          discapacidad,
+    try {
+      const res = calcularSalarioNeto(
+        {
+          salarioBrutoAnual: bruto,
+          numeroPagas: numPagas,
+          ccaa,
+          situacionPersonal: {
+            estado,
+            hijosCount: hijos,
+            discapacidad,
+          },
+          tipoContrato,
+          grupoCotizacion,
         },
-        tipoContrato,
-        grupoCotizacion,
-      },
-      ssData,
-      irpfData
-    );
-
-    setResult(res);
+        ssData,
+        irpfData
+      );
+      setResult(res);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error('Calculation error:', msg);
+      setError('Error en el cálculo: ' + msg);
+    }
   }
 
   function barPercents(r: SalarioResult) {

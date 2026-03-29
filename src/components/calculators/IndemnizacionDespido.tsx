@@ -67,18 +67,23 @@ export default function IndemnizacionDespido({ indemnizacionData }: Props) {
     const salarioBrutoAnual = salario * 14;
     const salarioBrutoDiario = salarioBrutoAnual / 365;
 
-    const res = calcularIndemnizacion(
-      {
-        fechaInicio: inicio,
-        fechaFin: fin,
-        salarioBrutoDiario,
-        tipoDespido,
-        contratoPreFeb2012: tipoDespido === 'improcedente' ? contratoPreFeb2012 : false,
-      },
-      indemnizacionData
-    );
-
-    setResult(res);
+    try {
+      const res = calcularIndemnizacion(
+        {
+          fechaInicio: inicio,
+          fechaFin: fin,
+          salarioBrutoDiario,
+          tipoDespido,
+          contratoPreFeb2012: tipoDespido === 'improcedente' ? contratoPreFeb2012 : false,
+        },
+        indemnizacionData
+      );
+      setResult(res);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error('Calculation error:', msg);
+      setError('Error en el cálculo: ' + msg);
+    }
   }
 
   return (
