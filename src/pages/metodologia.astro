@@ -1,0 +1,132 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Nuestra Metodologia — CalculaTuDinero.es';
+const description = 'Conoce como funcionan nuestras calculadoras financieras: fuentes de datos oficiales, formulas verificadas y proceso de actualizacion trimestral.';
+const canonical = 'https://calculatudinero.es/metodologia/';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    'name': 'Metodologia de CalculaTuDinero.es',
+    'url': canonical,
+    'description': description,
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <div class="container container--narrow methodology-page">
+    <h1>Nuestra metodologia</h1>
+
+    <p>
+      En CalculaTuDinero.es nos tomamos muy en serio la precision de nuestros calculos. Esta pagina
+      detalla como construimos cada calculadora, que fuentes de datos utilizamos y con que frecuencia
+      actualizamos la informacion.
+    </p>
+
+    <h2>Como funcionan nuestras calculadoras</h2>
+
+    <h3>Calculadora de facturacion para autonomos</h3>
+    <p>
+      Esta herramienta parte del sueldo neto mensual deseado y calcula hacia atras el importe total
+      que necesitas facturar. El algoritmo incorpora el sistema de cotizacion por ingresos reales de
+      autonomos (15 tramos vigentes desde 2023), aplicando el tipo total del 31,50% sobre la base de
+      cotizacion correspondiente. Sobre los rendimientos netos se calcula el IRPF con los tramos
+      estatales y autonomicos de la comunidad seleccionada. El resultado final incluye la opcion de
+      anadir el IVA (21%) a la facturacion resultante.
+    </p>
+
+    <h3>Calculadora de salario neto</h3>
+    <p>
+      Aplica las deducciones de Seguridad Social del trabajador por cuenta ajena (contingencias comunes,
+      desempleo, formacion profesional y MEI) sobre el salario bruto, respetando las bases minima y
+      maxima de cotizacion. A continuacion, calcula la retencion de IRPF aplicando los tramos progresivos
+      estatales y autonomicos, teniendo en cuenta la reduccion por rendimientos del trabajo y los minimos
+      personales y familiares. El resultado muestra el desglose mensual y anual.
+    </p>
+
+    <h3>Calculadora de indemnizacion por despido</h3>
+    <p>
+      Calcula la indemnizacion segun las reglas del Estatuto de los Trabajadores para cada tipo de despido:
+      improcedente (33 dias/ano, tope 24 mensualidades), objetivo (20 dias/ano, tope 12 mensualidades),
+      colectivo (ERE) y fin de contrato temporal (12 dias/ano). Incorpora el regimen transitorio para
+      contratos anteriores al 12 de febrero de 2012, con el calculo dual de 45 y 33 dias. Tambien indica
+      la exencion fiscal hasta 180.000 euros.
+    </p>
+
+    <h2>Fuentes de datos</h2>
+    <p>
+      Todas nuestras calculadoras se basan exclusivamente en datos publicados por organismos oficiales:
+    </p>
+    <ul class="methodology-page__sources">
+      <li><strong>Boletin Oficial del Estado (BOE)</strong> — Reales decretos, ordenes ministeriales y leyes
+        que regulan la fiscalidad y el mercado laboral en Espana. Incluye la Ley del IRPF (Ley 35/2006),
+        la Ley General de la Seguridad Social y el Estatuto de los Trabajadores (RDL 2/2015).</li>
+      <li><strong>Tesoreria General de la Seguridad Social (TGSS)</strong> — Orden anual de cotizacion que
+        establece bases y tipos de cotizacion para trabajadores por cuenta ajena y autonomos (RETA).</li>
+      <li><strong>Agencia Estatal de Administracion Tributaria (AEAT)</strong> — Tablas de retencion de IRPF,
+        minimos personales y familiares, y reducciones aplicables.</li>
+      <li><strong>Haciendas autonomicas y forales</strong> — Tramos de IRPF especificos de cada comunidad
+        autonoma, incluidas las escalas propias de Navarra y Pais Vasco (regimen foral).</li>
+      <li><strong>Estatuto de los Trabajadores (RDL 2/2015)</strong> — Regulacion de contratos, despidos,
+        indemnizaciones, preaviso y derechos laborales.</li>
+    </ul>
+
+    <h2>Frecuencia de actualizacion</h2>
+    <p>
+      Revisamos y actualizamos nuestros datos en tres momentos clave:
+    </p>
+    <ul class="methodology-page__sources">
+      <li><strong>Enero:</strong> incorporacion de los cambios normativos del nuevo ejercicio fiscal
+        (nuevas bases de cotizacion, posibles cambios en tramos de IRPF, actualizacion del SMI si ya
+        se ha aprobado).</li>
+      <li><strong>Al publicarse cambios normativos:</strong> cuando el BOE publica un real decreto o una orden
+        que afecta a nuestros calculos (por ejemplo, la subida del SMI, cambios en cuotas de autonomos o
+        modificaciones fiscales), actualizamos los datos en un plazo maximo de 48 horas.</li>
+      <li><strong>Revision trimestral:</strong> cada trimestre verificamos que todos los datos siguen vigentes
+        y no se ha producido ninguna modificacion que pudiera habersenos escapado.</li>
+    </ul>
+
+    <h2>Limitaciones y aviso</h2>
+    <p>
+      Nuestras calculadoras proporcionan <strong>resultados orientativos</strong> basados en situaciones
+      estandar. Existen circunstancias personales que pueden alterar significativamente el resultado, como
+      deducciones especificas por discapacidad, reducciones por aportaciones a planes de pensiones, convenios
+      colectivos con complementos especiales, o situaciones familiares complejas.
+    </p>
+    <p>
+      <strong>Los resultados de nuestras calculadoras no constituyen asesoramiento fiscal, laboral ni
+      juridico.</strong> Recomendamos siempre contrastar los resultados con un profesional cualificado
+      (asesor fiscal, gestor administrativo o abogado laboralista) antes de tomar decisiones economicas
+      basadas en estos calculos.
+    </p>
+    <p>
+      Si detectas algun error o tienes alguna sugerencia sobre nuestras formulas o datos, te agradeceremos
+      que nos lo comuniques para que podamos corregirlo lo antes posible.
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .methodology-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .methodology-page h2 {
+    margin-top: var(--space-10);
+  }
+
+  .methodology-page__sources {
+    list-style: disc;
+    padding-left: var(--space-6);
+    margin-bottom: var(--space-4);
+  }
+
+  .methodology-page__sources li {
+    margin-bottom: var(--space-3);
+    line-height: 1.7;
+  }
+</style>

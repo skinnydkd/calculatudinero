@@ -1,0 +1,160 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import SalarioNeto from '@components/calculators/SalarioNeto';
+import ssData from '@data/seguridad-social-2026.json';
+import irpfData from '@data/irpf-2026.json';
+
+const title = 'Calculadora de Salario Neto 2026 — CalculaTuDinero.es';
+const description = 'Calcula tu salario neto a partir del bruto en 2026. Incluye deducciones de Seguridad Social e IRPF segun tu comunidad autonoma. Resultados al instante.';
+const canonical = 'https://calculatudinero.es/laboral/salario-neto/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral', href: '/laboral/' },
+  { label: 'Salario neto' },
+];
+
+const faqs = [
+  {
+    question: '\u00BFCuanto es el salario neto de 30.000 \u20AC brutos?',
+    answer: 'Con un salario bruto anual de 30.000 \u20AC, tras descontar las cotizaciones a la Seguridad Social (aproximadamente un 6,50%, unos 1.950 \u20AC) y la retencion de IRPF (que varia segun tu comunidad autonoma y situacion personal, entre un 12% y un 16% efectivo), el salario neto queda entre 21.500 \u20AC y 23.000 \u20AC anuales, es decir, entre 1.535 \u20AC y 1.640 \u20AC netos al mes en 14 pagas.',
+  },
+  {
+    question: '\u00BFQue se descuenta de la nomina?',
+    answer: 'De tu nomina se descuentan dos conceptos principales: las cotizaciones a la Seguridad Social (contingencias comunes 4,70%, desempleo 1,55%, formacion profesional 0,10% y MEI 0,15%) y la retencion de IRPF, que depende de tu salario, situacion familiar y comunidad autonoma.',
+  },
+  {
+    question: '\u00BFLa comunidad autonoma afecta al salario neto?',
+    answer: 'Si, significativamente. Cada comunidad autonoma tiene sus propios tramos de IRPF que se suman a los tramos estatales. Madrid tiene los tipos mas bajos (maximo 20,50% autonomico), mientras que Cataluna o Valencia tienen tipos mas altos. La diferencia puede suponer varios cientos de euros al ano en el salario neto.',
+  },
+  {
+    question: '\u00BFComo afectan los hijos al salario neto?',
+    answer: 'Los hijos reducen la base liquidable del IRPF a traves del minimo por descendientes: 2.400 \u20AC por el primer hijo, 2.700 \u20AC por el segundo, 4.000 \u20AC por el tercero y 4.500 \u20AC por el cuarto y siguientes. Ademas, hay un incremento adicional de 2.800 \u20AC por cada hijo menor de 3 anos. Esto se traduce en una menor retencion y, por tanto, un mayor salario neto.',
+  },
+  {
+    question: '\u00BFQue es el MEI y como afecta a mi nomina?',
+    answer: 'El MEI (Mecanismo de Equidad Intergeneracional) es una cotizacion adicional creada para garantizar la sostenibilidad de las pensiones. En 2026 es del 0,90% del salario bruto, del cual el 0,15% lo paga el trabajador y el 0,75% la empresa. Se descuenta automaticamente en tu nomina como parte de las cotizaciones a la Seguridad Social.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Salario Neto',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de Salario Neto"
+>
+  <SalarioNeto client:load ssData={ssData} irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <h2>Como se calcula el salario neto</h2>
+    <p>
+      El salario neto es la cantidad que realmente recibes en tu cuenta bancaria cada mes, una vez
+      descontadas las cotizaciones a la Seguridad Social y la retencion del IRPF. El calculo parte
+      de tu salario bruto anual y aplica dos tipos de deducciones.
+    </p>
+    <p>
+      <strong>Seguridad Social:</strong> como trabajador por cuenta ajena, cotizas un 4,70% por
+      contingencias comunes, un 1,55% por desempleo (contrato indefinido) o 1,60% (temporal), un
+      0,10% por formacion profesional y un 0,15% por el MEI. En total, aproximadamente un 6,50%
+      de tu salario bruto. Si tu salario mensual supera la base maxima de cotizacion (5.101,20 \u20AC/mes
+      en 2026), la cotizacion se calcula solo hasta esa base, con una cotizacion adicional de
+      solidaridad por el exceso.
+    </p>
+    <p>
+      <strong>IRPF:</strong> la retencion se calcula aplicando los tramos progresivos del impuesto a
+      tu base liquidable. Esta base se obtiene restando del salario bruto las cotizaciones a la
+      Seguridad Social y la reduccion por rendimientos del trabajo (hasta 7.302 \u20AC para rentas
+      inferiores a 14.852 \u20AC). Sobre la base liquidable se aplican los tramos estatales y los
+      autonomicos de tu comunidad. Se resta el minimo personal y familiar para obtener la cuota
+      liquida final.
+    </p>
+
+    <h2>Ejemplo practico</h2>
+    <p>
+      <strong>Con un salario bruto de 30.000 \u20AC anuales</strong> y residencia en Madrid, sin hijos:
+    </p>
+    <p>
+      La cotizacion a la Seguridad Social es de 30.000 \u20AC x 6,50% = 1.950 \u20AC al ano. La base
+      liquidable para el IRPF seria 30.000 - 1.950 - 2.000 (reduccion rendimientos trabajo) =
+      26.050 \u20AC. Aplicando los tramos estatales de Madrid, el tipo medio efectivo ronda el 15,5%,
+      lo que supone unos 4.037 \u20AC de IRPF. El salario neto anual seria: 30.000 - 1.950 - 4.037 =
+      <strong>24.013 \u20AC anuales</strong>, equivalentes a unos <strong>1.715 \u20AC netos al mes</strong>
+      en 14 pagas.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

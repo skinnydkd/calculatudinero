@@ -1,0 +1,160 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Seguridad Social / BOE / RD-ley 16/2025",
+  "nota": "Las bases y cuotas de 2026 mantienen los mismos valores que 2025. El tipo total sube de 31.20% a 31.50% por incremento del MEI (de 0.80% a 0.90%).",
+  "tramos": [
+    {
+      "tramoId": 1,
+      "tabla": "reducida",
+      "rendimientosMin": 0,
+      "rendimientosMax": 670,
+      "baseMinima": 653.59,
+      "baseMaxima": 718.94,
+      "cuotaMinima": 205.88
+    },
+    {
+      "tramoId": 2,
+      "tabla": "reducida",
+      "rendimientosMin": 670.01,
+      "rendimientosMax": 900,
+      "baseMinima": 718.95,
+      "baseMaxima": 900.00,
+      "cuotaMinima": 226.47
+    },
+    {
+      "tramoId": 3,
+      "tabla": "reducida",
+      "rendimientosMin": 900.01,
+      "rendimientosMax": 1166.70,
+      "baseMinima": 849.67,
+      "baseMaxima": 1166.70,
+      "cuotaMinima": 267.65
+    },
+    {
+      "tramoId": 4,
+      "tabla": "general",
+      "rendimientosMin": 1166.70,
+      "rendimientosMax": 1300,
+      "baseMinima": 950.98,
+      "baseMaxima": 1300.00,
+      "cuotaMinima": 299.56
+    },
+    {
+      "tramoId": 5,
+      "tabla": "general",
+      "rendimientosMin": 1300.01,
+      "rendimientosMax": 1500,
+      "baseMinima": 960.78,
+      "baseMaxima": 1500.00,
+      "cuotaMinima": 302.65
+    },
+    {
+      "tramoId": 6,
+      "tabla": "general",
+      "rendimientosMin": 1500.01,
+      "rendimientosMax": 1700,
+      "baseMinima": 960.78,
+      "baseMaxima": 1700.00,
+      "cuotaMinima": 302.65
+    },
+    {
+      "tramoId": 7,
+      "tabla": "general",
+      "rendimientosMin": 1700.01,
+      "rendimientosMax": 1850,
+      "baseMinima": 1143.79,
+      "baseMaxima": 1850.00,
+      "cuotaMinima": 360.29
+    },
+    {
+      "tramoId": 8,
+      "tabla": "general",
+      "rendimientosMin": 1850.01,
+      "rendimientosMax": 2030,
+      "baseMinima": 1209.15,
+      "baseMaxima": 2030.00,
+      "cuotaMinima": 380.88
+    },
+    {
+      "tramoId": 9,
+      "tabla": "general",
+      "rendimientosMin": 2030.01,
+      "rendimientosMax": 2330,
+      "baseMinima": 1274.51,
+      "baseMaxima": 2330.00,
+      "cuotaMinima": 401.47
+    },
+    {
+      "tramoId": 10,
+      "tabla": "general",
+      "rendimientosMin": 2330.01,
+      "rendimientosMax": 2760,
+      "baseMinima": 1372.55,
+      "baseMaxima": 2760.00,
+      "cuotaMinima": 432.35
+    },
+    {
+      "tramoId": 11,
+      "tabla": "general",
+      "rendimientosMin": 2760.01,
+      "rendimientosMax": 3190,
+      "baseMinima": 1468.36,
+      "baseMaxima": 3190.00,
+      "cuotaMinima": 462.53
+    },
+    {
+      "tramoId": 12,
+      "tabla": "general",
+      "rendimientosMin": 3190.01,
+      "rendimientosMax": 3620,
+      "baseMinima": 1559.53,
+      "baseMaxima": 3620.00,
+      "cuotaMinima": 491.25
+    },
+    {
+      "tramoId": 13,
+      "tabla": "general",
+      "rendimientosMin": 3620.01,
+      "rendimientosMax": 4050,
+      "baseMinima": 1666.17,
+      "baseMaxima": 4050.00,
+      "cuotaMinima": 524.84
+    },
+    {
+      "tramoId": 14,
+      "tabla": "general",
+      "rendimientosMin": 4050.01,
+      "rendimientosMax": 6000,
+      "baseMinima": 1732.03,
+      "baseMaxima": 4720.50,
+      "cuotaMinima": 545.59
+    },
+    {
+      "tramoId": 15,
+      "tabla": "general",
+      "rendimientosMin": 6000.01,
+      "rendimientosMax": null,
+      "baseMinima": 1928.10,
+      "baseMaxima": 4720.50,
+      "cuotaMinima": 607.35
+    }
+  ],
+  "tiposCotizacion": {
+    "contingenciasComunes": 28.30,
+    "contingenciasProfesionales": 1.30,
+    "ceseProfesional": 0.90,
+    "formacionProfesional": 0.10,
+    "mei": 0.90,
+    "total": 31.50
+  },
+  "tarifaPlana": {
+    "cuotaMensual": 80,
+    "duracionMeses": 12,
+    "condiciones": "No haber estado de alta como autónomo en los 2 años anteriores (3 años si ya disfrutaste de tarifa plana)",
+    "cuotaSegundoAnio": 80,
+    "duracionSegundoAnioMeses": 12,
+    "condicionSegundoAnio": "Solo si los rendimientos netos están por debajo del SMI durante el primer año",
+    "nota": "La tarifa plana de 80€ se aplica sobre una base de cotización de 653.59€/mes. Con el MEI del 0.90% la cuota efectiva es ligeramente superior."
+  }
+}

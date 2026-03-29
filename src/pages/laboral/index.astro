@@ -1,0 +1,169 @@
+---
+import CategoryLayout from '@layouts/CategoryLayout.astro';
+
+const title = 'Calculadoras Laborales — CalculaTuDinero.es';
+const description = 'Calcula tu salario neto, indemnizacion por despido, finiquito y prestacion por desempleo con nuestras calculadoras laborales actualizadas a 2026.';
+const canonical = 'https://calculatudinero.es/laboral/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral' },
+];
+
+const calculators = [
+  {
+    icon: '\uD83D\uDCB0',
+    title: 'Salario neto',
+    description: 'Calcula tu salario neto a partir del bruto con las deducciones de Seguridad Social e IRPF segun tu comunidad autonoma.',
+    href: '/laboral/salario-neto/',
+  },
+  {
+    icon: '\u2696\uFE0F',
+    title: 'Indemnizacion por despido',
+    description: 'Calcula la indemnizacion que te corresponde segun el tipo de despido, tu antiguedad y tu salario bruto anual.',
+    href: '/laboral/indemnizacion-despido/',
+  },
+];
+
+const faqs = [
+  {
+    question: '\u00BFCuanto se paga de Seguridad Social como trabajador en 2026?',
+    answer: 'En 2026, la cotizacion del trabajador por cuenta ajena incluye un 4,70% de contingencias comunes, un 1,55% de desempleo (contrato indefinido) o 1,60% (temporal), un 0,10% de formacion profesional y un 0,15% de MEI. En total, se descuenta aproximadamente un 6,50% del salario bruto para la Seguridad Social.',
+  },
+  {
+    question: '\u00BFComo se calcula el IRPF de una nomina?',
+    answer: 'La retencion de IRPF se calcula en funcion de tu salario bruto anual, tu situacion personal (estado civil, hijos, discapacidad) y tu comunidad autonoma. El tipo efectivo resulta de aplicar los tramos estatales y autonomicos a tu base liquidable, descontando los minimos personales y familiares.',
+  },
+  {
+    question: '\u00BFQue tipos de despido existen en Espana?',
+    answer: 'Los principales tipos son: despido improcedente (33 dias por ano, maximo 24 mensualidades), despido objetivo por causas economicas (20 dias por ano, maximo 12 mensualidades), despido colectivo o ERE (20 dias por ano, maximo 12 mensualidades) y despido disciplinario procedente (sin indemnizacion). El fin de contrato temporal da derecho a 12 dias por ano trabajado.',
+  },
+  {
+    question: '\u00BFCual es el Salario Minimo Interprofesional (SMI) en 2026?',
+    answer: 'El SMI en 2026 es de 1.221 \u20AC mensuales en 14 pagas (1.424,50 \u20AC en 12 pagas), lo que supone 17.094 \u20AC anuales. Fue aprobado por Real Decreto 126/2026 con un incremento del 3,1% respecto a 2025.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  breadcrumbItems={breadcrumbItems}
+  categoryTitle="Calculadoras Laborales"
+  categoryDescription="Calcula tu salario neto, indemnizacion por despido, finiquito y prestacion por desempleo."
+>
+  {calculators.map((calc) => (
+    <a href={calc.href} class="card card--accent calculator-card">
+      <span class="calculator-card__icon">{calc.icon}</span>
+      <h2 class="calculator-card__title">{calc.title}</h2>
+      <p class="calculator-card__description">{calc.description}</p>
+      <span class="calculator-card__cta">Calcular &rarr;</span>
+    </a>
+  ))}
+</CategoryLayout>
+
+<section class="faq container">
+  <h2>Preguntas frecuentes sobre temas laborales</h2>
+  {faqs.map((faq) => (
+    <details class="faq__item">
+      <summary class="faq__question">{faq.question}</summary>
+      <p class="faq__answer">{faq.answer}</p>
+    </details>
+  ))}
+</section>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd[0])} />
+
+<style>
+  .calculator-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .calculator-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .calculator-card__icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator-card__title {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .calculator-card__description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+  }
+
+  .calculator-card__cta {
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-top: var(--space-3);
+  }
+
+  .faq {
+    padding-bottom: var(--space-16);
+  }
+
+  .faq h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

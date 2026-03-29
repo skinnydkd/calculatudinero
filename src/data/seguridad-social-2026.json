@@ -1,0 +1,88 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Seguridad Social / TGSS / Orden de cotización 2026 / RD 126/2026 (SMI)",
+  "cotizacionTrabajador": {
+    "contingenciasComunes": 4.70,
+    "desempleoIndefinido": 1.55,
+    "desempleoTemporal": 1.60,
+    "formacionProfesional": 0.10,
+    "mei": 0.15,
+    "fogasa": 0.00
+  },
+  "cotizacionEmpresa": {
+    "contingenciasComunes": 23.60,
+    "desempleoIndefinido": 5.50,
+    "desempleoTemporal": 6.70,
+    "formacionProfesional": 0.60,
+    "mei": 0.75,
+    "fogasa": 0.20,
+    "accidentesTrabajoMin": 0.90,
+    "accidentesTrabajoMax": 7.15
+  },
+  "totalesCotizacion": {
+    "contingenciasComunes": 28.30,
+    "desempleoIndefinido": 7.05,
+    "desempleoTemporal": 8.30,
+    "formacionProfesional": 0.70,
+    "mei": 0.90,
+    "fogasa": 0.20,
+    "nota": "El MEI sube de 0.80% (2025) a 0.90% (2026). Reparto: 0.75% empresa + 0.15% trabajador."
+  },
+  "cotizacionSolidaridad2026": {
+    "nota": "Cotización adicional de solidaridad sobre retribuciones que superen la base máxima",
+    "tramos": [
+      {
+        "desde": 5101.21,
+        "hasta": 5611.32,
+        "tipoTotal": 1.15,
+        "tipoEmpresa": 0.96,
+        "tipoTrabajador": 0.19
+      },
+      {
+        "desde": 5611.33,
+        "hasta": 7651.80,
+        "tipoTotal": 1.25,
+        "tipoEmpresa": 1.04,
+        "tipoTrabajador": 0.21
+      },
+      {
+        "desde": 7651.81,
+        "hasta": null,
+        "tipoTotal": 1.46,
+        "tipoEmpresa": 1.22,
+        "tipoTrabajador": 0.24
+      }
+    ]
+  },
+  "basesCotizacion2026": {
+    "baseMinima": 1221.00,
+    "baseMinimaAnterior": 1184.00,
+    "baseMaxima": 5101.20,
+    "baseMaximaAnterior": 4720.50,
+    "nota": "Base mínima vinculada al SMI 2026 (1.221€/mes en 14 pagas). Base máxima sube a 5.101,20€/mes desde el 1 de enero de 2026.",
+    "gruposCotizacion": [
+      { "grupo": 1, "categoria": "Ingenieros y Licenciados", "baseMinima": 1929.00, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 2, "categoria": "Ingenieros Técnicos, Peritos y Ayudantes Titulados", "baseMinima": 1599.60, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 3, "categoria": "Jefes Administrativos y de Taller", "baseMinima": 1391.70, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 4, "categoria": "Ayudantes no Titulados", "baseMinima": 1381.20, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 5, "categoria": "Oficiales Administrativos", "baseMinima": 1381.20, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 6, "categoria": "Subalternos", "baseMinima": 1381.20, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 7, "categoria": "Auxiliares Administrativos", "baseMinima": 1381.20, "baseMaxima": 5101.20, "periodicidad": "mensual" },
+      { "grupo": 8, "categoria": "Oficiales de primera y segunda", "baseMinima": 46.04, "baseMaxima": 170.04, "periodicidad": "diaria" },
+      { "grupo": 9, "categoria": "Oficiales de tercera y Especialistas", "baseMinima": 46.04, "baseMaxima": 170.04, "periodicidad": "diaria" },
+      { "grupo": 10, "categoria": "Peones", "baseMinima": 46.04, "baseMaxima": 170.04, "periodicidad": "diaria" },
+      { "grupo": 11, "categoria": "Trabajadores menores de 18 años", "baseMinima": 46.04, "baseMaxima": 170.04, "periodicidad": "diaria" }
+    ]
+  },
+  "smi2026": {
+    "mensual14pagas": 1221.00,
+    "mensual12pagas": 1424.50,
+    "anual": 17094.00,
+    "diario": 40.70,
+    "incremento": 3.1,
+    "fechaAprobacion": "2026-02-17",
+    "boe": "BOE-A-2026-3815",
+    "nota": "Aprobado por RD 126/2026 de 18 de febrero, con efectos retroactivos al 1 de enero de 2026."
+  }
+}

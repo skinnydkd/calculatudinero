@@ -1,0 +1,105 @@
+---
+import '../styles/calculator.css';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>[];
+  breadcrumbItems: BreadcrumbItem[];
+  lastUpdated: string;
+  calculatorName: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  jsonLd,
+  breadcrumbItems,
+  lastUpdated,
+  calculatorName,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogImage={ogImage} jsonLd={jsonLd}>
+  <div class="calculator-page container container--calculator">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="calculator-page__header">
+      <h1 class="calculator-page__title">{calculatorName}</h1>
+      <span class="calculator-page__updated">
+        Última actualización: {lastUpdated}
+      </span>
+    </header>
+
+    <section class="calculator-page__calculator">
+      <slot />
+    </section>
+
+    <section class="calculator-page__content">
+      <slot name="content" />
+    </section>
+
+    <aside class="calculator-page__disclaimer">
+      <p>Cálculo orientativo. No sustituye el asesoramiento de un profesional cualificado.</p>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .calculator-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+
+  .calculator-page__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator-page__title {
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator-page__updated {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-alt);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+  }
+
+  .calculator-page__calculator {
+    margin-bottom: var(--space-10);
+  }
+
+  .calculator-page__content {
+    margin-bottom: var(--space-10);
+  }
+
+  .calculator-page__disclaimer {
+    margin-top: var(--space-8);
+    padding: var(--space-4);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    text-align: center;
+  }
+
+  .calculator-page__disclaimer p {
+    margin-bottom: 0;
+  }
+</style>

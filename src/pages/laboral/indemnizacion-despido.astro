@@ -1,0 +1,165 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import IndemnizacionDespido from '@components/calculators/IndemnizacionDespido';
+import indemnizacionData from '@data/indemnizacion-rules.json';
+
+const title = 'Calculadora de Indemnizacion por Despido 2026 — CalculaTuDinero.es';
+const description = 'Calcula tu indemnizacion por despido segun el tipo (improcedente, objetivo, ERE), tu antiguedad y salario. Datos actualizados al Estatuto de los Trabajadores.';
+const canonical = 'https://calculatudinero.es/laboral/indemnizacion-despido/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral', href: '/laboral/' },
+  { label: 'Indemnizacion por despido' },
+];
+
+const faqs = [
+  {
+    question: '\u00BFCuanto me corresponde por despido improcedente?',
+    answer: 'En un despido improcedente te corresponden 33 dias de salario por ano trabajado, con un maximo de 24 mensualidades (720 dias de salario). Si tu contrato es anterior al 12 de febrero de 2012, por el periodo trabajado hasta esa fecha se aplican 45 dias por ano con un maximo de 42 mensualidades. El salario diario se calcula dividiendo tu salario bruto anual (incluyendo prorrata de pagas extra) entre 365.',
+  },
+  {
+    question: '\u00BFQue diferencia hay entre despido objetivo e improcedente?',
+    answer: 'El despido objetivo se produce por causas economicas, tecnicas, organizativas o de produccion y genera una indemnizacion de 20 dias por ano trabajado (maximo 12 mensualidades). El despido improcedente se declara cuando el juez considera que no hay causa justificada, y la indemnizacion es de 33 dias por ano (maximo 24 mensualidades). El despido objetivo requiere un preaviso de 15 dias y el pago simultaneo de la indemnizacion.',
+  },
+  {
+    question: '\u00BFLa indemnizacion por despido paga impuestos?',
+    answer: 'La indemnizacion obligatoria por despido esta exenta de IRPF hasta un maximo de 180.000 \u20AC, segun el articulo 7.e de la Ley del IRPF. Solo la cantidad que supere ese limite o que exceda la indemnizacion legal obligatoria tributa como rendimiento del trabajo. Las cantidades pactadas por encima de la indemnizacion legal tambien tributan integramente.',
+  },
+  {
+    question: '\u00BFComo se calcula la antiguedad en un despido?',
+    answer: 'La antiguedad se cuenta desde la fecha de inicio del contrato (o desde la fecha de alta en la empresa si ha habido varios contratos encadenados) hasta la fecha de efectos del despido. Se computa por anos completos y la parte proporcional de los meses y dias trabajados en el ultimo ano.',
+  },
+  {
+    question: '\u00BFQue pasa con los contratos anteriores a febrero de 2012?',
+    answer: 'Para contratos firmados antes del 12 de febrero de 2012, el calculo del despido improcedente se divide en dos periodos: hasta esa fecha se aplican 45 dias por ano (maximo 42 mensualidades), y desde esa fecha en adelante, 33 dias por ano. La indemnizacion total no puede superar 720 dias de salario, salvo que el calculo del periodo anterior ya supere esa cifra por si solo.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Indemnizacion por Despido',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de Indemnizacion por Despido"
+>
+  <IndemnizacionDespido client:load indemnizacionData={indemnizacionData} />
+
+  <Fragment slot="content">
+    <h2>Como se calcula la indemnizacion</h2>
+    <p>
+      La indemnizacion por despido en Espana se calcula en funcion de tres factores principales: el tipo
+      de despido, la antiguedad del trabajador en la empresa y el salario diario regulador. Cada tipo de
+      despido tiene una formula diferente establecida en el Estatuto de los Trabajadores.
+    </p>
+    <p>
+      <strong>Despido improcedente:</strong> 33 dias de salario por cada ano de servicio, con un tope de
+      24 mensualidades (equivalente a 720 dias de salario). Es el tipo mas comun cuando la empresa no puede
+      demostrar una causa objetiva valida. Para contratos anteriores al 12 de febrero de 2012, se aplica un
+      sistema de doble calculo con 45 dias/ano por el periodo previo a esa fecha.
+    </p>
+    <p>
+      <strong>Despido objetivo:</strong> 20 dias de salario por ano trabajado, con un maximo de 12 mensualidades
+      (360 dias). Aplica cuando existen causas economicas, tecnicas, organizativas o de produccion debidamente
+      acreditadas, asi como en casos de ineptitud sobrevenida o falta de adaptacion al puesto.
+    </p>
+    <p>
+      <strong>Despido colectivo (ERE):</strong> el minimo legal coincide con el despido objetivo (20 dias/ano,
+      maximo 12 mensualidades), aunque en la practica la negociacion con los representantes de los trabajadores
+      suele mejorar estas condiciones.
+    </p>
+    <p>
+      El <strong>salario diario regulador</strong> se obtiene dividiendo el salario bruto anual entre 365 dias.
+      Este salario incluye el salario base, los complementos salariales y la prorrata de las pagas extraordinarias,
+      pero no incluye dietas, plus de transporte ni otros conceptos extrasalariales.
+    </p>
+
+    <h2>Ejemplo practico</h2>
+    <p>
+      <strong>Trabajador con 8 anos de antiguedad y salario bruto de 28.000 \u20AC anuales, despido improcedente:</strong>
+    </p>
+    <p>
+      Salario diario: 28.000 \u20AC / 365 = 76,71 \u20AC/dia. Indemnizacion: 33 dias x 8 anos x 76,71 \u20AC =
+      <strong>20.252,24 \u20AC</strong>. Esta cantidad no supera el tope de 24 mensualidades (24 x 28.000/12 =
+      56.000 \u20AC) ni los 180.000 \u20AC exentos de IRPF, por lo que se recibiria integramente sin tributar.
+    </p>
+    <p>
+      Si el mismo trabajador fuera despedido por causas objetivas: 20 dias x 8 anos x 76,71 \u20AC =
+      <strong>12.273,60 \u20AC</strong>, que tampoco supera el tope de 12 mensualidades (12 x 28.000/12 = 28.000 \u20AC).
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

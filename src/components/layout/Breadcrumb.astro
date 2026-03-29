@@ -1,0 +1,81 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, 'https://calculatudinero.es').href } : {}),
+  })),
+};
+---
+
+<nav class="breadcrumb" aria-label="Navegación de migas de pan">
+  <ol class="breadcrumb__list">
+    {items.map((item, index) => (
+      <li class="breadcrumb__item">
+        {index > 0 && <span class="breadcrumb__separator" aria-hidden="true">&gt;</span>}
+        {item.href && index < items.length - 1 ? (
+          <a href={item.href} class="breadcrumb__link">{item.label}</a>
+        ) : (
+          <span class="breadcrumb__current" aria-current="page">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<style>
+  .breadcrumb {
+    margin-bottom: var(--space-6);
+  }
+
+  .breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .breadcrumb__separator {
+    color: var(--color-text-secondary);
+    font-size: 0.75rem;
+  }
+
+  .breadcrumb__link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--color-accent);
+  }
+
+  .breadcrumb__current {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+</style>

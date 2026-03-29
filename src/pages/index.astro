@@ -1,17 +1,201 @@
 ---
+import BaseLayout from '@layouts/BaseLayout.astro';
 
+const title = 'Calculadoras Financieras para Espana — CalculaTuDinero.es';
+const description = 'Calculadoras financieras gratuitas, actualizadas y precisas para autonomos y trabajadores en Espana. Calcula tu salario neto, facturacion e indemnizacion.';
+
+const calculators = [
+  {
+    icon: '\uD83D\uDCBC',
+    title: 'Cuanto facturar como autonomo',
+    description: 'Calcula cuanto debes facturar para alcanzar el sueldo neto que deseas, incluyendo cuota de autonomos e IRPF.',
+    href: '/autonomos/cuanto-facturar/',
+  },
+  {
+    icon: '\uD83D\uDCB0',
+    title: 'Salario neto',
+    description: 'Calcula tu salario neto a partir del bruto, con las retenciones de Seguridad Social e IRPF de tu comunidad autonoma.',
+    href: '/laboral/salario-neto/',
+  },
+  {
+    icon: '\u2696\uFE0F',
+    title: 'Indemnizacion por despido',
+    description: 'Calcula la indemnizacion que te corresponde segun el tipo de despido, tu antiguedad y salario.',
+    href: '/laboral/indemnizacion-despido/',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    'name': 'CalculaTuDinero.es',
+    'url': 'https://calculatudinero.es',
+    'description': 'Calculadoras financieras gratuitas para autonomos y trabajadores en Espana.',
+    'logo': 'https://calculatudinero.es/logo.png',
+    'sameAs': [],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'CalculaTuDinero.es',
+    'url': 'https://calculatudinero.es',
+    'potentialAction': {
+      '@type': 'SearchAction',
+      'target': 'https://calculatudinero.es/?q={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={title} description={description} canonical="https://calculatudinero.es/" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero__title">Calcula tus finanzas personales en Espana</h1>
+      <p class="hero__subtitle">Calculadoras financieras gratuitas, actualizadas y precisas</p>
+    </div>
+  </section>
+
+  <!-- Calculator Cards -->
+  <section class="calculators container">
+    <div class="calculators__grid">
+      {calculators.map((calc) => (
+        <a href={calc.href} class="card card--accent calculator-card">
+          <span class="calculator-card__icon">{calc.icon}</span>
+          <h2 class="calculator-card__title">{calc.title}</h2>
+          <p class="calculator-card__description">{calc.description}</p>
+          <span class="calculator-card__cta">Calcular &rarr;</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust container">
+    <div class="trust__grid">
+      <div class="trust__item">
+        <span class="trust__icon">\uD83D\uDCC5</span>
+        <p class="trust__text">Datos actualizados a marzo 2026</p>
+      </div>
+      <div class="trust__item">
+        <span class="trust__icon">\u2705</span>
+        <p class="trust__text">Formulas verificadas con fuentes oficiales</p>
+      </div>
+      <div class="trust__item">
+        <span class="trust__icon">\uD83C\uDD93</span>
+        <p class="trust__text">100% gratuito, sin registro</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    background-color: var(--color-accent-light);
+    padding: var(--space-16) 0 var(--space-12);
+    text-align: center;
+  }
+
+  .hero__title {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+
+  .hero__subtitle {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+  }
+
+  .calculators {
+    padding: var(--space-12) 0;
+  }
+
+  .calculators__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .calculator-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .calculator-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .calculator-card__icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .calculator-card__title {
+    font-size: 1.25rem;
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .calculator-card__description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+  }
+
+  .calculator-card__cta {
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-top: var(--space-3);
+  }
+
+  .trust {
+    padding: var(--space-10) 0 var(--space-16);
+  }
+
+  .trust__grid {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-10);
+    flex-wrap: wrap;
+  }
+
+  .trust__item {
+    text-align: center;
+    max-width: 200px;
+  }
+
+  .trust__icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .trust__text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .hero__title {
+      font-size: 1.75rem;
+    }
+
+    .hero__subtitle {
+      font-size: 1.05rem;
+    }
+
+    .calculators__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

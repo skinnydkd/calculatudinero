@@ -1,0 +1,281 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "AEAT / Normativa autonómica / Haciendas forales",
+  "nota": "Los tramos estatales no han cambiado respecto a 2025. El tramo estatal representa aproximadamente el 50% del tipo total; el autonómico completa el otro 50%. Navarra y País Vasco tienen régimen foral propio con escala única (no dividida estatal/autonómico).",
+  "tramosEstatales": [
+    { "desde": 0, "hasta": 12450, "tipo": 9.50 },
+    { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+    { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+    { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+    { "desde": 60000, "hasta": 300000, "tipo": 22.50 },
+    { "desde": 300000, "hasta": null, "tipo": 24.50 }
+  ],
+  "tramosAutonomicos": {
+    "andalucia": {
+      "nombre": "Andalucía",
+      "tramos": [
+        { "desde": 0, "hasta": 13000, "tipo": 9.50 },
+        { "desde": 13000, "hasta": 21000, "tipo": 12.00 },
+        { "desde": 21000, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 50000, "tipo": 18.50 },
+        { "desde": 50000, "hasta": null, "tipo": 22.50 }
+      ]
+    },
+    "aragon": {
+      "nombre": "Aragón",
+      "tramos": [
+        { "desde": 0, "hasta": 13972.50, "tipo": 9.50 },
+        { "desde": 13972.50, "hasta": 21210, "tipo": 12.00 },
+        { "desde": 21210, "hasta": 36960, "tipo": 15.00 },
+        { "desde": 36960, "hasta": 52500, "tipo": 18.50 },
+        { "desde": 52500, "hasta": 60000, "tipo": 20.50 },
+        { "desde": 60000, "hasta": 80000, "tipo": 23.00 },
+        { "desde": 80000, "hasta": 90000, "tipo": 24.00 },
+        { "desde": 90000, "hasta": 130000, "tipo": 25.00 },
+        { "desde": 130000, "hasta": null, "tipo": 25.50 }
+      ]
+    },
+    "asturias": {
+      "nombre": "Principado de Asturias",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 10.00 },
+        { "desde": 12450, "hasta": 17707, "tipo": 12.00 },
+        { "desde": 17707, "hasta": 33007, "tipo": 14.00 },
+        { "desde": 33007, "hasta": 53407, "tipo": 18.50 },
+        { "desde": 53407, "hasta": 70000, "tipo": 21.50 },
+        { "desde": 70000, "hasta": 90000, "tipo": 22.50 },
+        { "desde": 90000, "hasta": 175000, "tipo": 25.00 },
+        { "desde": 175000, "hasta": null, "tipo": 25.50 }
+      ]
+    },
+    "baleares": {
+      "nombre": "Islas Baleares",
+      "tramos": [
+        { "desde": 0, "hasta": 10000, "tipo": 9.00 },
+        { "desde": 10000, "hasta": 18000, "tipo": 11.75 },
+        { "desde": 18000, "hasta": 30000, "tipo": 14.75 },
+        { "desde": 30000, "hasta": 48000, "tipo": 17.75 },
+        { "desde": 48000, "hasta": 70000, "tipo": 19.25 },
+        { "desde": 70000, "hasta": 90000, "tipo": 22.00 },
+        { "desde": 90000, "hasta": 175000, "tipo": 23.75 },
+        { "desde": 175000, "hasta": null, "tipo": 24.75 }
+      ]
+    },
+    "canarias": {
+      "nombre": "Canarias",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.00 },
+        { "desde": 12450, "hasta": 17707, "tipo": 11.50 },
+        { "desde": 17707, "hasta": 33007, "tipo": 14.00 },
+        { "desde": 33007, "hasta": 53407, "tipo": 18.50 },
+        { "desde": 53407, "hasta": 90000, "tipo": 23.50 },
+        { "desde": 90000, "hasta": 120000, "tipo": 25.00 },
+        { "desde": 120000, "hasta": null, "tipo": 26.00 }
+      ]
+    },
+    "cantabria": {
+      "nombre": "Cantabria",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 8.50 },
+        { "desde": 12450, "hasta": 20200, "tipo": 11.50 },
+        { "desde": 20200, "hasta": 35200, "tipo": 14.50 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": 90000, "tipo": 23.50 },
+        { "desde": 90000, "hasta": null, "tipo": 24.50 }
+      ]
+    },
+    "castilla-leon": {
+      "nombre": "Castilla y León",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.00 },
+        { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+        { "desde": 20200, "hasta": 35200, "tipo": 14.00 },
+        { "desde": 35200, "hasta": 53407, "tipo": 18.50 },
+        { "desde": 53407, "hasta": null, "tipo": 21.50 }
+      ]
+    },
+    "castilla-mancha": {
+      "nombre": "Castilla-La Mancha",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.50 },
+        { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+        { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": null, "tipo": 22.50 }
+      ]
+    },
+    "cataluna": {
+      "nombre": "Cataluña",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 10.50 },
+        { "desde": 12450, "hasta": 17707, "tipo": 12.00 },
+        { "desde": 17707, "hasta": 33007, "tipo": 14.00 },
+        { "desde": 33007, "hasta": 53407, "tipo": 18.80 },
+        { "desde": 53407, "hasta": 90000, "tipo": 21.50 },
+        { "desde": 90000, "hasta": 120000, "tipo": 23.50 },
+        { "desde": 120000, "hasta": 175000, "tipo": 24.50 },
+        { "desde": 175000, "hasta": null, "tipo": 25.50 }
+      ]
+    },
+    "extremadura": {
+      "nombre": "Extremadura",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 8.00 },
+        { "desde": 12450, "hasta": 20200, "tipo": 10.50 },
+        { "desde": 20200, "hasta": 24000, "tipo": 13.50 },
+        { "desde": 24000, "hasta": 35200, "tipo": 17.00 },
+        { "desde": 35200, "hasta": 60000, "tipo": 20.50 },
+        { "desde": 60000, "hasta": 80200, "tipo": 23.50 },
+        { "desde": 80200, "hasta": 99200, "tipo": 24.00 },
+        { "desde": 99200, "hasta": 120200, "tipo": 24.50 },
+        { "desde": 120200, "hasta": null, "tipo": 25.00 }
+      ]
+    },
+    "galicia": {
+      "nombre": "Galicia",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.00 },
+        { "desde": 12450, "hasta": 20200, "tipo": 11.50 },
+        { "desde": 20200, "hasta": 35200, "tipo": 14.50 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": null, "tipo": 22.50 }
+      ]
+    },
+    "madrid": {
+      "nombre": "Comunidad de Madrid",
+      "tramos": [
+        { "desde": 0, "hasta": 13362.22, "tipo": 8.50 },
+        { "desde": 13362.22, "hasta": 19004.63, "tipo": 10.70 },
+        { "desde": 19004.63, "hasta": 35425.68, "tipo": 12.80 },
+        { "desde": 35425.68, "hasta": 57320.40, "tipo": 17.40 },
+        { "desde": 57320.40, "hasta": null, "tipo": 20.50 }
+      ]
+    },
+    "murcia": {
+      "nombre": "Región de Murcia",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.50 },
+        { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+        { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": null, "tipo": 22.50 }
+      ]
+    },
+    "rioja": {
+      "nombre": "La Rioja",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 8.00 },
+        { "desde": 12450, "hasta": 20200, "tipo": 11.60 },
+        { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 50000, "tipo": 19.00 },
+        { "desde": 50000, "hasta": 60000, "tipo": 19.50 },
+        { "desde": 60000, "hasta": 120000, "tipo": 25.00 },
+        { "desde": 120000, "hasta": null, "tipo": 27.00 }
+      ]
+    },
+    "valencia": {
+      "nombre": "Comunitat Valenciana",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.00 },
+        { "desde": 12450, "hasta": 17000, "tipo": 12.00 },
+        { "desde": 17000, "hasta": 30000, "tipo": 14.00 },
+        { "desde": 30000, "hasta": 50000, "tipo": 17.50 },
+        { "desde": 50000, "hasta": 65000, "tipo": 22.50 },
+        { "desde": 65000, "hasta": 80000, "tipo": 24.50 },
+        { "desde": 80000, "hasta": 120000, "tipo": 25.00 },
+        { "desde": 120000, "hasta": 140000, "tipo": 25.50 },
+        { "desde": 140000, "hasta": 175000, "tipo": 27.50 },
+        { "desde": 175000, "hasta": 200000, "tipo": 28.50 },
+        { "desde": 200000, "hasta": null, "tipo": 29.50 }
+      ]
+    },
+    "ceuta": {
+      "nombre": "Ciudad Autónoma de Ceuta",
+      "nota": "Aplica la escala estatal como tramo autonómico. Los residentes en Ceuta tienen una deducción del 60% de la cuota íntegra autonómica por rentas obtenidas en Ceuta.",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.50 },
+        { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+        { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": 300000, "tipo": 22.50 },
+        { "desde": 300000, "hasta": null, "tipo": 24.50 }
+      ],
+      "deduccionResidentes": 60
+    },
+    "melilla": {
+      "nombre": "Ciudad Autónoma de Melilla",
+      "nota": "Aplica la escala estatal como tramo autonómico. Los residentes en Melilla tienen una deducción del 60% de la cuota íntegra autonómica por rentas obtenidas en Melilla.",
+      "tramos": [
+        { "desde": 0, "hasta": 12450, "tipo": 9.50 },
+        { "desde": 12450, "hasta": 20200, "tipo": 12.00 },
+        { "desde": 20200, "hasta": 35200, "tipo": 15.00 },
+        { "desde": 35200, "hasta": 60000, "tipo": 18.50 },
+        { "desde": 60000, "hasta": 300000, "tipo": 22.50 },
+        { "desde": 300000, "hasta": null, "tipo": 24.50 }
+      ],
+      "deduccionResidentes": 60
+    },
+    "navarra": {
+      "nombre": "Comunidad Foral de Navarra",
+      "regimenForal": true,
+      "nota": "Navarra tiene régimen foral propio. La escala es única (no se divide en estatal/autonómico). Se aplica esta escala completa directamente, NO se suma al tramo estatal.",
+      "tramos": [
+        { "desde": 0, "hasta": 4080, "tipo": 13.00 },
+        { "desde": 4080, "hasta": 9180, "tipo": 22.00 },
+        { "desde": 9180, "hasta": 19380, "tipo": 25.00 },
+        { "desde": 19380, "hasta": 32640, "tipo": 28.00 },
+        { "desde": 32640, "hasta": 46920, "tipo": 36.50 },
+        { "desde": 46920, "hasta": 61200, "tipo": 41.50 },
+        { "desde": 61200, "hasta": 81600, "tipo": 44.00 },
+        { "desde": 81600, "hasta": 127500, "tipo": 47.00 },
+        { "desde": 127500, "hasta": 178500, "tipo": 49.00 },
+        { "desde": 178500, "hasta": 306000, "tipo": 50.50 },
+        { "desde": 306000, "hasta": null, "tipo": 52.00 }
+      ]
+    },
+    "pais-vasco": {
+      "nombre": "País Vasco (Bizkaia / Gipuzkoa / Araba)",
+      "regimenForal": true,
+      "nota": "País Vasco tiene régimen foral propio. Los tres territorios históricos (Bizkaia, Gipuzkoa, Araba) comparten escala similar. Se aplica esta escala completa directamente, NO se suma al tramo estatal. En 2026 se aplica deflactación del 2%.",
+      "tramos": [
+        { "desde": 0, "hasta": 16030, "tipo": 23.00 },
+        { "desde": 16030, "hasta": 32060, "tipo": 28.00 },
+        { "desde": 32060, "hasta": 48090, "tipo": 35.00 },
+        { "desde": 48090, "hasta": 68690, "tipo": 40.00 },
+        { "desde": 68690, "hasta": 95150, "tipo": 45.00 },
+        { "desde": 95150, "hasta": 126850, "tipo": 46.00 },
+        { "desde": 126850, "hasta": 184950, "tipo": 47.00 },
+        { "desde": 184950, "hasta": null, "tipo": 49.00 }
+      ]
+    }
+  },
+  "minimoPersonal": 5550,
+  "minimoPersonalMayores65": 6700,
+  "minimoPersonalMayores75": 8100,
+  "reduccionRendimientosTrabajo": [
+    {
+      "desde": 0,
+      "hasta": 14852,
+      "reduccion": 7302,
+      "tipo": "fija"
+    },
+    {
+      "desde": 14852,
+      "hasta": 17673.52,
+      "formula": "7302 - 1.75 * (rendimiento - 14852)",
+      "tipo": "variable"
+    }
+  ],
+  "minimoDescendientes": {
+    "primero": 2400,
+    "segundo": 2700,
+    "tercero": 4000,
+    "cuarto_y_sucesivos": 4500,
+    "menor_3_anios_adicional": 2800
+  },
+  "minimoAscendientes": {
+    "mayor65": 1150,
+    "mayor75": 2550
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Estatuto de los Trabajadores / Real Decreto Legislativo 2/2015",
+  "tiposDespido": {
+    "improcedente": {
+      "nombre": "Despido improcedente",
+      "diasPorAnio": 33,
+      "maximoMensualidades": 24,
+      "maximoDiasSalario": 720,
+      "pre2012": {
+        "fechaCorte": "2012-02-12",
+        "diasPorAnio": 45,
+        "maximoMensualidades": 42,
+        "maximoDiasSalario": 1260,
+        "nota": "Para contratos anteriores al 12/02/2012, se aplica 45 días/año por el período trabajado hasta esa fecha, y 33 días/año por el período posterior. La indemnización total no puede superar 720 días de salario, salvo que el cálculo del período anterior al 12/02/2012 supere esa cifra, en cuyo caso se aplica el máximo de 42 mensualidades."
+      }
+    },
+    "objetivo": {
+      "nombre": "Despido objetivo (procedente)",
+      "diasPorAnio": 20,
+      "maximoMensualidades": 12,
+      "maximoDiasSalario": 360,
+      "nota": "Incluye despido por causas económicas, técnicas, organizativas o de producción (art. 52 ET). También aplica a despidos por ineptitud sobrevenida y falta de adaptación."
+    },
+    "finContratoTemporal": {
+      "nombre": "Fin de contrato temporal",
+      "diasPorAnio": 12,
+      "maximoMensualidades": null,
+      "nota": "Aplicable a contratos temporales celebrados a partir del 01/01/2015. Contratos anteriores a 2015 tienen una indemnización de 8, 9, 10, 11 o 12 días según el año de celebración (escalado progresivo desde 2012)."
+    },
+    "ere": {
+      "nombre": "Despido colectivo (ERE)",
+      "diasPorAnio": 20,
+      "maximoMensualidades": 12,
+      "maximoDiasSalario": 360,
+      "nota": "Mínimo legal (art. 51 ET). En la práctica, la negociación colectiva puede establecer indemnizaciones superiores. Requiere período de consultas con representantes de los trabajadores."
+    },
+    "disciplinario": {
+      "nombre": "Despido disciplinario (procedente)",
+      "diasPorAnio": 0,
+      "maximoMensualidades": 0,
+      "nota": "No genera derecho a indemnización si es declarado procedente (art. 54 ET). Si es declarado improcedente, se aplican las condiciones de despido improcedente."
+    },
+    "voluntario": {
+      "nombre": "Baja voluntaria del trabajador",
+      "diasPorAnio": 0,
+      "maximoMensualidades": 0,
+      "nota": "La dimisión voluntaria no genera derecho a indemnización ni a prestación por desempleo. El trabajador debe respetar el preaviso establecido en convenio colectivo (habitualmente 15 días)."
+    }
+  },
+  "exencionIRPF": {
+    "maximo": 180000,
+    "nota": "La indemnización por despido está exenta de IRPF hasta 180.000€ (establecido desde la reforma de 2014, art. 7.e LIRPF). Solo aplica a la indemnización obligatoria por ley; cualquier cantidad pactada por encima tributa en su totalidad."
+  },
+  "calculoSalarioDiario": {
+    "formula": "salarioBrutoAnual / 365",
+    "nota": "El salario regulador incluye: salario base + complementos salariales + prorrata de pagas extraordinarias. No incluye: dietas, plus transporte, indemnizaciones por gastos."
+  },
+  "calculoAntiguedad": {
+    "nota": "La antigüedad se computa por días naturales completos. Los períodos inferiores a un año se prorratean por meses completos, y los períodos inferiores a un mes se prorratean por días."
+  }
+}

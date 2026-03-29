@@ -1,0 +1,160 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import CuantoFacturar from '@components/calculators/CuantoFacturar';
+import autonomosData from '@data/autonomos-2026.json';
+import irpfData from '@data/irpf-2026.json';
+
+const title = 'Cuanto facturar como autonomo en 2026 — CalculaTuDinero.es';
+const description = 'Calcula cuanto necesitas facturar como autonomo para conseguir el sueldo neto que deseas. Incluye cuota de autonomos, IRPF e IVA actualizados a 2026.';
+const canonical = 'https://calculatudinero.es/autonomos/cuanto-facturar/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Autonomos', href: '/autonomos/' },
+  { label: 'Cuanto facturar' },
+];
+
+const faqs = [
+  {
+    question: '\u00BFCuanto hay que facturar para ganar 2.000 \u20AC netos como autonomo?',
+    answer: 'Dependiendo de tu comunidad autonoma y tramo de IRPF, para ganar 2.000 \u20AC netos al mes necesitaras facturar aproximadamente entre 3.200 \u20AC y 3.800 \u20AC mensuales (IVA no incluido). Esto cubre la cuota de autonomos (unos 302-401 \u20AC), el IRPF trimestral y el IRPF anual.',
+  },
+  {
+    question: '\u00BFQue gastos tiene un autonomo aparte de la cuota?',
+    answer: 'Ademas de la cuota de Seguridad Social, un autonomo debe abonar trimestralmente el IRPF (modelo 130) y el IVA (modelo 303). Tambien debe considerar gastos de gestoria, seguros de responsabilidad civil, y gastos operativos propios de su actividad. Todos los gastos deducibles reducen la base imponible.',
+  },
+  {
+    question: '\u00BFComo se calcula la cuota de autonomos en 2026?',
+    answer: 'La cuota se calcula aplicando el tipo total del 31,50% sobre la base de cotizacion elegida dentro de tu tramo de rendimientos netos. En 2026 existen 15 tramos, desde rendimientos inferiores a 670 \u20AC/mes (cuota minima de 205,88 \u20AC) hasta superiores a 6.000 \u20AC/mes (cuota minima de 607,35 \u20AC).',
+  },
+  {
+    question: '\u00BFEl IVA cuenta como ingreso del autonomo?',
+    answer: 'No. El IVA es un impuesto que el autonomo cobra a sus clientes y despues ingresa a Hacienda trimestralmente. No es un ingreso real ni forma parte de los rendimientos netos. Por eso, cuando hablamos de facturacion para calcular el sueldo neto, nos referimos a la base imponible sin IVA.',
+  },
+  {
+    question: '\u00BFPuedo aplicar la tarifa plana de 80 \u20AC en esta calculadora?',
+    answer: 'Si. La calculadora permite seleccionar la tarifa plana de 80 \u20AC/mes, que aplica durante los primeros 12 meses de actividad (ampliable a 24 meses si los rendimientos son inferiores al SMI). Con la tarifa plana, la cuota efectiva es de aproximadamente 80 \u20AC independientemente del tramo de rendimientos.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de facturacion para autonomos',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Cuanto facturar como autonomo"
+>
+  <CuantoFacturar client:load autonomosData={autonomosData} irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <h2>Como se calcula</h2>
+    <p>
+      Para determinar cuanto necesitas facturar como autonomo, partimos de tu objetivo de sueldo neto mensual y
+      reconstruimos todos los costes que debes cubrir. El calculo tiene en cuenta tres grandes bloques: la cuota
+      de autonomos a la Seguridad Social, la retencion de IRPF y, opcionalmente, el IVA que repercutes en tus
+      facturas.
+    </p>
+    <p>
+      Primero, estimamos tus rendimientos netos anuales sumando el sueldo neto deseado mas la cuota de autonomos
+      correspondiente a tu tramo. Sobre esos rendimientos netos se calcula el IRPF anual aplicando los tramos
+      estatales y autonomicos de tu comunidad. El resultado es la cantidad que necesitas facturar (base imponible)
+      para cubrir todos esos conceptos y quedarte con el neto que deseas.
+    </p>
+    <p>
+      La cuota de autonomos en 2026 se basa en el sistema de cotizacion por ingresos reales, con 15 tramos que
+      van desde 205,88 \u20AC hasta 607,35 \u20AC al mes. El tipo de cotizacion total es del 31,50%, que incluye
+      contingencias comunes (28,30%), profesionales (1,30%), cese de actividad (0,90%), formacion (0,10%) y el
+      Mecanismo de Equidad Intergeneracional o MEI (0,90%).
+    </p>
+
+    <h2>Ejemplo practico</h2>
+    <p>
+      <strong>Si quieres ganar 2.000 \u20AC netos al mes</strong>, el calculo seria aproximadamente asi:
+    </p>
+    <p>
+      Tu objetivo anual neto es de 24.000 \u20AC. Con unos rendimientos netos estimados de unos 2.500 \u20AC/mes
+      (30.000 \u20AC/ano), caes en el tramo 9 de autonomos con una cuota minima de 401,47 \u20AC/mes, es decir,
+      4.817,64 \u20AC al ano. A estos rendimientos, el IRPF estatal + autonomico supone aproximadamente un 20-22%
+      efectivo, lo que significa unos 5.500-6.600 \u20AC anuales de retencion.
+    </p>
+    <p>
+      Sumando: 24.000 \u20AC (neto) + 4.817 \u20AC (cuota autonomos) + ~6.000 \u20AC (IRPF) = necesitas facturar
+      aproximadamente <strong>34.800 \u20AC al ano</strong>, es decir, unos <strong>2.900 \u20AC al mes</strong>
+      (sin IVA). Si anadimos el 21% de IVA, tus facturas serian de unos 3.509 \u20AC/mes.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

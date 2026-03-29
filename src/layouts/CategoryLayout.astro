@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  breadcrumbItems: BreadcrumbItem[];
+  categoryTitle: string;
+  categoryDescription: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  breadcrumbItems,
+  categoryTitle,
+  categoryDescription,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <div class="category-page container">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="category-page__header">
+      <h1 class="category-page__title">{categoryTitle}</h1>
+      <p class="category-page__description">{categoryDescription}</p>
+    </header>
+
+    <section class="category-page__grid">
+      <slot />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .category-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+
+  .category-page__header {
+    margin-bottom: var(--space-10);
+  }
+
+  .category-page__title {
+    margin-bottom: var(--space-4);
+  }
+
+  .category-page__description {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: var(--max-width-content);
+    margin-bottom: 0;
+  }
+
+  .category-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    .category-page__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

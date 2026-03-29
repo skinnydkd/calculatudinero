@@ -1,0 +1,128 @@
+---
+const calculadorasLinks = [
+  { href: '/autonomos/cuota-autonomos/', label: 'Cuota de Autónomos' },
+  { href: '/autonomos/sueldo-neto/', label: 'Sueldo Neto Autónomos' },
+  { href: '/laboral/sueldo-neto/', label: 'Sueldo Neto Empleados' },
+  { href: '/laboral/finiquito/', label: 'Finiquito' },
+];
+
+const infoLinks = [
+  { href: '/metodologia/', label: 'Metodología de cálculo' },
+  { href: '/sobre-nosotros/', label: 'Sobre nosotros' },
+];
+
+const legalLinks = [
+  { href: '/aviso-legal/', label: 'Aviso legal' },
+  { href: '/politica-privacidad/', label: 'Política de privacidad' },
+];
+---
+
+<footer class="footer">
+  <div class="footer__inner container">
+    <div class="footer__columns">
+      <div class="footer__column">
+        <h4 class="footer__heading">Calculadoras</h4>
+        <ul class="footer__list">
+          {calculadorasLinks.map(({ href, label }) => (
+            <li><a href={href} class="footer__link">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer__column">
+        <h4 class="footer__heading">Información</h4>
+        <ul class="footer__list">
+          {infoLinks.map(({ href, label }) => (
+            <li><a href={href} class="footer__link">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer__column">
+        <h4 class="footer__heading">Legal</h4>
+        <ul class="footer__list">
+          {legalLinks.map(({ href, label }) => (
+            <li><a href={href} class="footer__link">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__disclaimer">
+        Las calculadoras ofrecen resultados orientativos. Consulta siempre con un profesional.
+      </p>
+      <p class="footer__copyright">
+        &copy; 2026 CalculaTuDinero.es &mdash; Todos los derechos reservados
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    padding: var(--space-12) 0 var(--space-8);
+    margin-top: var(--space-16);
+  }
+
+  .footer__columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+    margin-bottom: var(--space-10);
+  }
+
+  .footer__heading {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color-bg);
+    margin-bottom: var(--space-4);
+  }
+
+  .footer__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer__link {
+    color: var(--color-border);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer__link:hover {
+    color: #FFFFFF;
+  }
+
+  .footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: var(--space-6);
+    text-align: center;
+  }
+
+  .footer__disclaimer {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+    font-style: italic;
+  }
+
+  .footer__copyright {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .footer__columns {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+  }
+</style>
