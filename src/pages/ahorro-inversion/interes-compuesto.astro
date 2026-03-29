@@ -1,0 +1,195 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import InteresCompuesto from '@components/calculators/InteresCompuesto';
+
+const title = 'Calculadora de Interés Compuesto — CalculaTuDinero.net';
+const description = 'Calcula cuánto crecerá tu inversión con el interés compuesto. Simula aportaciones mensuales, ajusta por inflación y visualiza la evolución de tu capital.';
+const canonical = 'https://calculatudinero.net/ahorro-inversion/interes-compuesto/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Ahorro e inversión', href: '/ahorro-inversion/' },
+  { label: 'Interés compuesto' },
+];
+
+const faqs = [
+  {
+    question: '¿Qué es el interés compuesto?',
+    answer: 'El interés compuesto es el interés que se genera tanto sobre el capital inicial como sobre los intereses acumulados de periodos anteriores. A diferencia del interés simple (que solo se aplica al capital original), el interés compuesto hace que tu dinero crezca de forma exponencial. Se atribuye a Einstein la frase de que es "la fuerza más poderosa del universo", aunque no hay prueba de que realmente lo dijera.',
+  },
+  {
+    question: '¿Qué es la regla del 72?',
+    answer: 'La regla del 72 es un atajo matemático para estimar cuántos años tarda en duplicarse una inversión. Solo tienes que dividir 72 entre la tasa de rentabilidad anual. Por ejemplo: a un 8% anual, tu dinero se duplica en aproximadamente 72/8 = 9 años. A un 6%, en 12 años. A un 12%, en solo 6 años. Es una aproximación muy útil para hacer cálculos mentales rápidos.',
+  },
+  {
+    question: '¿Cuánto tengo que ahorrar al mes para tener 100.000 € en 20 años?',
+    answer: 'Asumiendo una rentabilidad media del 7% anual (típica de fondos indexados al mercado global), necesitarías aportar aproximadamente 200 €/mes durante 20 años. Habrías invertido 48.000 € de tu bolsillo y los otros 52.000 € serían intereses compuestos generados por tu inversión. Si empiezas con un capital inicial de 5.000 €, la aportación mensual necesaria baja a unos 175 €.',
+  },
+  {
+    question: '¿Por qué es importante ajustar por inflación?',
+    answer: 'Porque 100.000 € dentro de 20 años no comprarán lo mismo que hoy. Con una inflación media del 2,5% anual, esos 100.000 € futuros equivaldrían a unos 61.000 € en poder adquisitivo actual. Nuestra calculadora muestra ambos valores —nominal y real— para que tengas una imagen completa de lo que realmente significará tu inversión cuando la necesites.',
+  },
+  {
+    question: '¿Qué rentabilidad anual es realista?',
+    answer: 'Depende del tipo de inversión y del plazo. Los fondos indexados a la bolsa mundial han ofrecido históricamente un 7-10% anual antes de inflación (4-7% real). Los bonos gubernamentales europeos, entre un 2-4%. Las cuentas de ahorro remuneradas, un 1-3%. Una cartera diversificada 80% renta variable / 20% renta fija puede esperar un 6-8% nominal a plazos de 15+ años, aunque con volatilidad en el camino.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Interés Compuesto',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de Interés Compuesto"
+>
+  <InteresCompuesto client:load />
+
+  <Fragment slot="content">
+    <h2>Qué es el interés compuesto</h2>
+    <p>
+      El interés compuesto es el mecanismo por el que los rendimientos de una inversión
+      se reinvierten y generan, a su vez, nuevos rendimientos. A diferencia del interés simple,
+      que solo se calcula sobre el capital inicial, el interés compuesto se aplica sobre el
+      capital acumulado (capital + intereses anteriores), lo que produce un crecimiento
+      exponencial a lo largo del tiempo.
+    </p>
+    <p>
+      En términos prácticos: si inviertes 10.000 € al 7% anual, el primer año ganas 700 €.
+      El segundo año, ganas el 7% sobre 10.700 € (749 €), no sobre 10.000 €. Esa diferencia
+      parece pequeña al principio, pero se amplifica enormemente con el paso de los años.
+    </p>
+
+    <h2>La fórmula del interés compuesto</h2>
+    <p>
+      La fórmula básica del interés compuesto es:
+    </p>
+    <p style="text-align: center; font-family: var(--font-mono); font-size: 1.1rem; margin: var(--space-4) 0;">
+      Capital final = Capital inicial &times; (1 + r)<sup>n</sup>
+    </p>
+    <p>
+      Donde <strong>r</strong> es la tasa de interés por periodo y <strong>n</strong> es
+      el número de periodos. Cuando se añaden aportaciones periódicas mensuales, la fórmula
+      se complica, pero nuestra calculadora lo resuelve iterando mes a mes: cada mes se
+      aplica el interés mensual (tasa anual / 12) al capital acumulado y se suma la
+      aportación mensual.
+    </p>
+
+    <h2>La magia del tiempo</h2>
+    <p>
+      El interés compuesto necesita tiempo para mostrar su verdadero potencial. En los primeros
+      años, la mayor parte de tu capital procede de las aportaciones. Pero a medida que pasa
+      el tiempo, los intereses generados superan con creces lo que aportas de tu bolsillo.
+    </p>
+    <p>
+      Por eso los expertos insisten en <strong>empezar a invertir cuanto antes</strong>,
+      aunque sea con cantidades pequeñas. Un joven de 25 años que ahorra 150 €/mes hasta
+      los 65 años (al 7% anual) acumulará más de 360.000 €, habiendo aportado solo 72.000 €.
+      Los otros 290.000 € son intereses compuestos: dinero que ha generado su dinero.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Inviertes 200 €/mes durante 25 años a un 7% anual de rentabilidad:</strong>
+    </p>
+    <ul>
+      <li>Total aportado de tu bolsillo: <strong>60.000 €</strong></li>
+      <li>Capital final nominal: <strong>~162.000 €</strong></li>
+      <li>Intereses generados: <strong>~102.000 €</strong></li>
+      <li>Capital final real (ajustado por 2,5% de inflación): <strong>~87.000 €</strong></li>
+    </ul>
+    <p>
+      Tu dinero casi se ha triplicado en términos nominales. Incluso descontando la inflación,
+      has obtenido un rendimiento significativo. La clave ha sido la constancia y el tiempo.
+    </p>
+
+    <h3>Calculadoras relacionadas</h3>
+    <ul>
+      <li>
+        <a href="/laboral/salario-neto/">Calculadora de salario neto</a> — saber cuánto
+        cobras realmente te ayuda a decidir cuánto puedes ahorrar cada mes.
+      </li>
+      <li>
+        <a href="/impuestos/calculadora-irpf/">Calculadora de IRPF</a> — los rendimientos
+        de inversión tributan en el IRPF como rentas del ahorro.
+      </li>
+      <li>
+        <a href="/autonomos/cuanto-facturar/">Cuánto facturar como autónomo</a> — si eres
+        autónomo, calcula tus ingresos netos para planificar tu ahorro.
+      </li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
