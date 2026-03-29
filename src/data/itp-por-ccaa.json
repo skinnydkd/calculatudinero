@@ -1,0 +1,29 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Normativa autonómica ITP",
+  "nota": "Tipo general para vivienda usada. Vivienda nueva tributa por IVA (10%)",
+  "tipoIVAViviendaNueva": 10,
+  "tipoAJD": 1.5,
+  "tiposPorCcaa": {
+    "andalucia": { "nombre": "Andalucía", "tipo": 7, "reducido": 3.5, "notaReducido": "Vivienda habitual < 150.000 € para menores de 35" },
+    "aragon": { "nombre": "Aragón", "tipo": 8, "reducido": 2, "notaReducido": "Vivienda habitual VPO" },
+    "asturias": { "nombre": "Asturias", "tipo": 8, "reducido": 4, "notaReducido": "Vivienda habitual < 100.000 €" },
+    "baleares": { "nombre": "Islas Baleares", "tipo": 8, "reducido": 5, "notaReducido": "Primera vivienda habitual" },
+    "canarias": { "nombre": "Canarias", "tipo": 6.5, "reducido": 5, "notaReducido": "Vivienda habitual" },
+    "cantabria": { "nombre": "Cantabria", "tipo": 10, "reducido": 5, "notaReducido": "Vivienda habitual < 200.000 €" },
+    "castilla-leon": { "nombre": "Castilla y León", "tipo": 8, "reducido": 4, "notaReducido": "Vivienda habitual VPO" },
+    "castilla-mancha": { "nombre": "Castilla-La Mancha", "tipo": 9, "reducido": 6, "notaReducido": "Vivienda habitual" },
+    "cataluna": { "nombre": "Cataluña", "tipo": 10, "reducido": 5, "notaReducido": "Vivienda habitual menores 32 o familias numerosas" },
+    "ceuta": { "nombre": "Ceuta", "tipo": 6, "reducido": 6, "notaReducido": "Tipo único" },
+    "extremadura": { "nombre": "Extremadura", "tipo": 8, "reducido": 4, "notaReducido": "Menores de 35 años, vivienda habitual" },
+    "galicia": { "nombre": "Galicia", "tipo": 9, "reducido": 3, "notaReducido": "Vivienda habitual menores 36 años" },
+    "madrid": { "nombre": "Madrid", "tipo": 6, "reducido": 6, "notaReducido": "Tipo único" },
+    "melilla": { "nombre": "Melilla", "tipo": 6, "reducido": 6, "notaReducido": "Tipo único" },
+    "murcia": { "nombre": "Murcia", "tipo": 8, "reducido": 3, "notaReducido": "Vivienda habitual menores 35 años < 150.000 €" },
+    "navarra": { "nombre": "Navarra", "tipo": 6, "reducido": 6, "notaReducido": "Tipo único" },
+    "pais-vasco": { "nombre": "País Vasco", "tipo": 4, "reducido": 4, "notaReducido": "Tipo único" },
+    "rioja": { "nombre": "La Rioja", "tipo": 7, "reducido": 5, "notaReducido": "Vivienda habitual menores 36" },
+    "valencia": { "nombre": "C. Valenciana", "tipo": 10, "reducido": 8, "notaReducido": "Vivienda habitual < 180.000 €" }
+  }
+}

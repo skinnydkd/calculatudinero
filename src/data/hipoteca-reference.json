@@ -1,0 +1,50 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Banco de España / INE",
+  "euribor": {
+    "actual": 2.45,
+    "fecha": "marzo 2026",
+    "nota": "Euríbor a 12 meses, media mensual"
+  },
+  "tiposReferencia": {
+    "fijo": {
+      "min": 2.5,
+      "max": 3.5,
+      "media": 2.9,
+      "nota": "Tipos fijos de mercado para hipotecas a 25-30 años"
+    },
+    "variable": {
+      "diferencial": {
+        "min": 0.5,
+        "max": 1.5,
+        "media": 0.9,
+        "nota": "Diferencial sobre Euríbor"
+      }
+    }
+  },
+  "plazoMaximo": 30,
+  "plazoMinimo": 5,
+  "porcentajeFinanciacionMax": {
+    "primeraVivienda": 80,
+    "segundaVivienda": 70
+  },
+  "gastosCompra": {
+    "notaria": {
+      "porcentaje": 0.5,
+      "nota": "Aproximación sobre precio escritura"
+    },
+    "registro": {
+      "porcentaje": 0.3,
+      "nota": "Aproximación sobre precio escritura"
+    },
+    "gestoria": {
+      "fijo": 400,
+      "nota": "Aproximación media"
+    },
+    "tasacion": {
+      "fijo": 350,
+      "nota": "Aproximación media"
+    }
+  }
+}
