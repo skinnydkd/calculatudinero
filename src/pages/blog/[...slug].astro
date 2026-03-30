@@ -1,0 +1,61 @@
+---
+import BlogLayout from '@layouts/BlogLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const canonical = `https://calculatudinero.net/blog/${post.id}/`;
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: post.data.title },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    'headline': post.data.title,
+    'description': post.data.description,
+    'datePublished': post.data.date,
+    'dateModified': post.data.lastUpdated ?? post.data.date,
+    'author': {
+      '@type': 'Organization',
+      'name': post.data.author,
+      'url': 'https://calculatudinero.net',
+    },
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'CalculaTuDinero.net',
+      'url': 'https://calculatudinero.net',
+    },
+    'mainEntityOfPage': canonical,
+  },
+];
+---
+
+<BlogLayout
+  title={`${post.data.title} — CalculaTuDinero.net`}
+  description={post.data.description}
+  canonical={canonical}
+  breadcrumbItems={breadcrumbItems}
+  date={post.data.date}
+  lastUpdated={post.data.lastUpdated}
+  author={post.data.author}
+  category={post.data.category}
+  tags={post.data.tags}
+  relatedCalculators={post.data.relatedCalculators}
+  jsonLd={jsonLd}
+>
+  <Content />
+</BlogLayout>

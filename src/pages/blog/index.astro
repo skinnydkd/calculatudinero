@@ -1,0 +1,167 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/layout/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const title = 'Blog de Finanzas Personales en España — CalculaTuDinero.net';
+const description = 'Artículos sobre IRPF, autónomos, hipotecas, ahorro e inversión. Guías prácticas con datos actualizados a 2026.';
+const canonical = 'https://calculatudinero.net/blog/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Blog' },
+];
+
+const categoryLabels: Record<string, string> = {
+  autonomos: 'Autónomos',
+  laboral: 'Laboral',
+  impuestos: 'Impuestos',
+  vivienda: 'Vivienda',
+  'ahorro-inversion': 'Ahorro e inversión',
+};
+
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+  <div class="blog-index container">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="blog-index__header">
+      <h1>Blog de finanzas personales</h1>
+      <p class="blog-index__subtitle">Guías prácticas sobre impuestos, empleo, ahorro y más en España</p>
+    </header>
+
+    <nav class="blog-index__categories" aria-label="Filtrar por categoría">
+      <a href="/blog/" class="blog-index__cat-link blog-index__cat-link--active">Todos</a>
+      {categories.map((cat) => (
+        <span class="blog-index__cat-link">{categoryLabels[cat] ?? cat}</span>
+      ))}
+    </nav>
+
+    <div class="blog-index__grid">
+      {posts.map((post) => (
+        <a href={`/blog/${post.id}/`} class="card card--accent blog-card">
+          <span class="blog-card__category">{categoryLabels[post.data.category] ?? post.data.category}</span>
+          <h2 class="blog-card__title">{post.data.title}</h2>
+          <p class="blog-card__description">{post.data.description}</p>
+          <div class="blog-card__footer">
+            <time datetime={post.data.date}>
+              {new Date(post.data.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </time>
+            <span class="blog-card__cta">Leer &rarr;</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .blog-index__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .blog-index__header h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-index__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .blog-index__categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+  }
+
+  .blog-index__cat-link {
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-alt);
+    text-decoration: none;
+    cursor: default;
+  }
+
+  .blog-index__cat-link--active {
+    background-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .blog-index__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .blog-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .blog-card__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .blog-card__title {
+    font-size: 1.15rem;
+    margin-top: 0;
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+  }
+
+  .blog-card__description {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+    line-height: 1.6;
+  }
+
+  .blog-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-4);
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+
+  .blog-card__cta {
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .blog-index__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
