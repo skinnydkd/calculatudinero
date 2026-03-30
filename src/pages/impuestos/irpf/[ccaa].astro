@@ -1,0 +1,540 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import CalculadoraIRPF from '@components/calculators/CalculadoraIRPF';
+import irpfData from '@data/irpf-2026.json';
+import { CCAA_OPTIONS } from '@lib/types';
+import type { ComunidadAutonoma, TramoIRPF } from '@lib/types';
+import { calcularCuotaPorTramos } from '@lib/calculations/shared';
+import { round2, formatCurrency, formatPercent } from '@lib/formatters';
+
+// ---------------------------------------------------------------------------
+// Static paths — one page per CCAA
+// ---------------------------------------------------------------------------
+
+export function getStaticPaths() {
+  return CCAA_OPTIONS.map((opt) => ({
+    params: { ccaa: opt.value },
+    props: { ccaaValue: opt.value, ccaaLabel: opt.label },
+  }));
+}
+
+const { ccaaValue, ccaaLabel } = Astro.props;
+
+// ---------------------------------------------------------------------------
+// Unique content data per CCAA
+// ---------------------------------------------------------------------------
+
+interface CcaaInfo {
+  tipoMaximo: string;
+  particularidad: string;
+  deducciones: string[];
+  comparativa: string;
+  esForal: boolean;
+}
+
+const ccaaInfo: Record<string, CcaaInfo> = {
+  'madrid': {
+    tipoMaximo: '20,50%',
+    particularidad: 'Madrid tiene los tipos autonómicos más bajos de España, lo que la convierte en la comunidad con menor presión fiscal por IRPF para la mayoría de niveles de renta.',
+    deducciones: ['Deducción por arrendamiento de vivienda habitual', 'Deducción por gastos educativos (uniformes, enseñanza de idiomas)', 'Deducción por nacimiento o adopción de hijos'],
+    comparativa: 'El tipo máximo autonómico en Madrid (20,50%) es significativamente inferior al de Cataluña (25,50%) o Comunitat Valenciana (29,50%).',
+    esForal: false,
+  },
+  'cataluna': {
+    tipoMaximo: '25,50%',
+    particularidad: 'Cataluña aplica uno de los tipos marginales más elevados de España, especialmente para rentas superiores a 90.000 euros.',
+    deducciones: ['Deducción por nacimiento o adopción de hijo', 'Deducción por alquiler de vivienda habitual para menores de 32 años', 'Deducción por donaciones a entidades catalanas de interés cultural'],
+    comparativa: 'El tipo máximo en Cataluña (25,50%) es elevado frente al 20,50% de Madrid, aunque la Comunitat Valenciana llega al 29,50%.',
+    esForal: false,
+  },
+  'valencia': {
+    tipoMaximo: '29,50%',
+    particularidad: 'La Comunitat Valenciana tiene la escala autonómica con el tipo marginal más alto del régimen común, llegando al 29,50% para rentas superiores a 200.000 euros.',
+    deducciones: ['Deducción por nacimiento, adopción o acogimiento de hijos', 'Deducción por arrendamiento de vivienda habitual', 'Deducción por cantidades destinadas a abonos culturales'],
+    comparativa: 'Valencia tiene el tipo máximo autonómico más alto del régimen común (29,50%), casi 9 puntos por encima de Madrid.',
+    esForal: false,
+  },
+  'andalucia': {
+    tipoMaximo: '22,50%',
+    particularidad: 'Andalucía mantiene una escala autonómica intermedia, con tipos algo inferiores a la media nacional en los tramos más altos.',
+    deducciones: ['Deducción por inversión en vivienda habitual protegida', 'Deducción para beneficiarios de ayudas a viviendas protegidas', 'Deducción por adopción internacional'],
+    comparativa: 'El tipo máximo andaluz (22,50%) se sitúa entre el de Madrid (20,50%) y el de Cataluña (25,50%).',
+    esForal: false,
+  },
+  'pais-vasco': {
+    tipoMaximo: '49% (escala foral única)',
+    particularidad: 'País Vasco tiene un régimen foral propio con una escala única que sustituye tanto la parte estatal como la autonómica. Los tipos efectivos para rentas medias son competitivos con Madrid.',
+    deducciones: ['Deducción por vivienda habitual (hasta 1.530 euros/año)', 'Deducción por aportaciones a planes de pensiones', 'Deducción por donativos'],
+    comparativa: 'Al tener escala propia, la comparación directa con el régimen común no es sencilla. Para un salario de 40.000 euros, el tipo efectivo vasco suele ser similar al de Madrid.',
+    esForal: true,
+  },
+  'navarra': {
+    tipoMaximo: '52% (escala foral única)',
+    particularidad: 'Navarra tiene régimen foral con escala propia. Para rentas muy altas es de las más gravosas, pero para rentas medias-bajas es competitiva gracias a sus deducciones.',
+    deducciones: ['Deducción por inversión en vivienda habitual', 'Deducción por aportaciones a planes de pensiones', 'Deducción por gastos de guardería de hijos menores de 3 años'],
+    comparativa: 'Navarra tiene el tipo marginal máximo más alto de España (52%), pero para rentas de 30.000-50.000 euros el tipo efectivo es similar al de Madrid.',
+    esForal: true,
+  },
+  'galicia': {
+    tipoMaximo: '22,50%',
+    particularidad: 'Galicia aplica una escala autonómica intermedia, con deducciones específicas para familias y alquiler de vivienda.',
+    deducciones: ['Deducción por nacimiento o adopción de hijos', 'Deducción por alquiler de vivienda habitual', 'Deducción por cuidado de hijos menores'],
+    comparativa: 'El tipo máximo gallego (22,50%) está en la media nacional, por encima de Madrid pero por debajo de Cataluña.',
+    esForal: false,
+  },
+  'aragon': {
+    tipoMaximo: '25,50%',
+    particularidad: 'Aragón tiene una escala autonómica con tipos relativamente altos en los tramos superiores, con nueve tramos que ofrecen mayor progresividad.',
+    deducciones: ['Deducción por nacimiento o adopción de hijo', 'Deducción por arrendamiento de vivienda habitual vinculado a operaciones de dación en pago', 'Deducción por gastos de guardería de hijos menores de 3 años'],
+    comparativa: 'Aragón comparte niveles altos con Cataluña y Asturias en los tramos superiores.',
+    esForal: false,
+  },
+  'asturias': {
+    tipoMaximo: '25,50%',
+    particularidad: 'Asturias aplica tipos autonómicos entre los más elevados de España, especialmente para rentas superiores a 53.407 euros.',
+    deducciones: ['Deducción por inversión en vivienda habitual (zonas rurales)', 'Deducción por acogimiento de menores', 'Deducción por gastos de descendientes en centros de 0-3 años'],
+    comparativa: 'Asturias está en el grupo de comunidades con mayor presión fiscal junto a Cataluña y Valencia.',
+    esForal: false,
+  },
+  'canarias': {
+    tipoMaximo: '26%',
+    particularidad: 'Canarias tiene una escala propia con tipos que llegan al 26% para rentas superiores a 120.000 euros. Cuenta con deducciones específicas por insularidad.',
+    deducciones: ['Deducción por nacimiento o adopción de hijos', 'Deducción por gastos de estudios de descendientes fuera de la isla de residencia', 'Deducción por donaciones con finalidad ecológica'],
+    comparativa: 'Canarias tiene uno de los tipos marginales autonómicos más altos del régimen común (26%), pero para rentas bajas sus tipos son competitivos.',
+    esForal: false,
+  },
+  'cantabria': {
+    tipoMaximo: '24,50%',
+    particularidad: 'Cantabria mantiene tipos autonómicos moderados-altos, con un tipo inicial del 8,50% que es de los más bajos de España.',
+    deducciones: ['Deducción por arrendamiento de vivienda habitual por jóvenes', 'Deducción por cuidado de familiares', 'Deducción por gastos de enfermedad'],
+    comparativa: 'Cantabria se sitúa en la franja media-alta, con un tipo máximo (24,50%) inferior al de Cataluña o Valencia.',
+    esForal: false,
+  },
+  'castilla-leon': {
+    tipoMaximo: '21,50%',
+    particularidad: 'Castilla y León aplica una escala autonómica moderada, con deducciones orientadas a fijar población en el medio rural.',
+    deducciones: ['Deducción por nacimiento o adopción de hijos', 'Deducción por adquisición de vivienda de nueva construcción en núcleos rurales', 'Deducción por cuidado de hijos menores de 4 años'],
+    comparativa: 'Con un tipo máximo del 21,50%, Castilla y León es una de las comunidades con menor presión fiscal después de Madrid.',
+    esForal: false,
+  },
+  'castilla-mancha': {
+    tipoMaximo: '22,50%',
+    particularidad: 'Castilla-La Mancha mantiene una escala autonómica intermedia, con tramos idénticos a los estatales, similar a otras comunidades del centro peninsular.',
+    deducciones: ['Deducción por nacimiento o adopción de hijos', 'Deducción por discapacidad del contribuyente', 'Deducción por arrendamiento de vivienda habitual'],
+    comparativa: 'Castilla-La Mancha comparte nivel impositivo con Andalucía, Galicia y Murcia.',
+    esForal: false,
+  },
+  'extremadura': {
+    tipoMaximo: '25%',
+    particularidad: 'Extremadura tiene una escala con nueve tramos que ofrece mayor progresividad, con un tipo inicial del 8% entre los más bajos de España.',
+    deducciones: ['Deducción por trabajo dependiente', 'Deducción por cuidado de familiares con discapacidad', 'Deducción por adquisición de vivienda habitual para jóvenes'],
+    comparativa: 'Extremadura tiene tipos superiores a Madrid y similares a la media nacional en los tramos altos.',
+    esForal: false,
+  },
+  'baleares': {
+    tipoMaximo: '24,75%',
+    particularidad: 'Baleares aplica una escala con ocho tramos y un tipo inicial del 9%, con tipos que se elevan de forma gradual hasta el 24,75% para rentas altas.',
+    deducciones: ['Deducción por gastos de adquisición de libros de texto', 'Deducción por arrendamiento de vivienda habitual en Baleares', 'Deducción por mejora de la sostenibilidad de la vivienda habitual'],
+    comparativa: 'Baleares tiene tipos similares a Cantabria y por encima de la media nacional en los tramos altos.',
+    esForal: false,
+  },
+  'murcia': {
+    tipoMaximo: '22,50%',
+    particularidad: 'Murcia mantiene una escala autonómica igual a la estatal, con tipos moderados en todos los tramos.',
+    deducciones: ['Deducción por inversión en vivienda habitual para jóvenes', 'Deducción por gastos de guardería de hijos menores de 3 años', 'Deducción por nacimiento o adopción'],
+    comparativa: 'Murcia es una de las comunidades con menor presión fiscal en los tramos altos, junto a Madrid y Castilla y León.',
+    esForal: false,
+  },
+  'rioja': {
+    tipoMaximo: '27%',
+    particularidad: 'La Rioja tiene una escala con siete tramos y el tipo marginal más alto del régimen común (27%) para rentas superiores a 120.000 euros.',
+    deducciones: ['Deducción por nacimiento y adopción de hijos', 'Deducción por adquisición o rehabilitación de segunda vivienda en el medio rural', 'Deducción por acceso a internet para jóvenes emancipados'],
+    comparativa: 'La Rioja tiene el tipo marginal autonómico más alto del régimen común (27%), incluso superior al de Canarias.',
+    esForal: false,
+  },
+  'ceuta': {
+    tipoMaximo: '24,50% (escala estatal)',
+    particularidad: 'Ceuta aplica la escala estatal como tramo autonómico, pero los residentes disfrutan de una bonificación del 60% de la cuota íntegra, lo que reduce significativamente el IRPF efectivo.',
+    deducciones: ['Bonificación del 60% de la cuota íntegra por residencia en Ceuta', 'Las mismas deducciones estatales generales'],
+    comparativa: 'Gracias a la bonificación del 60%, los residentes en Ceuta pagan efectivamente menos IRPF que en cualquier otra comunidad.',
+    esForal: false,
+  },
+  'melilla': {
+    tipoMaximo: '24,50% (escala estatal)',
+    particularidad: 'Melilla, al igual que Ceuta, aplica la escala estatal con una bonificación del 60% en la cuota para residentes, resultando en el IRPF efectivo más bajo de España.',
+    deducciones: ['Bonificación del 60% de la cuota íntegra por residencia en Melilla', 'Las mismas deducciones estatales generales'],
+    comparativa: 'Al igual que Ceuta, Melilla ofrece el IRPF efectivo más bajo de España gracias a la bonificación del 60%.',
+    esForal: false,
+  },
+};
+
+// ---------------------------------------------------------------------------
+// IRPF computation helper for salary examples
+// ---------------------------------------------------------------------------
+
+const ccaaData = (irpfData.tramosAutonomicos as Record<string, any>)[ccaaValue];
+const isForal = ccaaData?.regimenForal === true;
+const hasDeduccionResidentes = typeof ccaaData?.deduccionResidentes === 'number';
+const tramosAut: TramoIRPF[] = ccaaData?.tramos ?? irpfData.tramosEstatales;
+
+function computeIRPF(salary: number): number {
+  const ss = round2(salary * 0.0647);
+  const rendNetos = salary - ss;
+
+  // Reducción por rendimientos del trabajo
+  let reduccion = 0;
+  if (rendNetos <= 14852) {
+    reduccion = 7302;
+  } else if (rendNetos <= 17673.52) {
+    reduccion = Math.max(0, 7302 - 1.75 * (rendNetos - 14852));
+  }
+
+  const baseLiq = Math.max(0, rendNetos - reduccion);
+  const minPersonal = irpfData.minimoPersonal;
+
+  if (isForal) {
+    const ci = calcularCuotaPorTramos(baseLiq, tramosAut);
+    const cm = calcularCuotaPorTramos(minPersonal, tramosAut);
+    return round2(Math.max(0, ci - cm));
+  }
+
+  // Régimen común: estatal + autonómico
+  const ce = calcularCuotaPorTramos(baseLiq, irpfData.tramosEstatales);
+  const cme = calcularCuotaPorTramos(minPersonal, irpfData.tramosEstatales);
+  const ca = calcularCuotaPorTramos(baseLiq, tramosAut);
+  const cma = calcularCuotaPorTramos(minPersonal, tramosAut);
+
+  let cuota = round2(Math.max(0, ce - cme) + Math.max(0, ca - cma));
+
+  // Deducción del 60% para residentes en Ceuta/Melilla
+  if (hasDeduccionResidentes) {
+    const pct = ccaaData.deduccionResidentes / 100;
+    cuota = round2(cuota * (1 - pct));
+  }
+
+  return cuota;
+}
+
+// Pre-compute examples for 25K, 40K, 60K
+const ejemplos = [25000, 40000, 60000].map((salary) => {
+  const irpf = computeIRPF(salary);
+  const tipoEfectivo = salary > 0 ? round2((irpf / salary) * 100) : 0;
+  return { salary, irpf, tipoEfectivo };
+});
+
+// ---------------------------------------------------------------------------
+// SEO metadata
+// ---------------------------------------------------------------------------
+
+const info = ccaaInfo[ccaaValue] ?? {
+  tipoMaximo: 'N/D',
+  particularidad: '',
+  deducciones: [],
+  comparativa: '',
+  esForal: false,
+};
+
+const title = `IRPF en ${ccaaLabel} 2026: Tramos, Tipos y Calculadora — CalculaTuDinero.net`;
+const description = `Calcula tu IRPF en ${ccaaLabel} con los tramos autonómicos actualizados a 2026. Tipos, deducciones y calculadora gratuita.`;
+const canonical = `https://calculatudinero.net/impuestos/irpf/${ccaaValue}/`;
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'IRPF', href: '/impuestos/calculadora-irpf/' },
+  { label: ccaaLabel },
+];
+
+// ---------------------------------------------------------------------------
+// FAQs — unique per CCAA
+// ---------------------------------------------------------------------------
+
+const regimeLabel = info.esForal ? 'régimen foral propio' : 'régimen común';
+const regimeExplain = info.esForal
+  ? `${ccaaLabel} tiene régimen foral, lo que significa que aplica una escala de IRPF propia y única, sin dividirse en parte estatal y autonómica. Los tipos y tramos se fijan por la hacienda foral, no por la AEAT.`
+  : `${ccaaLabel} aplica el régimen común del IRPF, que se divide en dos partes: la estatal (igual en toda España) y la autonómica (fijada por la comunidad). La suma de ambas partes determina el tipo total que pagas.`;
+
+const faqs = [
+  {
+    question: `¿Qué tipo de régimen fiscal tiene ${ccaaLabel}?`,
+    answer: regimeExplain,
+  },
+  {
+    question: `¿Cuál es el tipo máximo de IRPF en ${ccaaLabel} en 2026?`,
+    answer: `El tipo máximo ${info.esForal ? '' : 'autonómico '}en ${ccaaLabel} es del ${info.tipoMaximo}. ${info.comparativa}`,
+  },
+  {
+    question: `¿Cuánto IRPF pago con un salario de 40.000 euros en ${ccaaLabel}?`,
+    answer: `Con un salario bruto de 40.000 euros en ${ccaaLabel}, sin hijos y soltero, la cuota de IRPF es de aproximadamente ${formatCurrency(ejemplos[1].irpf)}, lo que supone un tipo efectivo del ${formatPercent(ejemplos[1].tipoEfectivo)}. Esta cifra incluye la cotización a la Seguridad Social del trabajador.`,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// JSON-LD schemas
+// ---------------------------------------------------------------------------
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': `Calculadora IRPF ${ccaaLabel} 2026`,
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Helper to format tramo ranges for the table
+// ---------------------------------------------------------------------------
+
+function formatTramo(tramo: TramoIRPF): string {
+  const desde = tramo.desde.toLocaleString('es-ES');
+  if (tramo.hasta === null) return `Más de ${desde} €`;
+  const hasta = tramo.hasta.toLocaleString('es-ES');
+  return `${desde} € – ${hasta} €`;
+}
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName={`IRPF en ${ccaaLabel} 2026`}
+>
+  <CalculadoraIRPF client:load irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <p class="intro">
+      {info.esForal ? (
+        `${ccaaLabel} tiene ${regimeLabel} con una escala de IRPF propia. ${info.particularidad} A continuación encontrarás los tramos, ejemplos de cuotas calculadas y las principales deducciones autonómicas.`
+      ) : (
+        `El IRPF en ${ccaaLabel} combina la escala estatal (común a toda España) con una escala autonómica propia. ${info.particularidad} A continuación encontrarás los tramos, ejemplos de cuotas calculadas y las principales deducciones autonómicas.`
+      )}
+    </p>
+
+    <h2>{info.esForal ? `Tramos del IRPF en ${ccaaLabel} 2026 (escala foral)` : `Tramos autonómicos del IRPF en ${ccaaLabel} 2026`}</h2>
+    {info.esForal ? (
+      <p>
+        Al tener régimen foral, {ccaaLabel} aplica una escala única que sustituye la doble escala estatal + autonómica del régimen común. Estos son los tramos vigentes en 2026:
+      </p>
+    ) : (
+      <p>
+        La escala autonómica se aplica sobre la misma base liquidable que la estatal. Ambas cuotas se suman para obtener el IRPF total. Los tramos autonómicos de {ccaaLabel} en 2026 son:
+      </p>
+    )}
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Base liquidable</th>
+            <th>Tipo {info.esForal ? '' : 'autonómico'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tramosAut.map((tramo) => (
+            <tr>
+              <td>{formatTramo(tramo)}</td>
+              <td class="mono">{formatPercent(tramo.tipo, 2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {!info.esForal && (
+      <p class="note">
+        Estos tramos corresponden a la parte autonómica del IRPF. Se suman a los tramos estatales (del 9,50% al 24,50%) para calcular la cuota total.
+      </p>
+    )}
+
+    {hasDeduccionResidentes && (
+      <p class="note">
+        Los residentes en {ccaaLabel} disfrutan de una bonificación del {ccaaData.deduccionResidentes}% sobre la cuota íntegra, lo que reduce significativamente el IRPF efectivo.
+      </p>
+    )}
+
+    <h2>Tipo efectivo en {ccaaLabel}</h2>
+    <p>
+      ¿Cuánto IRPF se paga realmente en {ccaaLabel}? El tipo efectivo (porcentaje real sobre el salario bruto) es siempre menor que el tipo marginal máximo, porque los primeros tramos tributan a tipos más bajos. Estos son ejemplos para un trabajador por cuenta ajena, soltero y sin hijos:
+    </p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Salario bruto anual</th>
+            <th>Cuota IRPF</th>
+            <th>Tipo efectivo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ejemplos.map((ej) => (
+            <tr>
+              <td class="mono">{formatCurrency(ej.salary)}</td>
+              <td class="mono">{formatCurrency(ej.irpf)}</td>
+              <td class="mono">{formatPercent(ej.tipoEfectivo)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      Cálculos para un asalariado con contrato indefinido, sin hijos, menor de 65 años, con cotización a la Seguridad Social estimada del 6,47%. La cuota incluye la parte estatal y la autonómica{hasDeduccionResidentes ? `, con la bonificación del ${ccaaData.deduccionResidentes}% aplicada` : ''}.
+    </p>
+
+    <h2>Comparativa con otras comunidades</h2>
+    <p>
+      {info.comparativa}
+    </p>
+    <p>
+      Si quieres comparar el IRPF de {ccaaLabel} con el resto de comunidades para tu salario concreto, usa nuestro <a href="/impuestos/comparador-irpf-comunidades/">comparador de IRPF por comunidades autónomas</a>.
+    </p>
+
+    <h2>Deducciones autonómicas en {ccaaLabel}</h2>
+    <p>
+      Además de las deducciones estatales (mínimo personal, descendientes, ascendientes, discapacidad), {ccaaLabel} ofrece deducciones propias que pueden reducir tu cuota autonómica:
+    </p>
+    <ul>
+      {info.deducciones.map((ded) => (
+        <li>{ded}</li>
+      ))}
+    </ul>
+    <p class="note">
+      Las deducciones autonómicas tienen requisitos y límites específicos. Consulta la normativa fiscal de {ccaaLabel} para verificar las condiciones de cada deducción.
+    </p>
+
+    <h2>Preguntas frecuentes sobre IRPF en {ccaaLabel}</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '📊', title: 'Comparador IRPF por comunidades', description: 'Compara el IRPF que pagarías en las 19 comunidades autónomas.', href: '/impuestos/comparador-irpf-comunidades/' },
+      { icon: '💰', title: 'Salario neto', description: 'Calcula tu salario neto a partir del bruto anual.', href: '/laboral/salario-neto/' },
+      { icon: '💼', title: 'Cuánto facturar como autónomo', description: 'Calcula tu facturación necesaria como autónomo.', href: '/autonomos/cuanto-facturar/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .intro {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .data-table th {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--color-bg-alt);
+  }
+
+  .data-table tbody tr:hover {
+    background-color: var(--color-bg-alt);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .note {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  ul {
+    padding-left: var(--space-6);
+    margin: var(--space-4) 0;
+  }
+
+  ul li {
+    margin-bottom: var(--space-2);
+    line-height: 1.6;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
