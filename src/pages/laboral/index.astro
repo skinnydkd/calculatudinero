@@ -54,6 +54,22 @@ const faqs = [
     question: '¿Cuál es el Salario Mínimo Interprofesional (SMI) en 2026?',
     answer: 'El SMI en 2026 es de 1.221 € mensuales en 14 pagas (1.424,50 € en 12 pagas), lo que supone 17.094 € anuales. Fue aprobado por Real Decreto 126/2026 con un incremento del 3,1% respecto a 2025.',
   },
+  {
+    question: '¿Cuántos días de vacaciones me corresponden por ley?',
+    answer: 'El Estatuto de los Trabajadores establece un mínimo de 30 días naturales de vacaciones al año (equivalente a unos 22 días laborables). Este derecho es irrenunciable y no puede ser sustituido por compensación económica, salvo cuando la relación laboral se extingue y quedan vacaciones pendientes de disfrutar, que se incluyen en el finiquito.',
+  },
+  {
+    question: '¿Qué diferencia hay entre finiquito e indemnización?',
+    answer: 'El finiquito es la liquidación de las cantidades que la empresa te debe al finalizar la relación laboral (salario pendiente, vacaciones no disfrutadas, prorrata de pagas extra) y se paga siempre, independientemente del motivo de la baja. La indemnización es una compensación adicional que solo corresponde en ciertos tipos de despido (improcedente, objetivo, colectivo) o fin de contrato temporal, y su cuantía depende del tipo de despido y la antigüedad.',
+  },
+  {
+    question: '¿Cuánto tiempo puedo cobrar el paro?',
+    answer: 'La duración de la prestación contributiva por desempleo depende de los días cotizados en los últimos 6 años. El mínimo es de 4 meses (con 360 días cotizados) y el máximo de 24 meses (con 2.160 días o más cotizados). Por cada 180 días cotizados adicionales se obtienen 2 meses más de prestación. Durante los primeros 6 meses se cobra el 70% de la base reguladora y el 50% a partir del séptimo mes.',
+  },
+  {
+    question: '¿Me pueden despedir estando de baja médica?',
+    answer: 'Sí, estar de baja médica no impide el despido, pero este debe tener una causa justificada (disciplinaria, objetiva, etc.) ajena a la propia baja. La Ley 15/2022 refuerza la protección frente a despidos por razón de enfermedad o discapacidad, pudiendo ser declarados nulos si se demuestra que la causa real del despido es la situación de baja. Un despido nulo implica readmisión obligatoria y cobro de los salarios de tramitación.',
+  },
 ];
 
 const jsonLd = [
@@ -89,6 +105,200 @@ const jsonLd = [
     </a>
   ))}
 </CategoryLayout>
+
+<!-- Pillar Content -->
+<section class="pillar-content container">
+
+  <h2>Guía de derechos laborales en España 2026</h2>
+  <p>El mercado laboral español se rige por el <strong>Estatuto de los Trabajadores</strong> (Real Decreto Legislativo 2/2015), los convenios colectivos sectoriales y una legislación complementaria que se actualiza cada año. Conocer tus derechos y obligaciones como trabajador por cuenta ajena no es un lujo, sino una necesidad: desde interpretar correctamente tu nómina hasta saber qué te corresponde si te despiden.</p>
+  <p>En esta guía te explicamos todo lo que un trabajador en España debe conocer en 2026: cómo se calcula tu salario neto, qué dice la ley sobre contratos, despidos, desempleo y vacaciones, y cómo usar nuestras calculadoras laborales para verificar que tus cifras cuadran.</p>
+
+  <h2>Tu nómina: cómo se calcula el salario neto</h2>
+  <p>Tu nómina es el documento que detalla cómo se transforma tu <strong>salario bruto</strong> en tu <strong>salario neto</strong> (lo que realmente llega a tu cuenta bancaria). El proceso tiene dos grandes descuentos:</p>
+
+  <h3>1. Cotizaciones a la Seguridad Social</h3>
+  <p>Como trabajador por cuenta ajena, la empresa y tú cotizáis a la Seguridad Social. La parte del trabajador en 2026 se descompone así:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Porcentaje (trabajador)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Contingencias comunes</td><td>4,70%</td></tr>
+      <tr><td>Desempleo (contrato indefinido)</td><td>1,55%</td></tr>
+      <tr><td>Desempleo (contrato temporal)</td><td>1,60%</td></tr>
+      <tr><td>Formación profesional</td><td>0,10%</td></tr>
+      <tr><td>MEI (Mecanismo de Equidad Intergeneracional)</td><td>0,15%</td></tr>
+      <tr><td><strong>Total aproximado</strong></td><td><strong>6,50%</strong></td></tr>
+    </tbody>
+  </table>
+  <p>Este porcentaje se aplica sobre tu <strong>base de cotización</strong>, que normalmente coincide con tu salario bruto mensual (incluyendo prorrata de pagas extra). Existe una base máxima de cotización en 2026 de 4.720,50 €/mes: si tu salario supera esa cifra, solo cotizas hasta ese tope.</p>
+
+  <h3>2. Retención del IRPF</h3>
+  <p>El segundo gran descuento es la <strong>retención del IRPF</strong>, que es un adelanto del impuesto sobre la renta que la empresa ingresa a Hacienda por ti. El porcentaje de retención depende de:</p>
+  <ul>
+    <li>Tu salario bruto anual.</li>
+    <li>Tu situación familiar (hijos, cónyuge, discapacidad).</li>
+    <li>El tipo de contrato (los contratos temporales tienen un mínimo del 2%).</li>
+    <li>Tu comunidad autónoma (los tramos autonómicos varían).</li>
+  </ul>
+  <p>No es lo mismo cobrar en 12 pagas que en 14: aunque el salario anual sea idéntico, la retención de IRPF puede variar ligeramente según cómo se distribuya. Para profundizar, consulta nuestro artículo sobre <a href="/blog/retencion-irpf-nomina/">cómo se calcula la retención de IRPF en la nómina</a> o utiliza directamente nuestra <a href="/laboral/salario-neto/">calculadora de salario neto</a>.</p>
+
+  <h3>12 pagas vs 14 pagas</h3>
+  <p>En España es habitual que el salario se distribuya en <strong>14 pagas</strong>: 12 mensualidades ordinarias más 2 pagas extraordinarias (normalmente en junio y diciembre). Algunos convenios y empresas optan por <strong>12 pagas</strong>, prorrateando las extras en cada mensualidad.</p>
+  <p>El salario bruto anual es el mismo en ambos casos, pero con 14 pagas el salario mensual es menor (y las pagas extra suponen un "ingreso extra" dos veces al año). Muchos trabajadores prefieren las 14 pagas por la sensación de recibir un plus en verano y Navidad, aunque financieramente no hay diferencia. Nuestra <a href="/laboral/salario-neto/">calculadora de salario neto</a> te permite alternar entre ambos formatos.</p>
+
+  <h2>El Salario Mínimo Interprofesional (SMI) en 2026</h2>
+  <p>El <strong>SMI en 2026</strong> se ha fijado en <strong>1.221 € mensuales en 14 pagas</strong> (1.424,50 € si se cobra en 12 pagas), lo que supone un salario mínimo anual de <strong>17.094 €</strong>. Esta cifra representa un incremento del 3,1% respecto al SMI de 2025 (1.184 €/14 pagas).</p>
+  <p>El SMI afecta directamente a:</p>
+  <ul>
+    <li><strong>Trabajadores con salarios bajos:</strong> ningún trabajador a jornada completa puede cobrar menos del SMI.</li>
+    <li><strong>Prestaciones y ayudas:</strong> muchos umbrales de acceso a ayudas se calculan en función del SMI (Ingreso Mínimo Vital, becas, justicia gratuita).</li>
+    <li><strong>Contratos a tiempo parcial:</strong> el SMI se aplica de forma proporcional a la jornada.</li>
+    <li><strong>Embargos salariales:</strong> el SMI es inembargable; solo se pueden embargar cantidades que excedan el SMI.</li>
+  </ul>
+  <p>Consulta la evolución histórica y el impacto del SMI en nuestro artículo <a href="/blog/smi-2026-salario-minimo/">SMI 2026: todo sobre el Salario Mínimo Interprofesional</a>.</p>
+
+  <h2>Tipos de contrato en España</h2>
+  <p>Tras la <strong>reforma laboral de 2022</strong> (Real Decreto-ley 32/2021), los tipos de contrato en España se simplificaron significativamente. Los principales contratos vigentes en 2026 son:</p>
+
+  <h3>Contrato indefinido</h3>
+  <p>Es la modalidad preferente y la más estable. Puede ser a tiempo completo o parcial, y no tiene fecha de finalización. Dentro de esta categoría encontramos variantes como el <strong>contrato fijo-discontinuo</strong>, para actividades estacionales o cíclicas, que se ha convertido en la alternativa legal al antiguo contrato temporal por obra o servicio.</p>
+
+  <h3>Contrato temporal</h3>
+  <p>Solo se permite en dos supuestos:</p>
+  <ul>
+    <li><strong>Por circunstancias de la producción:</strong> incrementos puntuales e imprevisibles de la demanda, con un máximo de 6 meses (ampliable a 12 por convenio).</li>
+    <li><strong>Por sustitución:</strong> para cubrir a un trabajador con derecho a reserva de puesto (baja, excedencia, etc.).</li>
+  </ul>
+  <p>Los contratos temporales que se encadenen de forma irregular se convierten automáticamente en indefinidos.</p>
+
+  <h3>Contrato de formación en alternancia</h3>
+  <p>Dirigido a jóvenes de 16 a 30 años, combina trabajo remunerado con formación. La jornada de trabajo no puede superar el 65% el primer año ni el 85% el segundo, y la retribución no puede ser inferior al SMI proporcional a la jornada efectiva.</p>
+
+  <h3>Contrato formativo para la obtención de práctica profesional</h3>
+  <p>Para titulados universitarios o de FP dentro de los 3 años siguientes a la obtención del título (5 años para personas con discapacidad). Duración de 6 meses a 1 año, con retribución no inferior al SMI.</p>
+
+  <h2>El despido: tipos, indemnizaciones y derechos</h2>
+  <p>Si te enfrentas a un despido, es fundamental conocer qué tipo es y qué compensación te corresponde. Aquí tienes una tabla resumen:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de despido</th>
+        <th>Indemnización</th>
+        <th>Tope máximo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Improcedente</td><td>33 días/año</td><td>24 mensualidades</td></tr>
+      <tr><td>Improcedente (anterior a feb 2012)</td><td>45 días/año</td><td>42 mensualidades</td></tr>
+      <tr><td>Objetivo (causas económicas, técnicas, organizativas o de producción)</td><td>20 días/año</td><td>12 mensualidades</td></tr>
+      <tr><td>Colectivo (ERE)</td><td>20 días/año</td><td>12 mensualidades</td></tr>
+      <tr><td>Disciplinario procedente</td><td>0 €</td><td>-</td></tr>
+      <tr><td>Fin de contrato temporal</td><td>12 días/año</td><td>-</td></tr>
+    </tbody>
+  </table>
+  <p>El <strong>salario diario</strong> para el cálculo se obtiene dividiendo el salario bruto anual (incluyendo todos los conceptos salariales: base, complementos, pagas extra) entre 365 días. Los periodos inferiores a un año se prorratean por meses completos.</p>
+  <p>Si no estás de acuerdo con el despido, tienes <strong>20 días hábiles</strong> para presentar una demanda de conciliación ante el SMAC (Servicio de Mediación, Arbitraje y Conciliación). Si no hay acuerdo, la demanda pasa al juzgado de lo social.</p>
+  <p>Calcula tu indemnización exacta con nuestra <a href="/laboral/indemnizacion-despido/">calculadora de indemnización por despido</a>, y consulta nuestro artículo sobre <a href="/blog/tipos-despido-espana/">tipos de despido en España</a> para entender cada supuesto en detalle.</p>
+
+  <h2>El finiquito: qué te corresponde al dejar el trabajo</h2>
+  <p>El finiquito es el documento de liquidación que recoge todas las cantidades que la empresa te debe al finalizar la relación laboral, <strong>independientemente del motivo de la baja</strong> (despido, dimisión, fin de contrato, jubilación, etc.). Sus componentes principales son:</p>
+  <ul>
+    <li><strong>Salario del mes en curso:</strong> los días trabajados del último mes que aún no se han cobrado.</li>
+    <li><strong>Vacaciones no disfrutadas:</strong> si al finalizar la relación laboral te quedan días de vacaciones pendientes, se compensan económicamente. Se calcula dividiendo el salario bruto anual entre 365 y multiplicando por los días de vacaciones no disfrutados.</li>
+    <li><strong>Prorrata de pagas extraordinarias:</strong> la parte proporcional de las pagas extra devengada desde la última paga hasta la fecha de baja. Si cobras en 12 pagas (con extras prorrateadas), este concepto no aplica.</li>
+    <li><strong>Otros conceptos:</strong> horas extra no cobradas, comisiones pendientes, bonus devengados, compensación por pacto de no competencia, etc.</li>
+  </ul>
+  <p>Es importante diferenciar el finiquito de la indemnización: el finiquito siempre se cobra, la indemnización solo en determinados tipos de despido. Para más detalle, lee nuestro artículo sobre <a href="/blog/que-incluye-finiquito/">qué incluye el finiquito</a> y sobre la <a href="/blog/diferencia-finiquito-indemnizacion/">diferencia entre finiquito e indemnización</a>.</p>
+  <p>Calcula el tuyo con la <a href="/laboral/finiquito/">calculadora de finiquito</a>.</p>
+
+  <h2>La prestación por desempleo (el paro)</h2>
+  <p>Si te quedas sin trabajo de forma involuntaria (despido, fin de contrato, ERE), puedes tener derecho a la <strong>prestación contributiva por desempleo</strong>. Los requisitos principales son:</p>
+  <ul>
+    <li>Haber cotizado al menos <strong>360 días</strong> en los últimos 6 años.</li>
+    <li>Estar en situación legal de desempleo (no haber dimitido voluntariamente).</li>
+    <li>Inscribirse como demandante de empleo en el SEPE en los <strong>15 días hábiles</strong> siguientes al cese.</li>
+    <li>No haber cumplido la edad de jubilación.</li>
+  </ul>
+
+  <h3>¿Cuánto se cobra?</h3>
+  <p>La <strong>base reguladora</strong> del desempleo es la media de las bases de cotización por contingencias profesionales de los últimos 180 días (6 meses). Sobre esa base:</p>
+  <ul>
+    <li><strong>Primeros 6 meses:</strong> el 70% de la base reguladora.</li>
+    <li><strong>A partir del mes 7:</strong> el 50% de la base reguladora.</li>
+  </ul>
+  <p>Existen topes: la cuantía mínima en 2026 es de 560,93 € (sin hijos) o 749,28 € (con hijos), y la máxima de 1.467,40 € (sin hijos), 1.676,40 € (con un hijo) o 1.885,40 € (con dos o más hijos).</p>
+
+  <h3>¿Cuánto dura?</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Días cotizados</th>
+        <th>Meses de prestación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>360 - 539</td><td>4 meses</td></tr>
+      <tr><td>540 - 719</td><td>6 meses</td></tr>
+      <tr><td>720 - 899</td><td>8 meses</td></tr>
+      <tr><td>900 - 1.079</td><td>10 meses</td></tr>
+      <tr><td>1.080 - 1.259</td><td>12 meses</td></tr>
+      <tr><td>1.260 - 1.439</td><td>14 meses</td></tr>
+      <tr><td>1.440 - 1.619</td><td>16 meses</td></tr>
+      <tr><td>1.620 - 1.799</td><td>18 meses</td></tr>
+      <tr><td>1.800 - 1.979</td><td>20 meses</td></tr>
+      <tr><td>1.980 - 2.159</td><td>22 meses</td></tr>
+      <tr><td>2.160 o más</td><td>24 meses</td></tr>
+    </tbody>
+  </table>
+  <p>Para estimar tu prestación, utiliza nuestra <a href="/laboral/prestacion-desempleo/">calculadora de prestación por desempleo</a>. Y si quieres entender las diferencias entre prestación y subsidio, consulta nuestro artículo sobre <a href="/blog/subsidio-vs-prestacion-desempleo/">subsidio vs prestación por desempleo</a>.</p>
+
+  <h2>Vacaciones, permisos y otros derechos</h2>
+  <p>El Estatuto de los Trabajadores garantiza una serie de derechos básicos a todos los trabajadores por cuenta ajena en España:</p>
+
+  <h3>Vacaciones</h3>
+  <p>Mínimo de <strong>30 días naturales</strong> al año (aproximadamente 22 días laborables). Las vacaciones son irrenunciables: no se pueden compensar económicamente salvo al finalizar la relación laboral. El periodo de disfrute se acuerda entre empresa y trabajador, y debe incluir al menos un periodo de 2 semanas consecutivas entre junio y septiembre.</p>
+
+  <h3>Permisos retribuidos</h3>
+  <p>Son días que puedes ausentarte del trabajo cobrando tu salario íntegro:</p>
+  <ul>
+    <li><strong>Matrimonio:</strong> 15 días naturales.</li>
+    <li><strong>Nacimiento de hijo:</strong> 16 semanas para ambos progenitores (permiso de nacimiento y cuidado del menor).</li>
+    <li><strong>Fallecimiento de familiar de 1er o 2do grado:</strong> 2 días (4 si requiere desplazamiento).</li>
+    <li><strong>Hospitalización o intervención quirúrgica de familiar:</strong> 5 días (desde la reforma de 2023).</li>
+    <li><strong>Mudanza:</strong> 1 día.</li>
+    <li><strong>Deber público (votaciones, jurado, etc.):</strong> el tiempo necesario.</li>
+    <li><strong>Exámenes oficiales:</strong> el tiempo necesario.</li>
+  </ul>
+  <p>Estos son los mínimos legales; los convenios colectivos pueden ampliar estos permisos. Consulta siempre el convenio de tu sector.</p>
+
+  <h3>Jornada laboral</h3>
+  <p>La jornada máxima legal es de <strong>40 horas semanales de media en cómputo anual</strong>. Las horas extraordinarias son voluntarias (salvo pacto en convenio), con un máximo de 80 horas al año, y deben compensarse con descanso o retribuirse con un recargo mínimo del 75% sobre la hora ordinaria (según convenio).</p>
+
+  <h2>Tus derechos, en cifras</h2>
+  <p>Nuestras calculadoras laborales están actualizadas a 2026 y te permiten verificar que tus cifras son correctas:</p>
+  <ul>
+    <li><a href="/laboral/salario-neto/">Calculadora de salario neto:</a> comprueba cuánto deberías cobrar cada mes.</li>
+    <li><a href="/laboral/indemnizacion-despido/">Calculadora de indemnización por despido:</a> conoce la indemnización que te corresponde.</li>
+    <li><a href="/laboral/finiquito/">Calculadora de finiquito:</a> verifica la liquidación que te propone la empresa.</li>
+    <li><a href="/laboral/prestacion-desempleo/">Calculadora de prestación por desempleo:</a> estima cuánto cobrarás de paro y durante cuánto tiempo.</li>
+  </ul>
+  <p>Para profundizar en cada tema, te recomendamos estos artículos del blog:</p>
+  <ul>
+    <li><a href="/blog/como-leer-nomina-conceptos/">Cómo leer tu nómina: todos los conceptos explicados</a></li>
+    <li><a href="/blog/retencion-irpf-nomina/">Cómo se calcula la retención de IRPF en tu nómina</a></li>
+    <li><a href="/blog/smi-2026-salario-minimo/">SMI 2026: todo sobre el Salario Mínimo Interprofesional</a></li>
+    <li><a href="/blog/tipos-despido-espana/">Tipos de despido en España: guía completa</a></li>
+    <li><a href="/blog/diferencia-finiquito-indemnizacion/">Diferencia entre finiquito e indemnización</a></li>
+    <li><a href="/blog/requisitos-prestacion-desempleo/">Requisitos para cobrar la prestación por desempleo</a></li>
+    <li><a href="/blog/cuanto-tiempo-cobrar-paro/">¿Cuánto tiempo puedo cobrar el paro?</a></li>
+    <li><a href="/blog/vacaciones-no-disfrutadas-finiquito/">Vacaciones no disfrutadas en el finiquito</a></li>
+  </ul>
+
+</section>
 
 <section class="faq container">
   <h2>Preguntas frecuentes sobre temas laborales</h2>
@@ -184,5 +394,69 @@ const jsonLd = [
     margin-top: var(--space-3);
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .pillar-content {
+    padding: var(--space-10) 0;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .pillar-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-content h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content ul, .pillar-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .pillar-content th, .pillar-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .pillar-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .pillar-content strong {
+    color: var(--color-text);
+  }
+
+  .pillar-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pillar-content a:hover {
+    text-decoration: underline;
   }
 </style>

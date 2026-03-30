@@ -66,6 +66,22 @@ const faqs = [
     question: '¿Qué es el mínimo personal y familiar?',
     answer: 'Es la parte de la renta que se considera necesaria para vivir y que está exenta de tributación. En 2026 el mínimo personal es de 5.550 € (6.700 € para mayores de 65 y 8.100 € para mayores de 75). Se incrementa con el mínimo por descendientes: 2.400 € por el primero, 2.700 € por el segundo, 4.000 € por el tercero y 4.500 € por el cuarto y siguientes.',
   },
+  {
+    question: '¿Qué tipos de IVA existen en España?',
+    answer: 'En la España peninsular y Baleares existen tres tipos de IVA: el general del 21% (aplicable a la mayoría de bienes y servicios), el reducido del 10% (alimentación, transporte, hostelería, vivienda nueva) y el superreducido del 4% (pan, leche, huevos, frutas, verduras, libros, medicamentos). Canarias tiene el IGIC en lugar del IVA, con un tipo general del 7%. Ceuta y Melilla aplican el IPSI.',
+  },
+  {
+    question: '¿Estoy obligado a hacer la declaración de la renta?',
+    answer: 'En general, estás obligado si tus rendimientos del trabajo superan los 22.000 € anuales con un solo pagador, o 15.876 € con dos o más pagadores (si del segundo y siguientes se han cobrado más de 1.500 € en total). También si tienes rendimientos del capital mobiliario o ganancias patrimoniales superiores a 1.600 €/año, o rentas inmobiliarias imputadas superiores a 1.000 €/año. Aun sin obligación, puede convenir hacerla si el resultado te sale a devolver.',
+  },
+  {
+    question: '¿Cuándo se presenta la declaración de la renta en 2026?',
+    answer: 'La campaña de la renta del ejercicio 2025 se presenta en 2026, normalmente desde principios de abril hasta el 30 de junio. La presentación online abre primero (principios de abril), seguida de la atención telefónica (mayo) y presencial (junio). Si el resultado es a ingresar y se domicilia el pago, el plazo suele terminar unos días antes (25 de junio aproximadamente).',
+  },
+  {
+    question: '¿Qué es la plusvalía municipal y cuándo se paga?',
+    answer: 'La plusvalía municipal (Impuesto sobre el Incremento de Valor de los Terrenos de Naturaleza Urbana) es un impuesto local que grava la revalorización del suelo al vender, donar o heredar un inmueble urbano. Se paga al ayuntamiento y el plazo es de 30 días hábiles desde la venta (o 6 meses en caso de herencia, prorrogable a 12). Desde la STC 182/2021, se puede elegir entre el método real y el objetivo, pagando el menor de ambos.',
+  },
 ];
 
 const jsonLd = [
@@ -101,6 +117,183 @@ const jsonLd = [
     </a>
   ))}
 </CategoryLayout>
+
+<!-- Pillar Content -->
+<section class="pillar-content container">
+
+  <h2>Guía de impuestos en España 2026</h2>
+  <p>El sistema fiscal español es complejo: impuestos estatales, autonómicos y locales se combinan para gravar la renta, el consumo, el patrimonio y las transmisiones. Entender cómo funcionan los principales impuestos no solo te ahorra sorpresas desagradables, sino que te permite tomar decisiones financieras más inteligentes, ya seas trabajador por cuenta ajena, autónomo o inversor.</p>
+  <p>En esta guía desglosamos los impuestos que más afectan al bolsillo de los españoles en 2026: el IRPF, el IVA, los impuestos sobre la vivienda, las sucesiones y el patrimonio. Cada sección incluye los datos clave y enlaces a nuestras calculadoras gratuitas para que puedas hacer tus propias simulaciones.</p>
+
+  <h2>El IRPF: cómo funciona el impuesto sobre la renta</h2>
+  <p>El <strong>Impuesto sobre la Renta de las Personas Físicas (IRPF)</strong> es el impuesto más importante para la mayoría de los españoles. Grava la totalidad de las rentas obtenidas durante un año natural: salario, rendimientos de actividades económicas, alquileres, dividendos, ganancias patrimoniales, etc.</p>
+
+  <h3>El carácter progresivo del IRPF</h3>
+  <p>El IRPF es un impuesto <strong>progresivo</strong>, lo que significa que cuanto más ganas, mayor porcentaje pagas. Pero no de forma lineal: funciona por tramos. Los primeros euros de tu renta pagan un tipo bajo, y solo el exceso sobre cada umbral paga el tipo del tramo siguiente. Por eso tu <strong>tipo efectivo</strong> (lo que realmente pagas sobre el total) siempre es inferior a tu <strong>tipo marginal</strong> (el tramo más alto al que llegas).</p>
+
+  <h3>Tramos estatales del IRPF en 2026</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Base liquidable</th>
+        <th>Tipo estatal</th>
+        <th>Tipo autonómico (referencia)</th>
+        <th>Tipo total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hasta 12.450 €</td><td>9,50%</td><td>9,50%</td><td>19,00%</td></tr>
+      <tr><td>12.450 - 20.200 €</td><td>12,00%</td><td>12,00%</td><td>24,00%</td></tr>
+      <tr><td>20.200 - 35.200 €</td><td>15,00%</td><td>15,00%</td><td>30,00%</td></tr>
+      <tr><td>35.200 - 60.000 €</td><td>18,50%</td><td>18,50%</td><td>37,00%</td></tr>
+      <tr><td>60.000 - 300.000 €</td><td>22,50%</td><td>22,50%</td><td>45,00%</td></tr>
+      <tr><td>Más de 300.000 €</td><td>24,50%</td><td>22,50%</td><td>47,00%</td></tr>
+    </tbody>
+  </table>
+  <p>Los tramos autonómicos son de referencia: cada comunidad autónoma puede modificarlos. Esto explica por qué dos personas con el mismo salario pueden pagar un IRPF distinto según dónde residan. Consulta las diferencias en nuestro <a href="/impuestos/comparador-irpf-comunidades/">comparador de IRPF por comunidades autónomas</a>.</p>
+
+  <h3>El mínimo personal y familiar</h3>
+  <p>Antes de aplicar los tramos, se descuenta el <strong>mínimo personal y familiar</strong>: la parte de la renta que se considera necesaria para cubrir las necesidades básicas. En 2026:</p>
+  <ul>
+    <li><strong>Mínimo del contribuyente:</strong> 5.550 € (6.700 € si tienes más de 65 años; 8.100 € si tienes más de 75).</li>
+    <li><strong>Mínimo por descendientes:</strong> 2.400 € (1er hijo), 2.700 € (2do), 4.000 € (3ro), 4.500 € (4to y siguientes). Se incrementa en 2.800 € si el hijo tiene menos de 3 años.</li>
+    <li><strong>Mínimo por ascendientes:</strong> 1.150 € (mayores de 65 años que convivan contigo y ganen menos de 8.000 €/año).</li>
+    <li><strong>Mínimo por discapacidad:</strong> entre 3.000 € y 12.000 € adicionales según el grado.</li>
+  </ul>
+  <p>Para más detalles, consulta nuestro artículo sobre el <a href="/blog/minimo-personal-familiar-irpf/">mínimo personal y familiar en el IRPF</a>. Y para calcular tu cuota exacta, utiliza la <a href="/impuestos/calculadora-irpf/">calculadora de IRPF 2026</a>.</p>
+
+  <h2>El IVA: tipos y quién lo paga</h2>
+  <p>El <strong>Impuesto sobre el Valor Añadido (IVA)</strong> es un impuesto indirecto que grava el consumo. Aunque lo paga el consumidor final, es el vendedor o prestador de servicios quien lo recauda y lo ingresa a Hacienda.</p>
+
+  <h3>Tipos de IVA en la España peninsular y Baleares</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Porcentaje</th>
+        <th>Ejemplos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>General</td><td>21%</td><td>Electrónica, ropa, servicios profesionales, hostelería para llevar</td></tr>
+      <tr><td>Reducido</td><td>10%</td><td>Alimentación (no básica), transporte, hostelería, vivienda nueva, gafas, entradas culturales</td></tr>
+      <tr><td>Superreducido</td><td>4%</td><td>Pan, leche, huevos, frutas, verduras, cereales, queso, libros, medicamentos, prótesis, VPO</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Regímenes especiales: IGIC e IPSI</h3>
+  <p>Las <strong>Islas Canarias</strong> no aplican IVA sino el <strong>IGIC (Impuesto General Indirecto Canario)</strong>, con un tipo general del 7% y tipos reducidos del 3% y 0%. <strong>Ceuta y Melilla</strong> aplican el <strong>IPSI (Impuesto sobre la Producción, los Servicios y la Importación)</strong>, con tipos que van del 0,5% al 10%.</p>
+  <p>Calcula el IVA de cualquier factura o precio con nuestra <a href="/impuestos/calculadora-iva/">calculadora de IVA</a>, que incluye los tres tipos peninsulares además del IGIC y el IPSI. Para más contexto, lee nuestro artículo sobre <a href="/blog/tipos-iva-espana-2026/">los tipos de IVA en España 2026</a>.</p>
+
+  <h2>Impuestos al comprar o vender vivienda</h2>
+  <p>Las operaciones inmobiliarias están sujetas a varios impuestos que pueden suponer un coste significativo. Aquí los principales:</p>
+
+  <h3>Al comprar vivienda nueva (de promotor)</h3>
+  <ul>
+    <li><strong>IVA del 10%</strong> sobre el precio de compra (4% si es vivienda de protección oficial).</li>
+    <li><strong>Actos Jurídicos Documentados (AJD):</strong> entre el 0,5% y el 1,5% según la comunidad autónoma.</li>
+  </ul>
+
+  <h3>Al comprar vivienda de segunda mano</h3>
+  <ul>
+    <li><strong>Impuesto de Transmisiones Patrimoniales (ITP):</strong> varía por comunidad autónoma, desde el 4% en País Vasco hasta el 10% en Cataluña, Comunidad Valenciana o Cantabria. Muchas comunidades aplican tipos reducidos para menores de 35 años, familias numerosas o vivienda habitual de bajo valor.</li>
+  </ul>
+  <p>Consulta los tipos por comunidad en nuestro artículo <a href="/blog/itp-por-comunidades-2026/">ITP por comunidades autónomas en 2026</a> y calcula los gastos totales de compra con el <a href="/vivienda/calculadora-hipoteca/">simulador de hipoteca</a>, que incluye un desglose de gastos por comunidad.</p>
+
+  <h3>Al vender vivienda</h3>
+  <ul>
+    <li><strong>Plusvalía municipal:</strong> grava el incremento de valor del suelo urbano. Puedes elegir entre el método real y el objetivo. Calcula la tuya con la <a href="/impuestos/plusvalia-municipal/">calculadora de plusvalía municipal</a>.</li>
+    <li><strong>Ganancia patrimonial en el IRPF:</strong> la diferencia entre el precio de venta y el de compra (actualizado con mejoras y gastos) tributa en la base del ahorro al 19%-28%.</li>
+  </ul>
+  <p>Lee nuestro artículo sobre <a href="/blog/como-calcular-plusvalia-municipal/">cómo calcular la plusvalía municipal</a> para entender ambos métodos de cálculo y cuál te conviene más.</p>
+
+  <h2>Impuesto de Sucesiones y Donaciones</h2>
+  <p>El <strong>Impuesto de Sucesiones y Donaciones (ISD)</strong> grava las adquisiciones gratuitas: herencias (mortis causa) y donaciones (inter vivos). Es un impuesto estatal pero cedido a las comunidades autónomas, lo que genera <strong>enormes diferencias</strong> entre comunidades.</p>
+
+  <h3>Grupos de parentesco</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Grupo</th>
+        <th>Parentesco</th>
+        <th>Reducción estatal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>I</td><td>Descendientes menores de 21 años</td><td>15.956,87 € + 3.990,72 €/año menor de 21 (máx. 47.858,59 €)</td></tr>
+      <tr><td>II</td><td>Descendientes mayores de 21, cónyuge, ascendientes</td><td>15.956,87 €</td></tr>
+      <tr><td>III</td><td>Hermanos, tíos, sobrinos, suegros, cuñados</td><td>7.993,46 €</td></tr>
+      <tr><td>IV</td><td>Resto (primos, extraños, parejas no registradas)</td><td>0 €</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Diferencias por comunidades autónomas</h3>
+  <p>Las diferencias son abismales. En comunidades como <strong>Madrid, Andalucía, Cantabria o Galicia</strong>, los herederos del Grupo II (hijos, cónyuge) prácticamente no pagan nada gracias a bonificaciones del 99%. En cambio, en <strong>Castilla y León, Aragón o Asturias</strong> las herencias de mayor cuantía pueden generar facturas fiscales considerables.</p>
+  <p>Estima el impuesto de sucesiones con nuestra <a href="/impuestos/impuesto-sucesiones/">calculadora de Impuesto de Sucesiones</a> y consulta las diferencias detalladas en nuestro artículo sobre <a href="/blog/impuesto-sucesiones-ccaa/">Impuesto de Sucesiones por comunidades autónomas</a>.</p>
+
+  <h2>Impuesto sobre el Patrimonio</h2>
+  <p>El <strong>Impuesto sobre el Patrimonio</strong> grava la riqueza neta de las personas físicas (bienes y derechos menos deudas). Afecta principalmente a patrimonios elevados:</p>
+  <ul>
+    <li><strong>Mínimo exento general:</strong> 700.000 € (puede variar por comunidad).</li>
+    <li><strong>Exención de la vivienda habitual:</strong> hasta 300.000 €.</li>
+    <li><strong>Tipos:</strong> del 0,2% al 3,5% según la cuantía del patrimonio.</li>
+  </ul>
+  <p>Algunas comunidades (como Madrid) lo bonifican al 100%, por lo que en la práctica no se paga. Otras aplican las escalas estatales o incluso las incrementan. Desde 2023 existe además el <strong>Impuesto de Solidaridad de las Grandes Fortunas</strong> (estatal, no bonificable) para patrimonios superiores a 3 millones de euros.</p>
+
+  <h2>El calendario fiscal: plazos clave en 2026</h2>
+  <p>Tener claras las fechas de cada obligación fiscal es fundamental para evitar recargos y sanciones. Aquí los plazos más relevantes:</p>
+
+  <h3>Primer trimestre (enero-marzo)</h3>
+  <ul>
+    <li><strong>Hasta 30 de enero:</strong> modelos 303 y 130/131 del 4T del año anterior (autónomos).</li>
+    <li><strong>Hasta 31 de enero:</strong> modelos 390 (resumen anual IVA) y 190 (resumen anual retenciones).</li>
+    <li><strong>Hasta 31 de marzo:</strong> modelo 720 (declaración de bienes en el extranjero, si aplica).</li>
+  </ul>
+
+  <h3>Segundo trimestre (abril-junio)</h3>
+  <ul>
+    <li><strong>Hasta 20 de abril:</strong> modelos 303 y 130/131 del 1T (autónomos).</li>
+    <li><strong>Abril - 30 de junio:</strong> campaña de la declaración de la renta (IRPF e Impuesto sobre el Patrimonio del ejercicio anterior).</li>
+  </ul>
+
+  <h3>Tercer trimestre (julio-septiembre)</h3>
+  <ul>
+    <li><strong>Hasta 20 de julio:</strong> modelos 303 y 130/131 del 2T (autónomos).</li>
+    <li><strong>25 de julio:</strong> Impuesto de Sociedades (para empresas con ejercicio natural).</li>
+  </ul>
+
+  <h3>Cuarto trimestre (octubre-diciembre)</h3>
+  <ul>
+    <li><strong>Hasta 20 de octubre:</strong> modelos 303 y 130/131 del 3T (autónomos).</li>
+    <li><strong>Noviembre:</strong> segundo plazo del IRPF si se fraccionó el pago (40% del importe a ingresar).</li>
+  </ul>
+
+  <h2>IRPF por comunidades autónomas: dónde se paga más y menos</h2>
+  <p>Como el IRPF se reparte al 50% entre el Estado y las comunidades autónomas, estas últimas tienen capacidad para modificar los tramos y tipos de su parte. Las diferencias pueden suponer <strong>cientos o miles de euros</strong> al año para un mismo salario.</p>
+  <p>En líneas generales, las comunidades donde se paga <strong>menos IRPF</strong> suelen ser Madrid, País Vasco y Navarra (estas dos últimas con regímenes forales propios). Las que aplican tipos más altos incluyen Cataluña, Comunidad Valenciana y Asturias en los tramos más elevados.</p>
+  <p>Para ver exactamente cuánto pagarías en cada comunidad, utiliza nuestro <a href="/impuestos/comparador-irpf-comunidades/">comparador de IRPF por comunidades autónomas</a>, y para los detalles de una comunidad en particular, consulta nuestras <a href="/impuestos/comparador-irpf-comunidades/">19 guías autonómicas de IRPF</a>. También puedes leer nuestro análisis en profundidad: <a href="/blog/diferencias-irpf-comunidades/">diferencias del IRPF por comunidades autónomas</a>.</p>
+
+  <h2>Calcula tus impuestos con nuestras herramientas</h2>
+  <p>Nuestras calculadoras fiscales están actualizadas con los datos oficiales de 2026:</p>
+  <ul>
+    <li><a href="/impuestos/calculadora-irpf/">Calculadora de IRPF 2026:</a> simula tu declaración de la renta con tramos estatales y autonómicos.</li>
+    <li><a href="/impuestos/calculadora-iva/">Calculadora de IVA:</a> añade o quita IVA/IGIC/IPSI a cualquier importe.</li>
+    <li><a href="/impuestos/plusvalia-municipal/">Calculadora de plusvalía municipal:</a> compara método real y objetivo.</li>
+    <li><a href="/impuestos/impuesto-sucesiones/">Calculadora de Impuesto de Sucesiones:</a> estima la cuota según parentesco y comunidad autónoma.</li>
+    <li><a href="/impuestos/comparador-irpf-comunidades/">Comparador de IRPF por comunidades:</a> descubre dónde se paga más y menos.</li>
+  </ul>
+  <p>Y para profundizar, estos son nuestros artículos más leídos sobre impuestos:</p>
+  <ul>
+    <li><a href="/blog/tramos-irpf-2026/">Tramos de IRPF 2026: guía completa</a></li>
+    <li><a href="/blog/declaracion-renta-2026-novedades/">Novedades de la declaración de la renta 2026</a></li>
+    <li><a href="/blog/tipos-iva-espana-2026/">Tipos de IVA en España 2026</a></li>
+    <li><a href="/blog/minimo-personal-familiar-irpf/">Mínimo personal y familiar en el IRPF</a></li>
+    <li><a href="/blog/diferencias-irpf-comunidades/">Diferencias del IRPF por comunidades autónomas</a></li>
+    <li><a href="/blog/exenciones-impuesto-sucesiones/">Exenciones del Impuesto de Sucesiones</a></li>
+    <li><a href="/blog/como-calcular-plusvalia-municipal/">Cómo calcular la plusvalía municipal</a></li>
+  </ul>
+
+</section>
 
 <!-- FAQ Section -->
 <section class="faq container">
@@ -198,5 +391,69 @@ const jsonLd = [
     margin-top: var(--space-3);
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .pillar-content {
+    padding: var(--space-10) 0;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .pillar-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-content h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content ul, .pillar-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .pillar-content th, .pillar-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .pillar-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .pillar-content strong {
+    color: var(--color-text);
+  }
+
+  .pillar-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pillar-content a:hover {
+    text-decoration: underline;
   }
 </style>

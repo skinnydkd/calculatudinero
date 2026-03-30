@@ -42,6 +42,22 @@ const faqs = [
     question: '¿Cómo afecta la inflación a mis ahorros?',
     answer: 'La inflación reduce el poder adquisitivo de tu dinero. Si la inflación es del 2,5% anual, necesitarás 128 € dentro de 10 años para comprar lo que hoy cuesta 100 €. Por eso es importante invertir: dejar el dinero parado en una cuenta sin intereses es perder poder adquisitivo cada año. Un objetivo razonable es obtener una rentabilidad real (descontando la inflación) positiva.',
   },
+  {
+    question: '¿Qué es un fondo indexado y por qué se recomienda tanto?',
+    answer: 'Un fondo indexado es un fondo de inversión que replica el comportamiento de un índice bursátil (como el MSCI World o el S&P 500) de forma automática, sin que un gestor elija activamente las acciones. Sus ventajas son comisiones muy bajas (0,10-0,30% anual frente al 1-2% de los fondos activos), diversificación automática (inviertes en cientos o miles de empresas a la vez) y resultados históricamente superiores a la mayoría de fondos de gestión activa a largo plazo.',
+  },
+  {
+    question: '¿Cuántos años hay que cotizar para cobrar la pensión máxima?',
+    answer: 'En 2026, para cobrar el 100% de la base reguladora se necesitan 36 años y 6 meses cotizados. La edad ordinaria de jubilación es de 66 años y 8 meses (o 65 años si se acreditan 38 años o más cotizados). Con menos de 15 años cotizados no se genera derecho a pensión contributiva. La pensión máxima en 2026 es de 3.267,60 €/mes (14 pagas).',
+  },
+  {
+    question: '¿Qué impuestos pago por mis inversiones?',
+    answer: 'Las ganancias patrimoniales y los rendimientos del capital mobiliario (dividendos, intereses, ganancias por venta de acciones o fondos) tributan en la base del ahorro del IRPF: 19% hasta 6.000 €, 21% de 6.000 a 50.000 €, 23% de 50.000 a 200.000 €, 27% de 200.000 a 300.000 € y 28% a partir de 300.000 €. Los traspasos entre fondos de inversión no tributan hasta que reembolsas definitivamente.',
+  },
+  {
+    question: '¿Merece la pena un plan de pensiones en 2026?',
+    answer: 'Los planes de pensiones permiten deducir las aportaciones en el IRPF (hasta 1.500 €/año), lo que supone un ahorro fiscal inmediato según tu tipo marginal. Sin embargo, al rescatar el plan en la jubilación, tributas por el total como rendimiento del trabajo (tipo marginal, que puede ser alto). Además, las comisiones suelen ser más elevadas que las de los fondos indexados. Para muchos, los fondos indexados ofrecen mejor relación rentabilidad-fiscalidad a largo plazo, aunque los planes de pensiones de empleo (aportados por la empresa) sí suelen ser ventajosos.',
+  },
 ];
 
 const jsonLd = [
@@ -77,6 +93,169 @@ const jsonLd = [
     </a>
   ))}
 </CategoryLayout>
+
+<!-- Pillar Content -->
+<section class="pillar-content container">
+
+  <h2>Guía de ahorro e inversión para españoles en 2026</h2>
+  <p>La mayoría de españoles ahorra, pero muy pocos invierten. Según las encuestas del Banco de España, más del 40% del ahorro de los hogares españoles sigue en cuentas corrientes y depósitos con rentabilidad cercana al 0%, mientras la inflación erosiona su poder adquisitivo año tras año. Esta guía te explica cómo pasar de ahorrador pasivo a inversor inteligente: desde construir tu fondo de emergencia hasta invertir en fondos indexados, pasando por la planificación de la jubilación.</p>
+  <p>No necesitas ser rico ni experto en bolsa. Necesitas entender unos pocos conceptos clave, tener disciplina y empezar cuanto antes. El tiempo es tu mejor aliado, y esta guía te muestra por qué.</p>
+
+  <h2>Los tres pilares: fondo de emergencia, ahorro e inversión</h2>
+  <p>Antes de invertir un solo euro, necesitas una base financiera sólida. La estructura óptima se puede resumir en tres pilares:</p>
+
+  <h3>1. Fondo de emergencia: tu colchón de seguridad</h3>
+  <p>Es dinero líquido e inmediatamente disponible para cubrir imprevistos: una avería del coche, una reparación en casa, una pérdida temporal de ingresos. La recomendación estándar es acumular entre <strong>3 y 6 meses de gastos fijos</strong> en una cuenta de ahorro separada.</p>
+  <p>Si tus gastos mensuales son de 1.500 €, tu fondo de emergencia debería estar entre 4.500 € y 9.000 €. Este dinero <strong>no se invierte</strong>: debe estar en una cuenta sin riesgo y con disponibilidad inmediata.</p>
+
+  <h3>2. Ahorro para objetivos a corto-medio plazo</h3>
+  <p>Vacaciones, entrada para un coche, una reforma en casa... Si necesitas el dinero en menos de 3-5 años, no debería estar invertido en renta variable (demasiado riesgo para un horizonte corto). Las opciones más adecuadas son cuentas remuneradas, depósitos a plazo o letras del Tesoro.</p>
+
+  <h3>3. Inversión a largo plazo</h3>
+  <p>El dinero que no necesitarás en al menos 7-10 años es el que deberías invertir en activos con mayor rentabilidad esperada (fondos indexados de renta variable, por ejemplo). A largo plazo, la bolsa ha demostrado ser el activo más rentable, pero a corto plazo puede sufrir caídas importantes. La paciencia y la constancia son la clave.</p>
+  <p>La <a href="/blog/regla-50-30-20-presupuesto/">regla del 50/30/20</a> es un buen punto de partida para distribuir tus ingresos: 50% a necesidades, 30% a deseos y 20% a ahorro e inversión.</p>
+
+  <h2>El interés compuesto: tu mejor aliado</h2>
+  <p>Albert Einstein (supuestamente) lo llamó la octava maravilla del mundo. El interés compuesto es el efecto de ganar intereses sobre los intereses acumulados anteriormente. Es lo que convierte aportaciones modestas en patrimonios considerables si se mantienen el tiempo suficiente.</p>
+
+  <h3>Un ejemplo ilustrativo</h3>
+  <p>Si inviertes <strong>200 € al mes</strong> durante <strong>30 años</strong> a una rentabilidad media del <strong>7% anual</strong>:</p>
+  <ul>
+    <li>Habrás aportado de tu bolsillo: <strong>72.000 €</strong>.</li>
+    <li>Los intereses generados serán: <strong>170.000 € aproximadamente</strong>.</li>
+    <li>Total acumulado: <strong>242.000 €</strong>.</li>
+  </ul>
+  <p>Es decir, <strong>más del 70% de tu patrimonio final son intereses</strong>, no aportaciones propias. Esa es la magia del interés compuesto: el dinero genera dinero, y con el tiempo el efecto se acelera exponencialmente.</p>
+
+  <h3>La regla del 72</h3>
+  <p>Una fórmula rápida para saber cuántos años tarda tu dinero en duplicarse: divide 72 entre la rentabilidad anual. Al 7%, tu dinero se duplica cada 72/7 = ~10,3 años. Al 3%, tarda 24 años. Al 10%, solo 7,2 años.</p>
+  <p>Simula tus propios escenarios con nuestra <a href="/ahorro-inversion/interes-compuesto/">calculadora de interés compuesto</a>. Y para una explicación más detallada, lee nuestros artículos sobre <a href="/blog/que-es-interes-compuesto/">qué es el interés compuesto</a> y la <a href="/blog/regla-72-duplicar-inversion/">regla del 72</a>.</p>
+
+  <h2>Cómo empezar a invertir desde cero</h2>
+  <p>Empezar a invertir puede parecer intimidante, pero en 2026 es más accesible que nunca gracias a los fondos indexados, los robo-advisors y los brokers online con bajas comisiones. Aquí los pasos básicos:</p>
+
+  <h3>1. Define tu perfil de riesgo</h3>
+  <p>¿Cómo reaccionarías si tu cartera bajara un 30% en un año? Si la respuesta es pánico y venta, necesitas una cartera más conservadora (más bonos, menos renta variable). Si puedes mantener la calma y esperar la recuperación, puedes asumir más renta variable.</p>
+
+  <h3>2. Elige tu vehículo de inversión</h3>
+  <p>Para la mayoría de inversores particulares, los <strong>fondos indexados</strong> son la opción más eficiente. Un fondo que replique el MSCI World te da exposición a más de 1.500 empresas de 23 países desarrollados con una sola compra y comisiones del 0,10-0,30% anual.</p>
+  <p>Las principales opciones para invertir en fondos indexados desde España son:</p>
+  <ul>
+    <li><strong>Robo-advisors:</strong> plataformas como Indexa Capital, Finizens o MyInvestor Cartera Indexada que gestionan tu cartera automáticamente según tu perfil. Ideales para quien quiere invertir sin complicaciones.</li>
+    <li><strong>Fondos indexados directos:</strong> a través de comercializadoras como MyInvestor, Openbank o ING, puedes comprar fondos Vanguard, Amundi o iShares directamente.</li>
+    <li><strong>ETFs (fondos cotizados):</strong> se compran como acciones a través de un broker (DEGIRO, Interactive Brokers, Trade Republic). Comisiones aún más bajas pero fiscalidad menos ventajosa que los fondos (no permiten traspaso sin tributar).</li>
+  </ul>
+  <p>Para una guía detallada, lee nuestro artículo <a href="/blog/como-empezar-invertir-principiante/">cómo empezar a invertir: guía para principiantes</a> y nuestra <a href="/blog/fondos-indexados-guia-principiante/">guía de fondos indexados para principiantes</a>.</p>
+
+  <h3>3. Invierte de forma periódica</h3>
+  <p>La estrategia más recomendada es el <strong>DCA (Dollar Cost Averaging)</strong>: invertir una cantidad fija cada mes, independientemente de si la bolsa sube o baja. Esto elimina la necesidad de "adivinar" cuándo es el mejor momento para entrar (que es imposible de forma consistente) y te beneficias de comprar más participaciones cuando los precios son bajos y menos cuando son altos.</p>
+
+  <h2>Fondos indexados vs planes de pensiones</h2>
+  <p>Es un debate recurrente en las finanzas personales españolas. Ambos son vehículos de ahorro a largo plazo, pero con diferencias importantes:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Característica</th>
+        <th>Fondos indexados</th>
+        <th>Planes de pensiones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Comisiones</td><td>0,10% - 0,30% anual</td><td>0,50% - 1,50% anual</td></tr>
+      <tr><td>Liquidez</td><td>Total (puedes vender cuando quieras)</td><td>Ilíquidos hasta jubilación (salvo excepciones)</td></tr>
+      <tr><td>Ventaja fiscal al aportar</td><td>No</td><td>Sí: deducción hasta 1.500 €/año en IRPF</td></tr>
+      <tr><td>Fiscalidad al rescatar</td><td>Base del ahorro (19%-28%)</td><td>Base general (hasta 47%+)</td></tr>
+      <tr><td>Traspaso sin tributar</td><td>Sí (entre fondos)</td><td>Sí (entre planes)</td></tr>
+      <tr><td>Aportación máxima anual</td><td>Sin límite</td><td>1.500 € (individual) + 8.500 € (empleo)</td></tr>
+    </tbody>
+  </table>
+  <p>Para la mayoría de personas con un tipo marginal de IRPF medio-bajo (hasta el 30%), los fondos indexados suelen ser más eficientes a largo plazo por sus menores comisiones y mejor fiscalidad al rescatar. Los planes de pensiones pueden tener sentido si tu tipo marginal es alto (37-47%), ya que el ahorro fiscal inmediato compensa parcialmente la peor fiscalidad futura. Consulta nuestro análisis detallado: <a href="/blog/plan-pensiones-vs-fondos-indexados/">plan de pensiones vs fondos indexados</a>.</p>
+
+  <h2>La pensión de jubilación: no cuentes solo con ella</h2>
+  <p>El sistema público de pensiones español es de reparto: los trabajadores actuales financian las pensiones de los jubilados actuales. El problema es demográfico: cada vez hay más jubilados y menos cotizantes, lo que pone presión sobre el sistema.</p>
+
+  <h3>Cómo se calcula tu pensión</h3>
+  <p>La pensión contributiva de jubilación se calcula en función de dos variables principales:</p>
+  <ul>
+    <li><strong>Base reguladora:</strong> la media de las bases de cotización de los últimos 25 años (300 meses), dividida entre 350 (para incluir las pagas extra).</li>
+    <li><strong>Porcentaje por años cotizados:</strong> con 15 años cotizados se accede al 50% de la base reguladora. A partir de ahí, cada mes adicional cotizado suma un porcentaje hasta alcanzar el 100% con 36 años y 6 meses (en 2026).</li>
+  </ul>
+  <p>La <strong>pensión máxima en 2026</strong> es de 3.267,60 €/mes (14 pagas) y la <strong>mínima</strong> (con cónyuge a cargo) ronda los 1.033 €/mes. Estima la tuya con nuestra <a href="/ahorro-inversion/pension-jubilacion/">calculadora de pensión de jubilación</a>.</p>
+
+  <h3>La brecha de ingresos</h3>
+  <p>Incluso si tienes derecho a una buena pensión, es muy probable que represente entre el 50% y el 75% de tu último salario. Si estás acostumbrado a ganar 2.500 €/mes netos y tu pensión es de 1.600 €, tienes una <strong>brecha de 900 €/mes</strong> que deberás cubrir con ahorros e inversiones propias. Por eso es crucial empezar a invertir cuanto antes.</p>
+  <p>Para más detalle, lee nuestros artículos sobre <a href="/blog/como-calcular-pension-jubilacion/">cómo calcular tu pensión de jubilación</a>, <a href="/blog/cuantos-anios-cotizar-pension/">cuántos años hay que cotizar para la pensión</a> y <a href="/blog/jubilacion-anticipada-2026/">jubilación anticipada en 2026</a>.</p>
+
+  <h2>Fiscalidad del ahorro y la inversión en España</h2>
+  <p>Los rendimientos del ahorro y la inversión tributan en la <strong>base del ahorro del IRPF</strong>, con tipos inferiores a los de la base general (rendimientos del trabajo). Los tramos en 2026 son:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Base del ahorro</th>
+        <th>Tipo impositivo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hasta 6.000 €</td><td>19%</td></tr>
+      <tr><td>6.000 - 50.000 €</td><td>21%</td></tr>
+      <tr><td>50.000 - 200.000 €</td><td>23%</td></tr>
+      <tr><td>200.000 - 300.000 €</td><td>27%</td></tr>
+      <tr><td>Más de 300.000 €</td><td>28%</td></tr>
+    </tbody>
+  </table>
+  <p>¿Qué se incluye en la base del ahorro?</p>
+  <ul>
+    <li>Intereses de cuentas y depósitos.</li>
+    <li>Dividendos de acciones y fondos de inversión.</li>
+    <li>Ganancias patrimoniales por la venta de acciones, fondos, ETFs, criptomonedas o inmuebles.</li>
+    <li>Rendimientos de letras del Tesoro y bonos.</li>
+  </ul>
+
+  <h3>El traspaso entre fondos: la ventaja fiscal española</h3>
+  <p>En España, los <strong>traspasos entre fondos de inversión están exentos de tributación</strong>. Puedes mover tu dinero de un fondo a otro sin pagar impuestos por las ganancias acumuladas. Solo tributas cuando reembolsas definitivamente (vendes participaciones y el dinero vuelve a tu cuenta). Esta ventaja no existe para los ETFs ni para las acciones, lo que hace que los fondos de inversión sean fiscalmente más eficientes para inversores que quieran rebalancear su cartera periódicamente.</p>
+
+  <h2>Cuánto invertir al mes según tu objetivo</h2>
+  <p>Para visualizar el poder de la inversión periódica, aquí tienes una tabla que muestra cuánto acumularías invirtiendo diferentes cantidades al mes durante distintos periodos, asumiendo una rentabilidad del 7% anual:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Aportación mensual</th>
+        <th>10 años</th>
+        <th>20 años</th>
+        <th>30 años</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>100 €/mes</td><td>17.300 €</td><td>52.000 €</td><td>121.300 €</td></tr>
+      <tr><td>200 €/mes</td><td>34.600 €</td><td>104.000 €</td><td>242.600 €</td></tr>
+      <tr><td>300 €/mes</td><td>51.900 €</td><td>156.000 €</td><td>363.900 €</td></tr>
+      <tr><td>500 €/mes</td><td>86.500 €</td><td>260.000 €</td><td>606.500 €</td></tr>
+      <tr><td>1.000 €/mes</td><td>173.000 €</td><td>520.000 €</td><td>1.213.000 €</td></tr>
+    </tbody>
+  </table>
+  <p>Estas cifras son nominales (sin descontar la inflación). En términos reales, el poder adquisitivo sería inferior, pero aun así la diferencia entre invertir y no invertir es enorme. Simula tu escenario personalizado con la <a href="/ahorro-inversion/interes-compuesto/">calculadora de interés compuesto</a>.</p>
+
+  <h2>Empieza hoy: herramientas y recursos</h2>
+  <p>El mejor momento para empezar a invertir fue hace 10 años. El segundo mejor momento es hoy. Utiliza nuestras herramientas gratuitas para planificar:</p>
+  <ul>
+    <li><a href="/ahorro-inversion/interes-compuesto/">Calculadora de interés compuesto:</a> simula cómo crece tu dinero a lo largo del tiempo.</li>
+    <li><a href="/ahorro-inversion/pension-jubilacion/">Calculadora de pensión de jubilación:</a> estima cuánto cobrarás de pensión y cuál será tu brecha de ingresos.</li>
+    <li><a href="/impuestos/calculadora-irpf/">Calculadora de IRPF:</a> simula la tributación de tus rendimientos del ahorro.</li>
+    <li><a href="/laboral/salario-neto/">Calculadora de salario neto:</a> calcula cuánto te queda para ahorrar e invertir.</li>
+  </ul>
+  <p>Artículos recomendados sobre ahorro e inversión:</p>
+  <ul>
+    <li><a href="/blog/que-es-interes-compuesto/">¿Qué es el interés compuesto?</a></li>
+    <li><a href="/blog/regla-72-duplicar-inversion/">La regla del 72: cuándo se duplica tu inversión</a></li>
+    <li><a href="/blog/regla-50-30-20-presupuesto/">La regla del 50/30/20 para tu presupuesto</a></li>
+    <li><a href="/blog/como-empezar-invertir-principiante/">Cómo empezar a invertir: guía para principiantes</a></li>
+    <li><a href="/blog/fondos-indexados-guia-principiante/">Fondos indexados: guía para principiantes</a></li>
+    <li><a href="/blog/plan-pensiones-vs-fondos-indexados/">Plan de pensiones vs fondos indexados</a></li>
+    <li><a href="/blog/ahorro-mensual-10-20-30-anios/">El poder del ahorro mensual a 10, 20 y 30 años</a></li>
+    <li><a href="/blog/como-calcular-pension-jubilacion/">Cómo calcular tu pensión de jubilación</a></li>
+  </ul>
+
+</section>
 
 <section class="faq container">
   <h2>Preguntas frecuentes sobre ahorro e inversión</h2>
@@ -172,5 +351,69 @@ const jsonLd = [
     margin-top: var(--space-3);
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .pillar-content {
+    padding: var(--space-10) 0;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .pillar-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-content h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content ul, .pillar-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .pillar-content th, .pillar-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .pillar-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .pillar-content strong {
+    color: var(--color-text);
+  }
+
+  .pillar-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pillar-content a:hover {
+    text-decoration: underline;
   }
 </style>

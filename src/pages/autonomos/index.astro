@@ -43,6 +43,22 @@ const faqs = [
     question: '¿Qué es la tarifa plana de autónomos?',
     answer: 'La tarifa plana permite a los nuevos autónomos pagar una cuota reducida de 80 €/mes durante los primeros 12 meses de actividad. Si los rendimientos netos durante ese primer año son inferiores al SMI, se puede ampliar otros 12 meses más. El requisito principal es no haber estado dado de alta como autónomo en los 2 años anteriores.',
   },
+  {
+    question: '¿Puedo ser autónomo y asalariado a la vez?',
+    answer: 'Sí, es lo que se conoce como pluriactividad. Puedes trabajar por cuenta ajena y darte de alta como autónomo simultáneamente. En este caso cotizas en ambos regímenes (General y RETA) y puedes beneficiarte de una reducción del 50% en la base mínima de autónomos durante los primeros 18 meses, y del 25% durante los 18 meses siguientes. Además, si la suma de cotizaciones supera cierto límite, puedes solicitar la devolución del exceso.',
+  },
+  {
+    question: '¿Cuánto cuesta darse de alta como autónomo?',
+    answer: 'El alta en sí misma es gratuita (se tramita en la Seguridad Social y en Hacienda sin coste). El coste mensual es la cuota de autónomos, que en 2026 parte de 205,88 €/mes para rendimientos bajos o de 80 €/mes si te acoges a la tarifa plana. Adicionalmente, muchos autónomos contratan una gestoría cuyo coste ronda los 60-150 €/mes según los servicios.',
+  },
+  {
+    question: '¿Qué pasa si facturo menos de 1.000 € al mes?',
+    answer: 'Aunque factures poco, la obligación de darte de alta como autónomo existe si la actividad es habitual. No existe un mínimo legal de facturación que exima del alta. Si tus rendimientos netos son bajos, te corresponderá un tramo de cotización reducido (desde 205,88 €/mes en 2026). Además, si eres nuevo autónomo podrás acogerte a la tarifa plana de 80 €/mes durante los primeros 12 meses.',
+  },
+  {
+    question: '¿Qué modelos trimestrales tiene que presentar un autónomo?',
+    answer: 'Los principales modelos trimestrales son: el modelo 303 (declaración de IVA), el modelo 130 (pago fraccionado del IRPF por estimación directa) o el modelo 131 (por estimación objetiva/módulos). Los plazos son: del 1 al 20 de abril (1T), del 1 al 20 de julio (2T), del 1 al 20 de octubre (3T) y del 1 al 30 de enero del año siguiente (4T). Además, en enero se presentan los resúmenes anuales: modelo 390 (IVA) y modelo 190 (retenciones).',
+  },
 ];
 
 const jsonLd = [
@@ -78,6 +94,194 @@ const jsonLd = [
     </a>
   ))}
 </CategoryLayout>
+
+<!-- Pillar Content -->
+<section class="pillar-content container">
+
+  <h2>Guía completa para autónomos en España 2026</h2>
+  <p>Ser autónomo en España significa enfrentarse a un sistema fiscal y de cotizaciones que cambia cada año. En 2026 el panorama se ha estabilizado tras la reforma del sistema de cotización por ingresos reales, pero sigue siendo fundamental conocer las cifras exactas para tomar buenas decisiones. Esta guía reúne todo lo que necesitas saber: desde el alta inicial hasta la optimización fiscal, pasando por las cuotas, los impuestos trimestrales y los gastos deducibles.</p>
+  <p>Si estás valorando hacerte autónomo, ya lo eres y quieres revisar tus números, o simplemente necesitas entender cuánto te cuesta realmente trabajar por cuenta propia, aquí encontrarás las respuestas con datos actualizados a 2026. Además, cada sección enlaza a nuestras <strong>calculadoras gratuitas</strong> para que puedas hacer tus propios cálculos al instante.</p>
+
+  <h2>Qué es un autónomo y quién debe darse de alta</h2>
+  <p>Un trabajador autónomo (o trabajador por cuenta propia) es toda persona física que realiza de forma habitual, personal y directa una actividad económica a título lucrativo, sin estar sujeta a un contrato de trabajo. La regulación principal se encuentra en el <strong>Estatuto del Trabajo Autónomo</strong> (Ley 20/2007) y en el <strong>Régimen Especial de Trabajadores Autónomos (RETA)</strong> de la Seguridad Social.</p>
+  <p>Están obligados a darse de alta como autónomos:</p>
+  <ul>
+    <li>Profesionales que ejercen por cuenta propia (consultores, diseñadores, abogados, programadores, etc.).</li>
+    <li>Comerciantes y empresarios individuales.</li>
+    <li>Administradores de sociedades mercantiles con control efectivo (más del 25% del capital, o del 33% si ejercen funciones de dirección).</li>
+    <li>Socios trabajadores de cooperativas que opten por este régimen.</li>
+    <li>Familiares colaboradores de autónomos (cónyuge, hijos) que trabajen de forma habitual.</li>
+  </ul>
+  <p>El proceso de alta implica dos pasos: primero darse de alta en <strong>Hacienda</strong> mediante el modelo 036 o 037 (declaración censal, donde se elige el epígrafe de actividad y el régimen de IVA/IRPF), y después en la <strong>Seguridad Social</strong> a través del sistema RED o en la oficina de la Tesorería General. Ambos trámites son gratuitos y se pueden realizar online.</p>
+
+  <h2>La cuota de autónomos en 2026: el sistema por ingresos reales</h2>
+  <p>Desde enero de 2023, los autónomos en España cotizan según sus <strong>rendimientos netos reales</strong>, abandonando el antiguo sistema de libre elección de base. El nuevo sistema establece 15 tramos de cotización que se han ido ajustando año a año hasta su configuración definitiva en 2025-2026.</p>
+  <p>Los rendimientos netos se calculan así: <strong>ingresos brutos - gastos deducibles - cuota de autónomos</strong>. Para simplificar, la Seguridad Social permite aplicar una deducción genérica del 7% sobre los rendimientos netos (3% para autónomos societarios) antes de ubicarse en el tramo correspondiente.</p>
+  <p>A continuación, un resumen de los 15 tramos vigentes en 2026:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Rendimiento neto mensual</th>
+        <th>Base mínima</th>
+        <th>Cuota mínima (31,50%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hasta 670 €</td><td>653,59 €</td><td>205,88 €</td></tr>
+      <tr><td>670,01 - 900 €</td><td>718,95 €</td><td>226,47 €</td></tr>
+      <tr><td>900,01 - 1.166,70 €</td><td>849,67 €</td><td>267,65 €</td></tr>
+      <tr><td>1.166,71 - 1.300 €</td><td>950,98 €</td><td>299,56 €</td></tr>
+      <tr><td>1.300,01 - 1.500 €</td><td>960,78 €</td><td>302,65 €</td></tr>
+      <tr><td>1.500,01 - 1.700 €</td><td>960,78 €</td><td>302,65 €</td></tr>
+      <tr><td>1.700,01 - 1.850 €</td><td>1.143,79 €</td><td>360,29 €</td></tr>
+      <tr><td>1.850,01 - 2.030 €</td><td>1.209,15 €</td><td>380,88 €</td></tr>
+      <tr><td>2.030,01 - 2.330 €</td><td>1.274,51 €</td><td>401,47 €</td></tr>
+      <tr><td>2.330,01 - 2.760 €</td><td>1.356,21 €</td><td>427,21 €</td></tr>
+      <tr><td>2.760,01 - 3.190 €</td><td>1.437,91 €</td><td>452,94 €</td></tr>
+      <tr><td>3.190,01 - 3.620 €</td><td>1.519,61 €</td><td>478,68 €</td></tr>
+      <tr><td>3.620,01 - 4.050 €</td><td>1.601,31 €</td><td>504,41 €</td></tr>
+      <tr><td>4.050,01 - 6.000 €</td><td>1.732,03 €</td><td>545,59 €</td></tr>
+      <tr><td>Más de 6.000 €</td><td>1.928,10 €</td><td>607,35 €</td></tr>
+    </tbody>
+  </table>
+  <p>Para conocer exactamente cuánto pagarás según tus ingresos, utiliza nuestra <a href="/autonomos/cuota-autonomos/">calculadora de cuota de autónomos 2026</a>, que te permite introducir tus rendimientos y ver el resultado al instante.</p>
+
+  <h3>La tarifa plana: 80 € para nuevos autónomos</h3>
+  <p>Si te das de alta por primera vez (o no has estado de alta en los últimos 2 años), puedes acogerte a la <strong>tarifa plana de 80 €/mes</strong> durante los primeros 12 meses. Si al finalizar ese periodo tus rendimientos netos están por debajo del Salario Mínimo Interprofesional, puedes extenderla otros 12 meses más. Consulta todos los detalles en nuestro artículo sobre <a href="/blog/tarifa-plana-autonomos-requisitos/">requisitos de la tarifa plana de autónomos</a>.</p>
+
+  <h2>Impuestos del autónomo: IVA, IRPF y modelos trimestrales</h2>
+  <p>Como autónomo tienes dos grandes obligaciones fiscales recurrentes: el <strong>IVA</strong> y el <strong>IRPF</strong>. Ambos se declaran trimestralmente ante Hacienda y tienen sus propios modelos y plazos.</p>
+
+  <h3>El IVA: modelo 303</h3>
+  <p>El IVA (Impuesto sobre el Valor Añadido) es un impuesto indirecto que grava el consumo. Como autónomo, tú lo recaudas en tus facturas y lo ingresas a Hacienda, descontando el IVA que has soportado en tus compras y gastos profesionales. Los tipos en España son:</p>
+  <ul>
+    <li><strong>21%</strong> — tipo general (la mayoría de bienes y servicios).</li>
+    <li><strong>10%</strong> — tipo reducido (alimentación, transporte, hostelería, vivienda nueva).</li>
+    <li><strong>4%</strong> — tipo superreducido (pan, leche, libros, medicamentos).</li>
+  </ul>
+  <p>La declaración se presenta mediante el <strong>modelo 303</strong> cada trimestre y el <strong>modelo 390</strong> como resumen anual en enero. Calcula el IVA de tus facturas rápidamente con nuestra <a href="/impuestos/calculadora-iva/">calculadora de IVA</a>.</p>
+
+  <h3>El IRPF: modelo 130</h3>
+  <p>El Impuesto sobre la Renta de las Personas Físicas grava tus beneficios netos (ingresos menos gastos). Los autónomos en <strong>estimación directa</strong> presentan el <strong>modelo 130</strong> trimestralmente, pagando un 20% sobre el rendimiento neto acumulado del año. En estimación directa simplificada (la más habitual), se aplica una reducción del 7% por gastos de difícil justificación.</p>
+  <p>Los autónomos en <strong>estimación objetiva (módulos)</strong> presentan el <strong>modelo 131</strong> en lugar del 130. Para más detalle, consulta nuestro artículo sobre el <a href="/blog/modelo-130-irpf-autonomos/">modelo 130 del IRPF para autónomos</a>.</p>
+  <p>Al final del año, toda la información se consolida en la <strong>declaración de la renta</strong>, donde puedes simular tu resultado con la <a href="/impuestos/calculadora-irpf/">calculadora de IRPF 2026</a>.</p>
+
+  <h3>Plazos trimestrales: el calendario del autónomo</h3>
+  <p>Los plazos de presentación de las declaraciones trimestrales son los mismos para el IVA (modelo 303) y el IRPF (modelo 130/131):</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Trimestre</th>
+        <th>Periodo</th>
+        <th>Plazo de presentación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1T</td><td>Enero - marzo</td><td>1 al 20 de abril</td></tr>
+      <tr><td>2T</td><td>Abril - junio</td><td>1 al 20 de julio</td></tr>
+      <tr><td>3T</td><td>Julio - septiembre</td><td>1 al 20 de octubre</td></tr>
+      <tr><td>4T</td><td>Octubre - diciembre</td><td>1 al 30 de enero (año siguiente)</td></tr>
+    </tbody>
+  </table>
+  <p>Marcar estas fechas en el calendario es fundamental. Un retraso implica recargos del 1% por cada mes de demora, más intereses a partir del mes 12.</p>
+
+  <h2>Cuánto necesitas facturar para ganar X netos</h2>
+  <p>Esta es la pregunta del millón para cualquier autónomo o aspirante. La diferencia entre lo que facturas y lo que te queda en el bolsillo es enorme, y depende de tres grandes partidas: la cuota de autónomos, el IRPF y el IVA (que realmente no es un coste si tus clientes son empresas, pero sí si facturas a particulares).</p>
+  <p>Veamos algunos ejemplos prácticos para 2026, asumiendo un autónomo en estimación directa simplificada, sin gastos deducibles adicionales:</p>
+
+  <h3>Objetivo: 1.500 € netos al mes</h3>
+  <p>Para obtener 1.500 € netos mensuales necesitas facturar aproximadamente <strong>2.350-2.500 € al mes</strong> (sin IVA). La cuota de autónomos rondará los 300-400 € (dependiendo del tramo exacto), el IRPF trimestral se llevará alrededor del 15-17% efectivo, y el resultado neto tras impuestos y cotizaciones será tu objetivo.</p>
+
+  <h3>Objetivo: 2.000 € netos al mes</h3>
+  <p>Para llevarte 2.000 € netos al mes necesitas facturar alrededor de <strong>3.200-3.400 € mensuales</strong>. Aquí la cuota de autónomos sube a los 400-450 € y el tipo efectivo de IRPF también aumenta al entrar en tramos más altos.</p>
+
+  <h3>Objetivo: 3.000 € netos al mes</h3>
+  <p>Para un objetivo de 3.000 € netos, la facturación bruta necesaria ronda los <strong>5.000-5.500 € al mes</strong>. La cuota de autónomos puede alcanzar los 500-545 € y el IRPF efectivo estará en torno al 20-22%.</p>
+
+  <p>Estos son cálculos orientativos. Tu situación personal (gastos deducibles, tipo de actividad, comunidad autónoma) puede variar el resultado significativamente. Para obtener una cifra exacta, utiliza nuestra <a href="/autonomos/cuanto-facturar/">calculadora de facturación para autónomos</a>.</p>
+
+  <h2>Gastos deducibles: cómo pagar menos impuestos legalmente</h2>
+  <p>Uno de los aspectos más importantes de la gestión fiscal del autónomo es la correcta deducción de gastos. Todo gasto que esté <strong>vinculado a la actividad, debidamente justificado con factura y registrado contablemente</strong> es deducible. Cuantos más gastos legítimos deduzcas, menor será tu base imponible y, por tanto, menos IRPF pagarás.</p>
+  <p>Las principales categorías de gastos deducibles son:</p>
+  <ul>
+    <li><strong>Cuota de autónomos:</strong> el 100% de lo que pagas a la Seguridad Social.</li>
+    <li><strong>Suministros del hogar (si trabajas desde casa):</strong> desde 2018 puedes deducir el 30% de la parte proporcional de la vivienda afecta a la actividad (luz, agua, internet, gas).</li>
+    <li><strong>Material y herramientas de trabajo:</strong> ordenador, software, teléfono móvil, material de oficina.</li>
+    <li><strong>Alquiler de oficina o coworking:</strong> deducible al 100%.</li>
+    <li><strong>Dietas y desplazamientos:</strong> hasta 26,67 €/día en España y 48,08 €/día en el extranjero, siempre que se paguen con tarjeta o transferencia y en establecimientos de hostelería.</li>
+    <li><strong>Formación profesional:</strong> cursos, libros, congresos y suscripciones relacionadas con tu actividad.</li>
+    <li><strong>Servicios profesionales:</strong> gestoría, asesoría fiscal, abogado, diseñador gráfico.</li>
+    <li><strong>Seguros:</strong> responsabilidad civil, salud (con límite de 500 €/persona), enfermedad para ti y tu familia.</li>
+    <li><strong>Amortización de activos:</strong> vehículo (50% si no es de uso exclusivo), mobiliario (10% anual), equipos informáticos (25% anual).</li>
+  </ul>
+  <p>Consulta nuestra guía completa sobre <a href="/blog/gastos-deducibles-autonomo-2026/">gastos deducibles del autónomo en 2026</a> para no dejarte ninguna deducción en el tintero.</p>
+
+  <h2>Autónomo vs sociedad limitada: cuándo dar el salto</h2>
+  <p>Muchos autónomos se plantean en algún momento si les conviene constituir una <strong>Sociedad Limitada (SL)</strong>. La respuesta corta es: depende de tus beneficios anuales.</p>
+  <p>Como autónomo, tributas por IRPF con tipos progresivos que pueden llegar al 47% (o más según la comunidad autónoma). Una SL tributa por el <strong>Impuesto de Sociedades</strong> al tipo general del 25% (o del 23% para empresas con facturación inferior a un millón de euros). Sin embargo, para extraer el dinero de la sociedad necesitas pagarte un sueldo (que tributa por IRPF) o repartir dividendos (que tributan al 19-28% en la base del ahorro).</p>
+  <p>Como regla general:</p>
+  <ul>
+    <li><strong>Beneficios netos por debajo de 40.000-50.000 €/año:</strong> suele ser más ventajoso seguir como autónomo persona física.</li>
+    <li><strong>Beneficios netos por encima de 50.000-60.000 €/año:</strong> merece la pena estudiar la constitución de una SL, especialmente si no necesitas extraer todo el beneficio.</li>
+    <li><strong>Si tienes empleados, necesitas financiación o quieres limitar tu responsabilidad:</strong> la SL ofrece ventajas adicionales más allá de lo fiscal.</li>
+  </ul>
+  <p>Para un análisis más detallado, lee nuestro artículo sobre las <a href="/blog/autonomo-societario-vs-persona-fisica/">diferencias entre autónomo persona física y autónomo societario</a>.</p>
+
+  <h2>Obligaciones y plazos del autónomo en 2026</h2>
+  <p>Además de las declaraciones trimestrales de IVA e IRPF, el autónomo tiene otras obligaciones a lo largo del año. A continuación, un calendario completo:</p>
+
+  <h3>Enero</h3>
+  <ul>
+    <li><strong>Hasta el 30 de enero:</strong> modelo 303 y 130/131 del 4T del año anterior.</li>
+    <li><strong>Hasta el 30 de enero:</strong> modelo 390 (resumen anual de IVA).</li>
+    <li><strong>Hasta el 31 de enero:</strong> modelo 190 (resumen anual de retenciones e ingresos a cuenta).</li>
+    <li><strong>Hasta el 31 de enero:</strong> modelo 349 (operaciones intracomunitarias, si aplica).</li>
+  </ul>
+
+  <h3>Abril</h3>
+  <ul>
+    <li><strong>Hasta el 20 de abril:</strong> modelo 303 y 130/131 del 1T.</li>
+    <li><strong>Desde abril:</strong> se abre el plazo de la declaración de la renta (IRPF anual).</li>
+  </ul>
+
+  <h3>Julio</h3>
+  <ul>
+    <li><strong>Hasta el 20 de julio:</strong> modelo 303 y 130/131 del 2T.</li>
+    <li><strong>Hasta el 30 de junio (aprox.):</strong> fin del plazo de la declaración de la renta.</li>
+  </ul>
+
+  <h3>Octubre</h3>
+  <ul>
+    <li><strong>Hasta el 20 de octubre:</strong> modelo 303 y 130/131 del 3T.</li>
+  </ul>
+
+  <h3>Noviembre-Diciembre</h3>
+  <ul>
+    <li><strong>Hasta el 30 de noviembre:</strong> ajuste de la base de cotización para el año siguiente (si quieres cambiar de tramo).</li>
+    <li>Revisión de gastos pendientes de contabilizar antes del cierre del ejercicio.</li>
+  </ul>
+
+  <p>Tener este calendario en mente te evitará recargos y sanciones. Muchos autónomos optan por contratar una <strong>gestoría</strong> que se encargue de las presentaciones, lo cual es un gasto deducible que puede ahorrarte mucho tiempo y disgustos.</p>
+
+  <h2>¿Te compensa ser autónomo? Haz tus cálculos</h2>
+  <p>Ser autónomo en España implica una carga administrativa y fiscal considerable, pero también ofrece libertad, flexibilidad y la posibilidad de escalar tus ingresos sin límite salarial. La clave está en <strong>conocer tus números</strong>: cuánto facturas, cuánto te cuesta la Seguridad Social, cuánto se lleva Hacienda y cuánto te queda realmente.</p>
+  <p>Nuestras calculadoras están diseñadas para darte esas respuestas en segundos:</p>
+  <ul>
+    <li><a href="/autonomos/cuanto-facturar/">Calculadora de facturación:</a> descubre cuánto necesitas facturar para tu sueldo neto objetivo.</li>
+    <li><a href="/autonomos/cuota-autonomos/">Calculadora de cuota de autónomos:</a> conoce tu cuota exacta según el tramo que te corresponde.</li>
+    <li><a href="/impuestos/calculadora-irpf/">Calculadora de IRPF:</a> simula tu declaración de la renta.</li>
+    <li><a href="/impuestos/calculadora-iva/">Calculadora de IVA:</a> calcula el IVA de tus facturas al instante.</li>
+  </ul>
+  <p>Y si quieres profundizar, no te pierdas estos artículos del blog:</p>
+  <ul>
+    <li><a href="/blog/cuota-autonomos-2026-15-tramos/">Los 15 tramos de la cuota de autónomos en 2026</a></li>
+    <li><a href="/blog/elegir-base-cotizacion-autonomo/">Cómo elegir la base de cotización óptima</a></li>
+    <li><a href="/blog/gastos-deducibles-autonomo-2026/">Gastos deducibles del autónomo en 2026</a></li>
+    <li><a href="/blog/factura-autonomo-como-hacer/">Cómo hacer una factura de autónomo correctamente</a></li>
+    <li><a href="/blog/modelo-130-irpf-autonomos/">Guía del modelo 130: IRPF trimestral</a></li>
+  </ul>
+
+</section>
 
 <!-- FAQ Section injected after CategoryLayout via BaseLayout slot -->
 <section class="faq container">
@@ -175,5 +379,69 @@ const jsonLd = [
     margin-top: var(--space-3);
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .pillar-content {
+    padding: var(--space-10) 0;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .pillar-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-content h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content ul, .pillar-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .pillar-content th, .pillar-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .pillar-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .pillar-content strong {
+    color: var(--color-text);
+  }
+
+  .pillar-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pillar-content a:hover {
+    text-decoration: underline;
   }
 </style>
