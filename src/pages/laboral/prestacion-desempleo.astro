@@ -1,0 +1,223 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import PrestacionDesempleo from '@components/calculators/PrestacionDesempleo';
+import desempleoData from '@data/desempleo-2026.json';
+
+const title = 'Calculadora de Prestación por Desempleo 2026 — CalculaTuDinero.net';
+const description = 'Calcula cuánto cobrarás de paro: importe mensual, duración y total estimado de tu prestación contributiva por desempleo en 2026.';
+const canonical = 'https://calculatudinero.net/laboral/prestacion-desempleo/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral', href: '/laboral/' },
+  { label: 'Prestación por desempleo' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto cobro de paro?',
+    answer: 'La prestación por desempleo es el 70% de tu base reguladora durante los primeros 180 días (6 meses) y el 50% a partir del séptimo mes. La base reguladora se calcula como la media de las bases de cotización por contingencias comunes de los últimos 180 días trabajados. Estos importes están sujetos a topes máximos y mínimos que dependen del número de hijos a cargo.',
+  },
+  {
+    question: '¿Cuánto tiempo puedo cobrar el paro?',
+    answer: 'La duración de la prestación depende del tiempo cotizado en los últimos 6 años. El mínimo es 4 meses (con 360 días cotizados) y el máximo es 24 meses (con 2.160 días o más cotizados). Por cada 180 días cotizados adicionales se obtienen 2 meses más de prestación. Si llevas trabajando 2 años seguidos (720 días), tendrás derecho a 8 meses de paro.',
+  },
+  {
+    question: '¿Cuánto es el mínimo del paro?',
+    answer: 'El importe mínimo de la prestación por desempleo en 2026 es de 480 euros mensuales si no tienes hijos a cargo (80% del IPREM) y de 642 euros mensuales si tienes al menos un hijo a cargo (107% del IPREM). Estos mínimos se aplican independientemente de cuál sea tu base de cotización. El IPREM para 2026 es de 600 euros mensuales.',
+  },
+  {
+    question: '¿Cuánto es el máximo del paro?',
+    answer: 'El tope máximo de la prestación por desempleo en 2026 depende del número de hijos: 1.050 euros mensuales sin hijos (175% del IPREM), 1.200 euros con un hijo (200% del IPREM) y 1.350 euros con dos o más hijos a cargo (225% del IPREM). Por muy alta que sea tu base de cotización, no puedes superar estos importes.',
+  },
+  {
+    question: '¿Qué es la base reguladora del desempleo?',
+    answer: 'La base reguladora del desempleo es la media de las bases de cotización por contingencias comunes de los últimos 180 días (6 meses) cotizados antes de la situación legal de desempleo. Esta base aparece en tu nómina como "Base de cotización por contingencias comunes". No se incluyen las horas extraordinarias. Sobre esta base se aplica el 70% los primeros 6 meses y el 50% a partir del séptimo mes.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Prestación por Desempleo',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de Prestación por Desempleo"
+>
+  <PrestacionDesempleo client:load desempleoData={desempleoData} />
+
+  <Fragment slot="content">
+    <h2>Cómo se calcula la prestación por desempleo</h2>
+    <p>
+      La prestación contributiva por desempleo es el subsidio que cobra un trabajador tras quedarse en paro,
+      siempre que haya cotizado al menos 360 días (un año) en los últimos 6 años. Su cuantía depende de tres
+      factores principales: la base reguladora, los días cotizados y el número de hijos a cargo.
+    </p>
+
+    <h3>1. Base reguladora</h3>
+    <p>
+      La base reguladora es la media de las bases de cotización por contingencias comunes de los últimos
+      180 días (6 meses) trabajados. Este dato aparece en tu nómina. Si, por ejemplo, tus bases de cotización
+      de los últimos 6 meses fueron de 2.000 euros mensuales, tu base reguladora será de 2.000 euros.
+    </p>
+
+    <h3>2. Porcentaje aplicable</h3>
+    <p>
+      Durante los <strong>primeros 180 días</strong> (6 meses), la prestación es el <strong>70%</strong>
+      de la base reguladora. A partir del <strong>día 181</strong> (del mes 7 en adelante), baja al
+      <strong>50%</strong> de la base reguladora.
+    </p>
+
+    <h3>3. Topes máximos y mínimos</h3>
+    <p>
+      El importe resultante se compara con los topes legales, que se calculan en función del IPREM
+      (Indicador Público de Renta de Efectos Múltiples), fijado en 600 euros mensuales para 2026:
+    </p>
+    <ul>
+      <li><strong>Máximo sin hijos:</strong> 175% del IPREM = 1.050 euros/mes</li>
+      <li><strong>Máximo con 1 hijo:</strong> 200% del IPREM = 1.200 euros/mes</li>
+      <li><strong>Máximo con 2 o más hijos:</strong> 225% del IPREM = 1.350 euros/mes</li>
+      <li><strong>Mínimo sin hijos:</strong> 80% del IPREM = 480 euros/mes</li>
+      <li><strong>Mínimo con hijos:</strong> 107% del IPREM = 642 euros/mes</li>
+    </ul>
+
+    <h3>4. Duración de la prestación</h3>
+    <p>
+      La duración se determina por los días cotizados en los últimos 6 años. La tabla de correspondencia es:
+    </p>
+    <ul>
+      <li>De 360 a 539 días cotizados: <strong>4 meses</strong> de prestación</li>
+      <li>De 540 a 719 días: <strong>6 meses</strong></li>
+      <li>De 720 a 899 días: <strong>8 meses</strong></li>
+      <li>De 900 a 1.079 días: <strong>10 meses</strong></li>
+      <li>De 1.080 a 1.259 días: <strong>12 meses</strong></li>
+      <li>De 1.260 a 1.439 días: <strong>14 meses</strong></li>
+      <li>De 1.440 a 1.619 días: <strong>16 meses</strong></li>
+      <li>De 1.620 a 1.799 días: <strong>18 meses</strong></li>
+      <li>De 1.800 a 1.979 días: <strong>20 meses</strong></li>
+      <li>De 1.980 a 2.159 días: <strong>22 meses</strong></li>
+      <li>Desde 2.160 días: <strong>24 meses</strong> (máximo)</li>
+    </ul>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Trabajador con base de cotización media de 2.000 euros/mes, 720 días cotizados (2 años),
+      sin hijos a cargo:</strong>
+    </p>
+    <p>
+      Base reguladora: 2.000 euros. Duración: 8 meses.
+    </p>
+    <ul>
+      <li>
+        Primeros 6 meses: 70% de 2.000 = <strong>1.400 euros/mes</strong>.
+        Como supera el tope sin hijos (1.050 euros), se aplica el tope: <strong>1.050 euros/mes</strong>.
+        Subtotal: 6 x 1.050 = <strong>6.300 euros</strong>.
+      </li>
+      <li>
+        Meses 7 y 8: 50% de 2.000 = <strong>1.000 euros/mes</strong>.
+        No supera el tope (1.050 euros). Subtotal: 2 x 1.000 = <strong>2.000 euros</strong>.
+      </li>
+    </ul>
+    <p>
+      Total estimado bruto: <strong>8.300 euros</strong> durante 8 meses de prestación.
+    </p>
+    <p>
+      Estos importes son brutos. La prestación por desempleo tributa como rendimiento del trabajo
+      en el IRPF y además se aplica una cotización a la Seguridad Social reducida.
+    </p>
+
+    <h2>Requisitos para cobrar el paro</h2>
+    <p>
+      Para acceder a la prestación contributiva por desempleo debes cumplir estos requisitos:
+    </p>
+    <ul>
+      <li>Estar en <strong>situación legal de desempleo</strong> (no haber dimitido voluntariamente).</li>
+      <li>Haber cotizado un mínimo de <strong>360 días</strong> en los últimos 6 años.</li>
+      <li>Estar <strong>inscrito como demandante de empleo</strong> en el SEPE dentro de los 15 días
+        hábiles siguientes a la extinción del contrato.</li>
+      <li>No haber cumplido la <strong>edad ordinaria de jubilación</strong>.</li>
+      <li>No estar realizando un <strong>trabajo por cuenta ajena a jornada completa</strong>.</li>
+    </ul>
+
+    <h2>Calculadoras relacionadas</h2>
+    <p>
+      Si te han despedido, probablemente también necesites calcular tu
+      <a href="/laboral/indemnizacion-despido/">indemnización por despido</a> y tu
+      <a href="/laboral/finiquito/">finiquito</a>. Si tienes dudas sobre cuánto ganas realmente,
+      consulta nuestra <a href="/laboral/salario-neto/">calculadora de salario neto</a>.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

@@ -303,3 +303,488 @@ export interface IndemnizacionResult {
     periodoPosterior: { anios: number; dias: number; importe: number };
   };
 }
+
+// ---------------------------------------------------------------------------
+// Calculator: IRPF
+// ---------------------------------------------------------------------------
+
+export interface IRPFInput {
+  rendimientosBrutos: number;
+  ccaa: ComunidadAutonoma;
+  hijosCount: number;
+  mayor65: boolean;
+  mayor75: boolean;
+  situacion: 'soltero' | 'casado';
+  discapacidad: boolean;
+  esAutonomo: boolean;
+  gastoDeducible: number;
+  cotizacionSS: number;
+}
+
+export interface IRPFResult {
+  cuotaIntegra: number;
+  cuotaEstatal: number;
+  cuotaAutonomica: number;
+  tipoEfectivo: number;
+  baseLiquidable: number;
+  minimoPersonalFamiliar: number;
+  reduccionTrabajo: number;
+  rendimientosNetos: number;
+  desgloseTramos: {
+    tramo: string;
+    base: number;
+    tipo: number;
+    cuota: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Cuota Autónomos
+// ---------------------------------------------------------------------------
+
+export interface CuotaAutonomoInput {
+  rendimientosNetosMensuales: number;
+  situacion: 'nuevo' | 'establecido';
+  basePersonalizada?: number;
+}
+
+export interface CuotaAutonomoResult {
+  tramoAplicado: TramoAutonomo;
+  cuotaMensual: number;
+  cuotaAnual: number;
+  baseElegida: number;
+  esTarifaPlana: boolean;
+  ahorroPorTarifaPlana: number;
+  desgloseCotizacion: {
+    contingenciasComunes: number;
+    contingenciasProfesionales: number;
+    ceseProfesional: number;
+    formacionProfesional: number;
+    mei: number;
+  };
+  tablaTramos: {
+    tramoId: number;
+    tabla: string;
+    rango: string;
+    cuotaMinima: number;
+    esActual: boolean;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Finiquito data structures
+// ---------------------------------------------------------------------------
+
+export interface FiniquitoData {
+  pagasExtra: {
+    nota: string;
+    mesesPorPaga: number;
+  };
+  vacaciones: {
+    diasNaturalesAnuales: number;
+    diasLaborablesAnuales: number;
+    nota: string;
+  };
+  retencionIRPF: {
+    nota: string;
+    porDefecto: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Finiquito
+// ---------------------------------------------------------------------------
+
+export interface FiniquitoInput {
+  fechaBaja: Date;
+  salarioBrutoAnual: number;
+  pagasExtra: 12 | 14;
+  pagasProrrateadas: boolean;
+  diasVacacionesTotales: number;
+  diasVacacionesDisfrutados: number;
+  retencionIRPF: number;
+}
+
+export interface FiniquitoResult {
+  diasTrabajadosMesBaja: number;
+  importeDiasTrabajados: number;
+  diasVacacionesPendientes: number;
+  importeVacaciones: number;
+  importeProrrataNavidad: number;
+  importeProrrataVerano: number;
+  totalProrratasPagas: number;
+  totalBruto: number;
+  retencionIRPFImporte: number;
+  cotizacionSS: number;
+  totalNeto: number;
+  desglose: {
+    concepto: string;
+    bruto: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Hipoteca data structures (matching hipoteca-reference.json)
+// ---------------------------------------------------------------------------
+
+export interface HipotecaReferenceData {
+  year: number;
+  lastUpdated: string;
+  source: string;
+  euribor: {
+    actual: number;
+    fecha: string;
+    nota: string;
+  };
+  tiposReferencia: {
+    fijo: {
+      min: number;
+      max: number;
+      media: number;
+      nota: string;
+    };
+    variable: {
+      diferencial: {
+        min: number;
+        max: number;
+        media: number;
+        nota: string;
+      };
+    };
+  };
+  plazoMaximo: number;
+  plazoMinimo: number;
+  porcentajeFinanciacionMax: {
+    primeraVivienda: number;
+    segundaVivienda: number;
+  };
+  gastosCompra: {
+    notaria: { porcentaje: number; nota: string };
+    registro: { porcentaje: number; nota: string };
+    gestoria: { fijo: number; nota: string };
+    tasacion: { fijo: number; nota: string };
+  };
+}
+
+export interface ITPCcaaData {
+  nombre: string;
+  tipo: number;
+  reducido: number;
+  notaReducido: string;
+}
+
+export interface ITPData {
+  year: number;
+  lastUpdated: string;
+  source: string;
+  nota: string;
+  tipoIVAViviendaNueva: number;
+  tipoAJD: number;
+  tiposPorCcaa: Record<string, ITPCcaaData>;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Hipoteca
+// ---------------------------------------------------------------------------
+
+export interface HipotecaInput {
+  precioVivienda: number;
+  ahorroInicial: number;
+  plazoAnios: number;
+  tipoInteres: number;
+  tipoHipoteca: 'fijo' | 'variable';
+  diferencialVariable?: number;
+  euriborActual?: number;
+}
+
+export interface AmortizacionAnual {
+  anio: number;
+  capitalPendiente: number;
+  capitalAmortizado: number;
+  interesesAnuales: number;
+  cuotaAnual: number;
+}
+
+export interface HipotecaResult {
+  capitalPrestamo: number;
+  cuotaMensual: number;
+  totalIntereses: number;
+  totalPagado: number;
+  porcentajeFinanciacion: number;
+  cuadroAmortizacion: AmortizacionAnual[];
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Gastos de compra vivienda
+// ---------------------------------------------------------------------------
+
+export interface GastosCompraInput {
+  precioVivienda: number;
+  ccaa: ComunidadAutonoma;
+  esViviendaNueva: boolean;
+  aplicaTipoReducido: boolean;
+}
+
+export interface GastosCompraResult {
+  impuesto: number;
+  impuestoNombre: string;
+  impuestoTipo: number;
+  notaria: number;
+  registro: number;
+  gestoria: number;
+  tasacion: number;
+  totalGastos: number;
+  totalConPrecio: number;
+}
+
+// ---------------------------------------------------------------------------
+// Desempleo data structures
+// ---------------------------------------------------------------------------
+
+export interface DesempleoData {
+  iprem2026: {
+    mensual: number;
+    anual12pagas: number;
+    anual14pagas: number;
+  };
+  prestacionContributiva: {
+    porcentajePrimeros180Dias: number;
+    porcentajeResto: number;
+    topes: {
+      sinHijos: { porcentajeIPREM: number; importe: number };
+      unHijo: { porcentajeIPREM: number; importe: number };
+      dosOMasHijos: { porcentajeIPREM: number; importe: number };
+    };
+    minimoSinHijos: { porcentajeIPREM: number; importe: number };
+    minimoConHijos: { porcentajeIPREM: number; importe: number };
+    duracionPorCotizacion: {
+      diasCotizadosMin: number;
+      diasCotizadosMax: number | null;
+      mesesPrestacion: number;
+    }[];
+    cotizacionMinima: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Prestación Desempleo
+// ---------------------------------------------------------------------------
+
+export interface DesempleoInput {
+  baseCotizacionMedia: number;
+  diasCotizados: number;
+  hijosCount: number;
+}
+
+export interface DesempleoResult {
+  tieneDerechoPrestacion: boolean;
+  duracionMeses: number;
+  importePrimeros180Dias: number;
+  importeResto: number;
+  importeMensualMedio: number;
+  totalEstimado: number;
+  topeAplicado: number;
+  minimoAplicado: number;
+  baseReguladora: number;
+  desglose: {
+    periodo: string;
+    meses: number;
+    importeMensual: number;
+    subtotal: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// IVA data structures
+// ---------------------------------------------------------------------------
+
+export interface IVAData {
+  tiposIVA: {
+    general: { tipo: number; descripcion: string; ejemplos: string };
+    reducido: { tipo: number; descripcion: string; ejemplos: string };
+    superreducido: { tipo: number; descripcion: string; ejemplos: string };
+  };
+  regimenesEspeciales: {
+    igic: { nombre: string; tipos: Record<string, number>; aplica: string[] };
+    ipsi: { nombre: string; tipos: Record<string, number>; aplica: string[] };
+  };
+  recargo: {
+    general: number;
+    reducido: number;
+    superreducido: number;
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: IVA
+// ---------------------------------------------------------------------------
+
+export interface IVAInput {
+  importe: number;
+  tipoIVA: 'general' | 'reducido' | 'superreducido';
+  direccion: 'base_a_total' | 'total_a_base';
+  incluyeRecargo: boolean;
+  ccaa?: ComunidadAutonoma;
+}
+
+export interface IVAResult {
+  base: number;
+  cuotaIVA: number;
+  tipoAplicado: number;
+  total: number;
+  recargoEquivalencia: number;
+  totalConRecargo: number;
+  impuestoNombre: string;
+  esRegimenEspecial: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Interés Compuesto
+// ---------------------------------------------------------------------------
+
+export interface InteresCompuestoInput {
+  capitalInicial: number;
+  aportacionMensual: number;
+  tasaAnual: number;
+  plazoAnios: number;
+  inflacionAnual: number;
+}
+
+export interface InteresCompuestoResult {
+  capitalFinal: number;
+  capitalFinalReal: number;
+  totalAportado: number;
+  totalIntereses: number;
+  totalInteresesReales: number;
+  evolucionAnual: {
+    anio: number;
+    capitalAcumulado: number;
+    capitalAcumuladoReal: number;
+    aportadoAcumulado: number;
+    interesesAcumulados: number;
+  }[];
+}
+
+// ---------------------------------------------------------------------------
+// Pensión Jubilación
+// ---------------------------------------------------------------------------
+
+export interface PensionesData {
+  edadJubilacionOrdinaria: {
+    con37anios6meses: number;
+    sinRequisito: number;
+  };
+  porcentajesPorAniosCotizados: {
+    minimo15anios: number;
+    primeros15anios: number;
+    mesAdicional1a248: number;
+    mesAdicional249a264: number;
+    maximo: number;
+    aniosParaMaximo: number;
+  };
+  baseReguladora: {
+    mesesComputo: number;
+    divisor: number;
+  };
+  topesYMinimos: {
+    pensionMaxima2026: number;
+    pensionMinima65ConConyuge: number;
+    pensionMinima65SinConyuge: number;
+  };
+  complementoBrecha: {
+    porHijo: number;
+  };
+}
+
+export interface PensionInput {
+  baseCotizacionMedia: number;
+  aniosCotizados: number;
+  edadJubilacion: number;
+  tieneConyuge: boolean;
+  hijosCount: number;
+  esAnticipada: boolean;
+  anticipadaVoluntaria: boolean;
+}
+
+export interface PensionResult {
+  baseReguladora: number;
+  porcentajePorAnios: number;
+  pensionBrutaMensual: number;
+  pensionBrutaAnual: number;
+  pensionNeta14Pagas: number;
+  complementoBrecha: number;
+  reduccionAnticipada: number;
+  pensionMaximaAplicada: boolean;
+  pensionMinimaAplicada: boolean;
+  edadOrdinaria: number;
+}
+
+// ---------------------------------------------------------------------------
+// Plusvalía Municipal
+// ---------------------------------------------------------------------------
+
+export interface PlusvaliaData {
+  tipoImpositivoMaximo: number;
+  tipoImpositivoComun: number;
+  coeficientesObjetivo: Record<string, number>;
+  porcentajeSueloDefault: number;
+}
+
+export interface PlusvaliaInput {
+  valorAdquisicion: number;
+  valorTransmision: number;
+  valorCatastral: number;
+  porcentajeSuelo: number;
+  aniosPropiedad: number;
+  tipoImpositivo: number;
+}
+
+export interface PlusvaliaResult {
+  metodoReal: {
+    incrementoReal: number;
+    porcentajeSobreAdquisicion: number;
+    baseImponible: number;
+    cuota: number;
+  };
+  metodoObjetivo: {
+    coeficienteAplicado: number;
+    baseImponible: number;
+    cuota: number;
+  };
+  metodoElegido: 'real' | 'objetivo';
+  cuotaFinal: number;
+  hayIncrementoReal: boolean;
+  valorCatastralSuelo: number;
+}
+
+// ---------------------------------------------------------------------------
+// Impuesto Sucesiones
+// ---------------------------------------------------------------------------
+
+export interface SucesionesData {
+  tramosEstatales: { desde: number; hasta: number | null; tipo: number }[];
+  reduccionesGrupoII: { estatal: number };
+  reduccionesGrupoI: { estatal: number; adicionalPorAnioMenor21: number; maximo: number };
+  bonificacionesPorCcaa: Record<string, { nombre: string; bonificacion: number; nota: string }>;
+}
+
+export interface SucesionesInput {
+  valorHerencia: number;
+  ccaa: ComunidadAutonoma;
+  parentesco: 'grupo_I' | 'grupo_II' | 'grupo_III' | 'grupo_IV';
+  edadHeredero: number;
+  patrimonioPreexistente: number;
+}
+
+export interface SucesionesResult {
+  baseImponible: number;
+  reduccionAplicada: number;
+  baseLiquidable: number;
+  cuotaIntegra: number;
+  coeficienteMultiplicador: number;
+  cuotaTributaria: number;
+  bonificacionCcaa: number;
+  bonificacionPorcentaje: number;
+  cuotaFinal: number;
+  notaCcaa: string;
+}

@@ -1,0 +1,164 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import CalculadoraIVA from '@components/calculators/CalculadoraIVA';
+import ivaData from '@data/iva-2026.json';
+
+const title = 'Calculadora de IVA 2026: Añadir o Quitar IVA — CalculaTuDinero.net';
+const description = 'Calcula el IVA de cualquier importe: añade o quita IVA al 21%, 10% o 4%. Incluye IGIC para Canarias e IPSI para Ceuta y Melilla.';
+const canonical = 'https://calculatudinero.net/impuestos/calculadora-iva/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'Calculadora de IVA' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto es el IVA en España en 2026?',
+    answer: 'En España existen tres tipos de IVA en 2026: el tipo general del 21%, que se aplica a la mayoría de bienes y servicios; el tipo reducido del 10%, para alimentos, transporte, hostelería y vivienda nueva; y el tipo superreducido del 4%, para productos de primera necesidad como pan, leche, huevos, frutas, verduras, libros y medicamentos.',
+  },
+  {
+    question: '¿Qué productos llevan IVA superreducido?',
+    answer: 'El IVA superreducido del 4% se aplica a productos de primera necesidad: pan, leche, huevos, frutas, verduras, hortalizas, legumbres, tubérculos, cereales, queso, libros, periódicos, revistas, medicamentos de uso humano, prótesis, implantes, sillas de ruedas, y viviendas de protección oficial (VPO).',
+  },
+  {
+    question: '¿Qué es el IGIC?',
+    answer: 'El IGIC (Impuesto General Indirecto Canario) es el impuesto indirecto que sustituye al IVA en las Islas Canarias. Su tipo general es del 7%, significativamente inferior al 21% del IVA peninsular. También tiene tipos reducido (3%), cero (0%), incrementado (9,5%) y especial (15%).',
+  },
+  {
+    question: '¿Qué es el recargo de equivalencia?',
+    answer: 'El recargo de equivalencia es un régimen especial de IVA obligatorio para comerciantes minoristas que son personas físicas (autónomos). Se añade sobre la cuota de IVA: un 5,2% adicional sobre la base para el tipo general, un 1,4% para el reducido y un 0,5% para el superreducido. A cambio, el comerciante no presenta declaraciones de IVA trimestrales.',
+  },
+  {
+    question: '¿Cómo se calcula el IVA de una factura?',
+    answer: 'Para añadir IVA: multiplica la base imponible por el tipo de IVA y divide entre 100. Ejemplo: 1.000 € × 21 / 100 = 210 € de IVA, total 1.210 €. Para extraer la base de un total con IVA: divide el total entre (1 + tipo/100). Ejemplo: 1.210 € / 1,21 = 1.000 € de base imponible.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de IVA 2026',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de IVA 2026"
+>
+  <CalculadoraIVA client:load ivaData={ivaData} />
+
+  <Fragment slot="content">
+    <h2>Tipos de IVA en España 2026</h2>
+    <p>
+      El IVA (Impuesto sobre el Valor Añadido) es un impuesto indirecto que grava el consumo de bienes y
+      servicios en España. A diferencia del IRPF, que es progresivo, el IVA aplica un porcentaje fijo sobre
+      el precio del producto o servicio. En 2026 existen tres tipos impositivos:
+    </p>
+    <p>
+      El <strong>tipo general del 21%</strong> se aplica a la mayoría de bienes y servicios: electrónica,
+      ropa, servicios profesionales, telecomunicaciones, etc. El <strong>tipo reducido del 10%</strong>
+      cubre alimentos procesados, transporte de viajeros, hostelería, vivienda nueva, gafas graduadas y
+      audífonos. El <strong>tipo superreducido del 4%</strong> se reserva para productos de primera necesidad:
+      pan, leche, huevos, frutas, verduras, cereales, libros, medicamentos y viviendas de protección oficial.
+    </p>
+
+    <h2>Cómo calcular el IVA</h2>
+    <p>
+      <strong>Para añadir IVA a una base imponible</strong>, multiplica el importe por el tipo de IVA y
+      divide entre 100. Por ejemplo, si la base es 1.000 € y el IVA es del 21%: 1.000 × 21 / 100 =
+      210 € de cuota de IVA. El total será 1.000 + 210 = 1.210 €.
+    </p>
+    <p>
+      <strong>Para extraer la base imponible de un total con IVA incluido</strong>, divide el total entre
+      (1 + tipo/100). Por ejemplo, si el total es 1.210 € con IVA del 21%: 1.210 / 1,21 = 1.000 € de
+      base imponible, y la cuota de IVA es 210 €.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Un diseñador freelance factura 2.500 € por un proyecto de diseño web.</strong> Al ser un
+      servicio profesional, aplica el IVA general del 21%.
+    </p>
+    <p>
+      Base imponible: 2.500 €. Cuota de IVA: 2.500 × 21% = 525 €. Total factura: 2.500 + 525 = 3.025 €.
+      Si además el cliente es un comerciante minorista en régimen de recargo de equivalencia, se añade un
+      5,2% adicional: 2.500 × 5,2% = 130 €. Total con recargo: 3.025 + 130 = 3.155 €.
+    </p>
+    <p>
+      En Canarias no se aplica IVA sino IGIC al 7% general: 2.500 × 7% = 175 €. Total: 2.675 €. En Ceuta
+      y Melilla se aplica IPSI al 10% general: 2.500 × 10% = 250 €. Total: 2.750 €.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

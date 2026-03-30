@@ -1,47 +1,40 @@
 ---
 import CategoryLayout from '@layouts/CategoryLayout.astro';
-import BaseLayout from '@layouts/BaseLayout.astro';
 
-const title = 'Calculadoras para Autónomos en España — CalculaTuDinero.net';
-const description = 'Herramientas gratuitas para autónomos en España: calcula tu facturación, cuota de Seguridad Social, IVA trimestral y más.';
-const canonical = 'https://calculatudinero.net/autonomos/';
+const title = 'Calculadoras de Vivienda — CalculaTuDinero.net';
+const description = 'Simulador de hipoteca, calculadora de gastos de compra y más herramientas para tu vivienda. Calcula tu cuota mensual y los gastos asociados a la compra.';
+const canonical = 'https://calculatudinero.net/vivienda/';
 
 const breadcrumbItems = [
   { label: 'Inicio', href: '/' },
-  { label: 'Autónomos' },
+  { label: 'Vivienda' },
 ];
 
 const calculators = [
   {
-    icon: '💼',
-    title: 'Cuánto facturar como autónomo',
-    description: 'Calcula cuánto necesitas facturar para conseguir el sueldo neto que quieres, teniendo en cuenta la cuota de autónomos, IRPF e IVA.',
-    href: '/autonomos/cuanto-facturar/',
-  },
-  {
-    icon: '📋',
-    title: 'Cuota de Autónomos 2026',
-    description: 'Descubre qué cuota te corresponde según tus rendimientos netos con los 15 tramos del sistema de cotización por ingresos reales.',
-    href: '/autonomos/cuota-autonomos/',
+    icon: '🏠',
+    title: 'Simulador de Hipoteca',
+    description: 'Calcula tu cuota mensual, el total de intereses y el cuadro de amortización. Incluye calculadora de gastos de compra por comunidad autónoma.',
+    href: '/vivienda/calculadora-hipoteca/',
   },
 ];
 
 const faqs = [
   {
-    question: '¿Cuánto paga un autónomo de cuota en 2026?',
-    answer: 'En 2026 la cuota de autónomos depende de los rendimientos netos y oscila entre 205,88 €/mes (para rendimientos hasta 670 €) y 607,35 €/mes (para rendimientos superiores a 6.000 €). La tarifa plana para nuevos autónomos es de 80 €/mes durante los primeros 12 meses.',
+    question: '¿Cuánto ahorro necesito para comprar una vivienda?',
+    answer: 'Lo habitual es necesitar entre un 20% y un 30% del precio de la vivienda como ahorro previo. Los bancos suelen financiar hasta el 80% del valor de tasación para primera vivienda (70% para segunda vivienda). Además, hay que sumar los gastos de compra: impuestos (ITP o IVA+AJD), notaría, registro, gestoría y tasación, que suelen rondar entre el 10% y el 13% del precio según la comunidad autónoma.',
   },
   {
-    question: '¿Qué impuestos paga un autónomo en España?',
-    answer: 'Un autónomo paga la cuota de Seguridad Social (RETA), IRPF trimestral (modelo 130, entre el 7% y el 20% según el régimen), IVA trimestral (21% general, modelo 303) y las declaraciones informativas y anuales correspondientes. Además, debe presentar la declaración anual de la renta.',
+    question: '¿Qué es mejor, una hipoteca a tipo fijo o variable?',
+    answer: 'Depende de tu perfil y las condiciones de mercado. La hipoteca a tipo fijo ofrece estabilidad: la cuota no cambia durante toda la vida del préstamo. La hipoteca variable suele tener un tipo inicial más bajo (Euríbor + diferencial), pero la cuota se revisa anualmente y puede subir o bajar según el Euríbor. En periodos de tipos bajos, la variable puede ser más económica, pero asumes el riesgo de subidas futuras.',
   },
   {
-    question: '¿Cómo funciona el sistema de cotización por ingresos reales?',
-    answer: 'Desde 2023, los autónomos cotizan según sus rendimientos netos reales. Existen 15 tramos que van desde menos de 670 €/mes hasta más de 6.000 €/mes. Cada tramo tiene una base mínima y máxima de cotización, y la cuota se calcula aplicando el tipo total del 31,50% sobre la base elegida.',
+    question: '¿Qué impuestos se pagan al comprar una vivienda?',
+    answer: 'Si compras vivienda nueva (de promotor), pagas IVA del 10% más Actos Jurídicos Documentados (AJD), que varía por comunidad autónoma (entre el 0,5% y el 1,5%). Si compras vivienda de segunda mano, pagas el Impuesto de Transmisiones Patrimoniales (ITP), cuyo tipo general oscila entre el 4% (País Vasco) y el 10% (Cataluña, Valencia, Cantabria). Muchas comunidades aplican tipos reducidos para jóvenes o vivienda habitual.',
   },
   {
-    question: '¿Qué es la tarifa plana de autónomos?',
-    answer: 'La tarifa plana permite a los nuevos autónomos pagar una cuota reducida de 80 €/mes durante los primeros 12 meses de actividad. Si los rendimientos netos durante ese primer año son inferiores al SMI, se puede ampliar otros 12 meses más. El requisito principal es no haber estado dado de alta como autónomo en los 2 años anteriores.',
+    question: '¿Qué es el Euríbor y cómo afecta a mi hipoteca?',
+    answer: 'El Euríbor (Euro Interbank Offered Rate) es el tipo de interés al que los bancos europeos se prestan dinero entre sí. Se usa como referencia para las hipotecas a tipo variable en España. Tu cuota se calcula sumando el Euríbor vigente más un diferencial fijo pactado con el banco (por ejemplo, Euríbor + 0,9%). Se revisa normalmente cada 12 meses, tomando la media del Euríbor publicada por el Banco de España.',
   },
 ];
 
@@ -66,8 +59,8 @@ const jsonLd = [
   description={description}
   canonical={canonical}
   breadcrumbItems={breadcrumbItems}
-  categoryTitle="Calculadoras para Autónomos"
-  categoryDescription="Herramientas gratuitas para autónomos en España: calcula tu facturación, cuota de Seguridad Social, IVA trimestral y más."
+  categoryTitle="Calculadoras de Vivienda"
+  categoryDescription="Simulador de hipoteca, calculadora de gastos de compra y más herramientas para planificar la compra de tu vivienda."
 >
   {calculators.map((calc) => (
     <a href={calc.href} class="card card--accent calculator-card">
@@ -79,9 +72,8 @@ const jsonLd = [
   ))}
 </CategoryLayout>
 
-<!-- FAQ Section injected after CategoryLayout via BaseLayout slot -->
 <section class="faq container">
-  <h2>Preguntas frecuentes sobre autónomos</h2>
+  <h2>Preguntas frecuentes sobre vivienda e hipotecas</h2>
   {faqs.map((faq) => (
     <details class="faq__item">
       <summary class="faq__question">{faq.question}</summary>
@@ -90,7 +82,6 @@ const jsonLd = [
   ))}
 </section>
 
-<!-- JSON-LD for FAQPage -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd[0])} />
 
 <style>

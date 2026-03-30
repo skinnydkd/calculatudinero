@@ -1,0 +1,156 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import ImpuestoSucesiones from '@components/calculators/ImpuestoSucesiones';
+import sucesionesData from '@data/sucesiones-por-ccaa.json';
+
+const title = 'Calculadora de Impuesto de Sucesiones 2026 — CalculaTuDinero.net';
+const description = 'Calcula el impuesto de sucesiones por herencia según tu comunidad autónoma. Bonificaciones actualizadas a 2026 para todos los grupos de parentesco.';
+const canonical = 'https://calculatudinero.net/impuestos/impuesto-sucesiones/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'Impuesto de Sucesiones' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto se paga de impuesto de sucesiones?',
+    answer: 'Depende enormemente de la comunidad autónoma, el grado de parentesco y el valor de la herencia. La mayoría de comunidades aplican bonificaciones del 99% o superiores para hijos, cónyuges y padres (Grupos I y II), por lo que en la práctica se paga muy poco o nada. Para parientes lejanos o no familiares, el impuesto puede ser muy elevado.',
+  },
+  {
+    question: '¿Qué son los grupos de parentesco en sucesiones?',
+    answer: 'El impuesto clasifica a los herederos en cuatro grupos: Grupo I (descendientes menores de 21 años), Grupo II (descendientes mayores de 21, cónyuge y ascendientes), Grupo III (colaterales de 2.º y 3.er grado, como hermanos, sobrinos, tíos), y Grupo IV (parientes más lejanos y personas sin parentesco). Los Grupos I y II tienen las mayores reducciones y bonificaciones.',
+  },
+  {
+    question: '¿El impuesto de sucesiones es igual en todas las comunidades?',
+    answer: 'No. Aunque existe una tarifa estatal, cada comunidad autónoma puede establecer sus propias bonificaciones. La mayoría aplican bonificaciones del 99% para familiares directos (Grupos I y II). Navarra y País Vasco tienen regímenes forales propios con tarifas específicas.',
+  },
+  {
+    question: '¿Cuánto tiempo tengo para pagar el impuesto de sucesiones?',
+    answer: 'El plazo es de 6 meses desde el fallecimiento. Se puede solicitar una prórroga de otros 6 meses dentro de los 5 primeros meses. La prórroga conlleva el pago de intereses de demora.',
+  },
+  {
+    question: '¿Qué comunidad autónoma se aplica al impuesto de sucesiones?',
+    answer: 'Se aplica la normativa de la comunidad autónoma donde el fallecido tenía su residencia habitual durante los últimos 5 años (mayor número de días). No importa dónde resida el heredero ni dónde estén los bienes.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Impuesto de Sucesiones',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR' },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': { '@type': 'Answer', 'text': faq.answer },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Impuesto de Sucesiones"
+>
+  <ImpuestoSucesiones client:load sucesionesData={sucesionesData} />
+
+  <Fragment slot="content">
+    <h2>Cómo funciona el impuesto de sucesiones</h2>
+    <p>
+      El Impuesto de Sucesiones y Donaciones (ISD) grava las herencias recibidas por personas físicas.
+      Se calcula aplicando una tarifa progresiva estatal sobre la base liquidable (valor de la herencia
+      menos las reducciones aplicables), multiplicada por un coeficiente que depende del grado de parentesco
+      y del patrimonio preexistente del heredero.
+    </p>
+    <p>
+      La clave está en las bonificaciones autonómicas: la mayoría de comunidades aplican bonificaciones
+      del 99% para familiares directos (Grupos I y II), lo que hace que en la práctica el impuesto sea
+      casi inexistente para hijos, cónyuges y padres en casi toda España.
+    </p>
+
+    <h2>Los cuatro grupos de parentesco</h2>
+    <p>
+      <strong>Grupo I:</strong> Descendientes y adoptados menores de 21 años. Mayor reducción: 15.956,87 €
+      + 3.990,72 € por cada año menos de 21 (máximo 47.869,66 €).
+    </p>
+    <p>
+      <strong>Grupo II:</strong> Descendientes y adoptados de 21 o más años, cónyuge, ascendientes y adoptantes.
+      Reducción estatal de 15.956,87 €.
+    </p>
+    <p>
+      <strong>Grupo III:</strong> Colaterales de 2.º y 3.er grado (hermanos, sobrinos, tíos), ascendientes
+      y descendientes por afinidad. Reducción de 7.993,46 €.
+    </p>
+    <p>
+      <strong>Grupo IV:</strong> Colaterales de 4.º grado o más lejanos y personas sin parentesco. Sin reducción.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Herencia de 200.000 € en Madrid, heredero hijo mayor de 21 (Grupo II):</strong>
+    </p>
+    <p>
+      Base imponible: 200.000 €. Reducción Grupo II: 15.956,87 €. Base liquidable: 184.043,13 €.
+      Cuota íntegra (tarifa progresiva): aproximadamente 31.500 €. Madrid aplica una bonificación
+      del 99% para Grupos I y II, por lo que la cuota final sería de unos 315 €.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

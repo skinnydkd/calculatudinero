@@ -7,8 +7,12 @@
  */
 
 import { round2 } from '../formatters';
+import { calcularCuotaPorTramos, esForalCcaa } from './shared';
 import type {
   ComunidadAutonoma,
+  FiniquitoData,
+  FiniquitoInput,
+  FiniquitoResult,
   IndemnizacionData,
   IndemnizacionInput,
   IndemnizacionResult,
@@ -16,42 +20,7 @@ import type {
   SalarioInput,
   SalarioResult,
   SeguridadSocialData,
-  TramoIRPF,
 } from '../types';
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Calculate progressive tax for a set of brackets.
- * @param base - Taxable base (already reduced by mínimo personal)
- * @param tramos - Tax brackets array
- * @returns Total tax amount
- */
-function calcularCuotaPorTramos(base: number, tramos: TramoIRPF[]): number {
-  if (base <= 0) return 0;
-
-  let cuota = 0;
-  let restante = base;
-
-  for (const tramo of tramos) {
-    if (restante <= 0) break;
-
-    const limiteTramo = tramo.hasta !== null ? tramo.hasta - tramo.desde : Infinity;
-    const baseEnTramo = Math.min(restante, limiteTramo);
-
-    cuota += baseEnTramo * (tramo.tipo / 100);
-    restante -= baseEnTramo;
-  }
-
-  return cuota;
-}
-
-/** Check if a CCAA has foral tax regime */
-function esForalCcaa(ccaa: ComunidadAutonoma): boolean {
-  return ccaa === 'navarra' || ccaa === 'pais-vasco';
-}
 
 /**
  * Calculate the reducción por rendimientos del trabajo.
@@ -509,5 +478,158 @@ export function calcularIndemnizacion(
     diasCorrespondientes,
     maximoAplicado,
     exentaIRPF: indemnizacionTotal <= indemnizacionData.exencionIRPF.maximo,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// calcularFiniquito
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate the number of days elapsed between January 1 of a given year
+ * and a target date (inclusive of the target day).
+ */
+function diasDesdeInicioAnio(fecha: Date): number {
+  const start = new Date(fecha.getFullYear(), 0, 1); // January 1
+  return Math.floor((fecha.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+}
+
+/**
+ * Calculate the number of days elapsed since July 1 up to a given date.
+ * If the date is before July 1, counts from July 1 of the previous year.
+ */
+function diasDesdeJulio(fecha: Date): number {
+  const year = fecha.getFullYear();
+  const month = fecha.getMonth(); // 0-based
+  let startJulio: Date;
+
+  if (month >= 6) {
+    // July (6) or later in same year
+    startJulio = new Date(year, 6, 1);
+  } else {
+    // Before July — count from July 1 of previous year
+    startJulio = new Date(year - 1, 6, 1);
+  }
+
+  return Math.floor((fecha.getTime() - startJulio.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+/**
+ * Calculate finiquito (settlement pay) when a worker leaves a job.
+ *
+ * Includes: worked days in the month of departure, unused vacation pay,
+ * and prorated extra pay (pagas extra) if applicable.
+ *
+ * @param input - Finiquito calculator inputs
+ * @param finiquitoData - Finiquito rules (vacation, extra pay, IRPF defaults)
+ * @returns Full finiquito breakdown with gross, deductions, and net
+ */
+export function calcularFiniquito(
+  input: FiniquitoInput,
+  finiquitoData: FiniquitoData
+): FiniquitoResult {
+  const {
+    fechaBaja,
+    salarioBrutoAnual,
+    pagasExtra,
+    pagasProrrateadas,
+    diasVacacionesTotales,
+    diasVacacionesDisfrutados,
+    retencionIRPF,
+  } = input;
+
+  // -----------------------------------------------------------------------
+  // 1. Days worked in the month of departure
+  // -----------------------------------------------------------------------
+  const salarioMensual = round2(salarioBrutoAnual / pagasExtra);
+  const salarioDiario = round2(salarioMensual / 30);
+  const diasTrabajadosMesBaja = fechaBaja.getDate(); // day 1..31
+  const importeDiasTrabajados = round2(diasTrabajadosMesBaja * salarioDiario);
+
+  // -----------------------------------------------------------------------
+  // 2. Unused vacation (proportional to the year worked)
+  // -----------------------------------------------------------------------
+  const diasDelAnioTrabajados = diasDesdeInicioAnio(fechaBaja);
+  const diasCorrespondientesEnAnio = round2(
+    diasVacacionesTotales * (diasDelAnioTrabajados / 365)
+  );
+  const diasVacacionesPendientes = round2(
+    Math.max(0, diasCorrespondientesEnAnio - diasVacacionesDisfrutados)
+  );
+  const importeVacaciones = round2(diasVacacionesPendientes * salarioDiario);
+
+  // -----------------------------------------------------------------------
+  // 3. Prorated extra pays (only if 14 pagas and NOT prorrateadas)
+  // -----------------------------------------------------------------------
+  let importeProrrataNavidad = 0;
+  let importeProrrataVerano = 0;
+  let totalProrratasPagas = 0;
+
+  if (pagasExtra === 14 && !pagasProrrateadas) {
+    const pagaExtra = round2(salarioBrutoAnual / 14);
+
+    // Paga navidad: accrued Jan 1 - Dec 31 (365 days)
+    const diasDevengadosNavidad = diasDesdeInicioAnio(fechaBaja);
+    importeProrrataNavidad = round2(pagaExtra * (diasDevengadosNavidad / 365));
+
+    // Paga verano: accrued Jul 1 - Jun 30 (365 days)
+    const diasDevengadosVerano = diasDesdeJulio(fechaBaja);
+    importeProrrataVerano = round2(pagaExtra * (diasDevengadosVerano / 365));
+
+    totalProrratasPagas = round2(importeProrrataNavidad + importeProrrataVerano);
+  }
+
+  // -----------------------------------------------------------------------
+  // 4. Totals
+  // -----------------------------------------------------------------------
+  const totalBruto = round2(importeDiasTrabajados + importeVacaciones + totalProrratasPagas);
+
+  // IRPF applies to all concepts
+  const retencionIRPFImporte = round2(totalBruto * retencionIRPF / 100);
+
+  // SS worker contribution: ~6.50% applied to worked days + prorated pagas
+  const baseSS = round2(importeDiasTrabajados + totalProrratasPagas);
+  const cotizacionSS = round2(baseSS * 0.065);
+
+  const totalNeto = round2(totalBruto - retencionIRPFImporte - cotizacionSS);
+
+  // -----------------------------------------------------------------------
+  // 5. Breakdown for display
+  // -----------------------------------------------------------------------
+  const desglose: { concepto: string; bruto: number }[] = [
+    {
+      concepto: `Días trabajados mes de baja (${diasTrabajadosMesBaja} días)`,
+      bruto: importeDiasTrabajados,
+    },
+    {
+      concepto: `Vacaciones no disfrutadas (${diasVacacionesPendientes.toFixed(1)} días)`,
+      bruto: importeVacaciones,
+    },
+  ];
+
+  if (pagasExtra === 14 && !pagasProrrateadas) {
+    desglose.push({
+      concepto: 'Prorrata paga extra navidad',
+      bruto: importeProrrataNavidad,
+    });
+    desglose.push({
+      concepto: 'Prorrata paga extra verano',
+      bruto: importeProrrataVerano,
+    });
+  }
+
+  return {
+    diasTrabajadosMesBaja,
+    importeDiasTrabajados,
+    diasVacacionesPendientes,
+    importeVacaciones,
+    importeProrrataNavidad,
+    importeProrrataVerano,
+    totalProrratasPagas,
+    totalBruto,
+    retencionIRPFImporte,
+    cotizacionSS,
+    totalNeto,
+    desglose,
   };
 }

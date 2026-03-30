@@ -1,0 +1,18 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Estatuto de los Trabajadores / BOE",
+  "pagasExtra": {
+    "nota": "Si las pagas extra no están prorrateadas, se genera prorrata proporcional",
+    "mesesPorPaga": 6
+  },
+  "vacaciones": {
+    "diasNaturalesAnuales": 30,
+    "diasLaborablesAnuales": 22,
+    "nota": "Por convenio pueden ser más. Mínimo legal: 30 días naturales o 22 laborables"
+  },
+  "retencionIRPF": {
+    "nota": "La retención IRPF del finiquito depende de cada concepto. Los días trabajados y la prorrata de pagas tributan normalmente. Las vacaciones no disfrutadas también.",
+    "porDefecto": 15
+  }
+}

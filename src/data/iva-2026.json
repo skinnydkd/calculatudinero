@@ -1,0 +1,51 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Agencia Tributaria / BOE",
+  "tiposIVA": {
+    "general": {
+      "tipo": 21,
+      "descripcion": "Tipo general",
+      "ejemplos": "La mayoría de bienes y servicios"
+    },
+    "reducido": {
+      "tipo": 10,
+      "descripcion": "Tipo reducido",
+      "ejemplos": "Alimentos, transporte, hostelería, vivienda nueva, gafas, audífonos"
+    },
+    "superreducido": {
+      "tipo": 4,
+      "descripcion": "Tipo superreducido",
+      "ejemplos": "Pan, leche, huevos, frutas, verduras, queso, cereales, libros, medicamentos, VPO, prótesis"
+    }
+  },
+  "regimenesEspeciales": {
+    "igic": {
+      "nombre": "IGIC (Canarias)",
+      "tipos": {
+        "general": 7,
+        "reducido": 3,
+        "cero": 0,
+        "incrementado": 9.5,
+        "especial": 15
+      },
+      "aplica": ["canarias"]
+    },
+    "ipsi": {
+      "nombre": "IPSI (Ceuta y Melilla)",
+      "tipos": {
+        "general": 10,
+        "reducido": 4,
+        "minimo": 0.5,
+        "incrementado": 15
+      },
+      "aplica": ["ceuta", "melilla"]
+    }
+  },
+  "recargo": {
+    "general": 5.2,
+    "reducido": 1.4,
+    "superreducido": 0.5,
+    "nota": "Recargo de equivalencia para comercio minorista"
+  }
+}

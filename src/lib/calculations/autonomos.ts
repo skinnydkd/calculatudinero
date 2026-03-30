@@ -9,48 +9,17 @@
  */
 
 import { round2 } from '../formatters';
+import { calcularCuotaPorTramos, esForalCcaa } from './shared';
 import type {
   AutonomoInput,
   AutonomoResult,
   AutonomosData,
   ComunidadAutonoma,
+  CuotaAutonomoInput,
+  CuotaAutonomoResult,
   IRPFData,
-  TramoIRPF,
+  TramoAutonomo,
 } from '../types';
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Calculate progressive tax for a set of brackets.
- * @param base - Taxable base (already reduced by mínimo personal)
- * @param tramos - Tax brackets array
- * @returns Total tax amount
- */
-function calcularCuotaPorTramos(base: number, tramos: TramoIRPF[]): number {
-  if (base <= 0) return 0;
-
-  let cuota = 0;
-  let restante = base;
-
-  for (const tramo of tramos) {
-    if (restante <= 0) break;
-
-    const limiteTramo = tramo.hasta !== null ? tramo.hasta - tramo.desde : Infinity;
-    const baseEnTramo = Math.min(restante, limiteTramo);
-
-    cuota += baseEnTramo * (tramo.tipo / 100);
-    restante -= baseEnTramo;
-  }
-
-  return cuota;
-}
-
-/** Check if a CCAA has foral tax regime */
-function esForalCcaa(ccaa: ComunidadAutonoma): boolean {
-  return ccaa === 'navarra' || ccaa === 'pais-vasco';
-}
 
 /**
  * Calculate annual IRPF for self-employed income.
@@ -235,5 +204,126 @@ export function calcularFacturacionAutonomo(
     },
     tipoIRPFEfectivo,
     ratioNetoFacturacion,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Cuota de Autónomos calculator
+// ---------------------------------------------------------------------------
+
+/**
+ * Find the matching tramo for a given monthly net income.
+ * @param rendimientosMensuales - Monthly net income
+ * @param tramos - All 15 tramos from autonomos data
+ * @returns The matching TramoAutonomo
+ */
+function buscarTramo(
+  rendimientosMensuales: number,
+  tramos: TramoAutonomo[]
+): TramoAutonomo {
+  for (const tramo of tramos) {
+    const max = tramo.rendimientosMax ?? Infinity;
+    if (rendimientosMensuales >= tramo.rendimientosMin && rendimientosMensuales <= max) {
+      return tramo;
+    }
+  }
+  // Fallback: return last tramo if above all ranges
+  return tramos[tramos.length - 1];
+}
+
+/**
+ * Format a tramo range as a human-readable string.
+ * @param tramo - The tramo to format
+ * @returns Range string, e.g. "670,01 € – 900 €" or "> 6.000 €"
+ */
+function formatRango(tramo: TramoAutonomo): string {
+  const fmtNum = (n: number) =>
+    new Intl.NumberFormat('es-ES', {
+      minimumFractionDigits: n % 1 === 0 ? 0 : 2,
+      maximumFractionDigits: 2,
+    }).format(n);
+
+  if (tramo.rendimientosMax === null) {
+    return `> ${fmtNum(tramo.rendimientosMin)} €`;
+  }
+  if (tramo.rendimientosMin === 0) {
+    return `≤ ${fmtNum(tramo.rendimientosMax)} €`;
+  }
+  return `${fmtNum(tramo.rendimientosMin)} € – ${fmtNum(tramo.rendimientosMax)} €`;
+}
+
+/**
+ * Calculate the autónomos monthly quota based on net income and situation.
+ *
+ * - New autónomos get the tarifa plana (80 €/month for 12 months).
+ * - Established autónomos pay based on their income tramo.
+ * - A custom base de cotización can be chosen within the tramo's min/max.
+ *
+ * @param input - Calculator inputs
+ * @param autonomosData - Tramos, tipos de cotización, and tarifa plana data
+ * @returns Full calculation result with breakdown and tramos table
+ */
+export function calcularCuotaAutonomo(
+  input: CuotaAutonomoInput,
+  autonomosData: AutonomosData
+): CuotaAutonomoResult {
+  const { rendimientosNetosMensuales, situacion, basePersonalizada } = input;
+  const { tramos, tiposCotizacion, tarifaPlana } = autonomosData;
+
+  // Find matching tramo
+  const tramoAplicado = buscarTramo(rendimientosNetosMensuales, tramos);
+
+  // Determine base de cotización
+  let baseElegida: number;
+  if (
+    basePersonalizada !== undefined &&
+    basePersonalizada >= tramoAplicado.baseMinima &&
+    basePersonalizada <= tramoAplicado.baseMaxima
+  ) {
+    baseElegida = basePersonalizada;
+  } else {
+    baseElegida = tramoAplicado.baseMinima;
+  }
+
+  // Calculate normal cuota (for both new and established)
+  const cuotaNormal = round2(baseElegida * tiposCotizacion.total / 100);
+
+  // Breakdown by each tipo de cotización
+  const desgloseCotizacion = {
+    contingenciasComunes: round2(baseElegida * tiposCotizacion.contingenciasComunes / 100),
+    contingenciasProfesionales: round2(baseElegida * tiposCotizacion.contingenciasProfesionales / 100),
+    ceseProfesional: round2(baseElegida * tiposCotizacion.ceseProfesional / 100),
+    formacionProfesional: round2(baseElegida * tiposCotizacion.formacionProfesional / 100),
+    mei: round2(baseElegida * tiposCotizacion.mei / 100),
+  };
+
+  // Apply tarifa plana for new autónomos
+  const esTarifaPlana = situacion === 'nuevo';
+  const cuotaMensual = esTarifaPlana ? tarifaPlana.cuotaMensual : cuotaNormal;
+  const cuotaAnual = round2(cuotaMensual * 12);
+
+  // Savings from tarifa plana (how much the new autónomo saves vs normal)
+  const ahorroPorTarifaPlana = esTarifaPlana
+    ? round2((cuotaNormal - tarifaPlana.cuotaMensual) * 12)
+    : 0;
+
+  // Build tramos table for display
+  const tablaTramos = tramos.map((tramo) => ({
+    tramoId: tramo.tramoId,
+    tabla: tramo.tabla === 'reducida' ? 'Reducida' : 'General',
+    rango: formatRango(tramo),
+    cuotaMinima: tramo.cuotaMinima,
+    esActual: tramo.tramoId === tramoAplicado.tramoId,
+  }));
+
+  return {
+    tramoAplicado,
+    cuotaMensual,
+    cuotaAnual,
+    baseElegida,
+    esTarifaPlana,
+    ahorroPorTarifaPlana,
+    desgloseCotizacion,
+    tablaTramos,
   };
 }

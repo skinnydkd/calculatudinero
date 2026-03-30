@@ -1,0 +1,183 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import CalculadoraHipoteca from '@components/calculators/CalculadoraHipoteca';
+import hipotecaData from '@data/hipoteca-reference.json';
+import itpData from '@data/itp-por-ccaa.json';
+
+const title = 'Simulador de Hipoteca 2026: Calcula tu Cuota Mensual — CalculaTuDinero.net';
+const description = 'Simula tu hipoteca: calcula la cuota mensual, total de intereses y cuadro de amortización. Incluye gastos de compra por comunidad autónoma.';
+const canonical = 'https://calculatudinero.net/vivienda/calculadora-hipoteca/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Vivienda', href: '/vivienda/' },
+  { label: 'Simulador de Hipoteca' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto pagaré de cuota mensual por una hipoteca de 160.000 €?',
+    answer: 'Con una hipoteca de 160.000 € a 25 años y un tipo fijo del 2,9%, la cuota mensual es de unos 746 €. Si el plazo fuera de 30 años, la cuota baja a unos 664 €, pero pagas más intereses en total. A tipo variable (Euríbor 2,45% + 0,9% de diferencial), la cuota sería de unos 752 € al mes, aunque puede variar en cada revisión anual.',
+  },
+  {
+    question: '¿Cuántos intereses se pagan en una hipoteca a 25 años?',
+    answer: 'En una hipoteca de 160.000 € a 25 años con un tipo fijo del 2,9%, los intereses totales ascienden a unos 63.900 €, es decir, pagas un total de 223.900 €. A 30 años, los intereses suben a unos 79.200 €. Por cada 5 años adicionales de plazo, los intereses aumentan considerablemente, aunque la cuota mensual sea más baja.',
+  },
+  {
+    question: '¿Qué gastos tiene comprar una vivienda de 200.000 € en Madrid?',
+    answer: 'Para una vivienda de segunda mano de 200.000 € en Madrid, los gastos aproximados son: ITP (6%) = 12.000 €, notaría (0,5%) = 1.000 €, registro (0,3%) = 600 €, gestoría = 400 €, tasación = 350 €. Total gastos: unos 14.350 €. Es decir, necesitas tener ahorrados al menos 54.350 € (20% de entrada + gastos) para comprar con financiación del 80%.',
+  },
+  {
+    question: '¿Qué es el cuadro de amortización?',
+    answer: 'El cuadro de amortización es una tabla que muestra, año a año (o mes a mes), cómo se distribuye cada cuota entre capital amortizado e intereses. En los primeros años, la mayor parte de la cuota son intereses. A medida que avanza el plazo, la proporción se invierte y cada vez se amortiza más capital. Es una herramienta fundamental para entender el coste real de tu hipoteca.',
+  },
+  {
+    question: '¿Cuánto financia el banco como máximo?',
+    answer: 'Los bancos en España financian habitualmente hasta el 80% del valor de tasación para primera vivienda y hasta el 70% para segunda vivienda o inversión. Algunos bancos pueden llegar al 90% o incluso al 100% en casos excepcionales (funcionarios, perfiles de muy bajo riesgo), pero suelen aplicar un tipo de interés más alto. Lo recomendable es tener ahorrado al menos el 20% del precio más un 10-13% adicional para los gastos de compra.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Simulador de Hipoteca',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Simulador de Hipoteca"
+>
+  <CalculadoraHipoteca client:load hipotecaData={hipotecaData} itpData={itpData} />
+
+  <Fragment slot="content">
+    <h2>Cómo funciona el simulador de hipoteca</h2>
+    <p>
+      Este simulador de hipoteca utiliza el sistema de amortización francés, el más habitual en España. Con este
+      método, la cuota mensual es constante durante toda la vida del préstamo (en hipotecas a tipo fijo). Cada
+      cuota se compone de una parte de intereses y otra de devolución del capital. Al principio, la mayor parte
+      de la cuota son intereses; con el paso de los años, la proporción se invierte.
+    </p>
+    <p>
+      La fórmula utilizada es: <strong>M = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> - 1)</strong>,
+      donde P es el capital del préstamo, r es el tipo de interés mensual y n es el número total de cuotas mensuales.
+    </p>
+
+    <h2>Ejemplo práctico: hipoteca para una vivienda de 200.000 €</h2>
+    <p>
+      <strong>Situación:</strong> compras una vivienda de 200.000 €, aportas 40.000 € de entrada (20%) y
+      solicitas una hipoteca de 160.000 € a 25 años con un tipo fijo del 2,9%.
+    </p>
+    <p>
+      La cuota mensual resultante es de <strong>746,37 €</strong>. Durante los 25 años (300 cuotas), pagarás
+      un total de 223.911 €, de los cuales 63.911 € corresponden a intereses. En el primer año, unos 4.540 € de tus
+      cuotas van a intereses y solo 4.416 € a reducir el capital. En el último año, casi toda la cuota (8.860 €) va
+      a amortizar el capital restante y solo 96 € a intereses.
+    </p>
+
+    <h2>Gastos de compra: lo que el banco no financia</h2>
+    <p>
+      Además de la entrada, necesitas dinero para los gastos asociados a la compra. Estos incluyen impuestos
+      (ITP para vivienda usada o IVA+AJD para vivienda nueva), notaría, registro de la propiedad, gestoría y
+      tasación. En total, los gastos suelen representar entre el 10% y el 13% del precio de la vivienda,
+      dependiendo de la comunidad autónoma.
+    </p>
+    <p>
+      <strong>Consejo:</strong> antes de buscar vivienda, calcula el ahorro total que necesitas: al menos el 20% del
+      precio para la entrada más un 10-13% adicional para gastos. Para una vivienda de 200.000 €, eso supone un
+      mínimo de 54.000-66.000 € de ahorro previo.
+    </p>
+
+    <h2>Hipoteca fija vs. variable en 2026</h2>
+    <p>
+      En marzo de 2026, el Euríbor a 12 meses se sitúa en el 2,45%. Las hipotecas a tipo fijo se ofrecen entre el
+      2,5% y el 3,5% (media del 2,9%), mientras que las hipotecas variables aplican un diferencial de entre 0,5%
+      y 1,5% sobre el Euríbor (media del 0,9%).
+    </p>
+    <p>
+      Con un Euríbor al 2,45%, una hipoteca variable al Euríbor + 0,9% tiene un tipo efectivo del 3,35%, ligeramente
+      por encima de la media fija. Si el Euríbor baja en los próximos años, la variable puede ser más ventajosa.
+      Si sube, la fija te protege. La elección depende de tu tolerancia al riesgo y tus expectativas sobre la
+      evolución de los tipos de interés.
+    </p>
+
+    <h2>Calculadoras relacionadas</h2>
+    <p>
+      Si estás planificando la compra de una vivienda, te interesa también conocer cuánto te quedará de nómina
+      después de pagar la hipoteca. Usa nuestra <a href="/laboral/salario-neto/">calculadora de salario neto</a> para
+      saber cuánto cobras realmente al mes. Si eres autónomo, consulta la <a href="/autonomos/cuanto-facturar/">calculadora
+      de facturación</a> para estimar tus ingresos netos. Y para la declaración de la renta, revisa la
+      <a href="/impuestos/calculadora-irpf/">calculadora de IRPF 2026</a>.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

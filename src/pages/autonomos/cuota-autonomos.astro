@@ -1,0 +1,172 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import CuotaAutonomos from '@components/calculators/CuotaAutonomos';
+import autonomosData from '@data/autonomos-2026.json';
+
+const title = 'Cuota de Autónomos 2026: Calcula tu Cuota Mensual — CalculaTuDinero.net';
+const description = 'Calcula la cuota de autónomos que te corresponde en 2026 según tus rendimientos netos. Sistema de cotización por ingresos reales con los 15 tramos actualizados.';
+const canonical = 'https://calculatudinero.net/autonomos/cuota-autonomos/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Autónomos', href: '/autonomos/' },
+  { label: 'Cuota de Autónomos' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto paga un autónomo de cuota en 2026?',
+    answer: 'La cuota de autónomos en 2026 oscila entre 205,88 € y 607,35 € al mes, dependiendo de tus rendimientos netos mensuales. El sistema de cotización por ingresos reales establece 15 tramos: los 3 primeros en tabla reducida (para rendimientos hasta 1.166,70 €/mes) y los 12 restantes en tabla general (hasta más de 6.000 €/mes).',
+  },
+  {
+    question: '¿Cómo funciona la tarifa plana de autónomos?',
+    answer: 'La tarifa plana permite a los nuevos autónomos pagar solo 80 € al mes durante los primeros 12 meses de actividad, independientemente de sus ingresos. Si al finalizar el primer año los rendimientos netos están por debajo del Salario Mínimo Interprofesional (SMI), puede ampliarse 12 meses más. Para acceder, no debes haber estado de alta como autónomo en los 2 años anteriores (3 si ya la disfrutaste).',
+  },
+  {
+    question: '¿Puedo elegir mi base de cotización?',
+    answer: 'Sí, puedes elegir tu base de cotización siempre que esté dentro del rango mínimo y máximo de tu tramo de rendimientos. Elegir una base más alta implica pagar una cuota mayor, pero también mejora tus prestaciones (jubilación, baja por enfermedad, cese de actividad). La mayoría de autónomos elige la base mínima de su tramo para pagar menos.',
+  },
+  {
+    question: '¿Qué incluye la cuota de autónomos?',
+    answer: 'La cuota del 31,50% sobre tu base de cotización incluye cinco conceptos: contingencias comunes (28,30%) que cubren jubilación, incapacidad temporal y permanente; contingencias profesionales (1,30%) para accidentes laborales; cese de actividad (0,90%) equivalente al desempleo; formación profesional (0,10%); y el Mecanismo de Equidad Intergeneracional o MEI (0,90%) para sostener el sistema de pensiones.',
+  },
+  {
+    question: '¿Cada cuánto se puede cambiar la base de cotización?',
+    answer: 'Puedes cambiar tu base de cotización cada 2 meses, lo que significa hasta 6 veces al año. Los plazos son: antes del 1 de marzo (efecto 1 de marzo), antes del 1 de mayo (efecto 1 de mayo), antes del 1 de julio, antes del 1 de septiembre, antes del 1 de noviembre y antes del 1 de enero del año siguiente. Esto permite ajustar la base a la evolución real de tus ingresos.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de cuota de autónomos 2026',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Cuota de Autónomos 2026"
+>
+  <CuotaAutonomos client:load autonomosData={autonomosData} />
+
+  <Fragment slot="content">
+    <h2>Cómo se calcula la cuota de autónomos en 2026</h2>
+    <p>
+      Desde 2023, la cuota de autónomos se calcula en función de los rendimientos netos reales del trabajador por
+      cuenta propia. Ya no existe una base mínima única para todos: ahora cada autónomo cotiza según el tramo en
+      el que se encuentren sus ingresos netos mensuales.
+    </p>
+    <p>
+      Los rendimientos netos se calculan restando a los ingresos brutos los gastos deducibles de la actividad
+      (alquiler del local, suministros, material, dietas, etc.), pero sin descontar la propia cuota de autónomos.
+      Sobre esos rendimientos, la Seguridad Social aplica una deducción del 7% por gastos de difícil justificación,
+      y el resultado determina en cuál de los 15 tramos te encuentras.
+    </p>
+    <p>
+      Una vez identificado tu tramo, puedes elegir una base de cotización entre la mínima y la máxima de ese
+      tramo. La cuota mensual es el resultado de aplicar el tipo de cotización total del 31,50% a la base elegida.
+      Este 31,50% incluye: contingencias comunes (28,30%), contingencias profesionales (1,30%), cese de actividad
+      (0,90%), formación profesional (0,10%) y el MEI (0,90%).
+    </p>
+
+    <h2>Los 15 tramos de cotización</h2>
+    <p>
+      El sistema de cotización por ingresos reales establece 15 tramos divididos en dos tablas. La tabla
+      reducida agrupa los 3 primeros tramos y está pensada para autónomos con rendimientos bajos (hasta
+      1.166,70 €/mes). La tabla general comprende los 12 tramos restantes, desde 1.166,70 € hasta más de
+      6.000 €/mes.
+    </p>
+    <p>
+      La cuota mínima del tramo 1 es de 205,88 €/mes (para rendimientos de hasta 670 €) y la máxima del tramo
+      15 es de 607,35 €/mes (para rendimientos superiores a 6.000 €). Los tramos intermedios más comunes para
+      autónomos son del 4 al 9, con cuotas que van de 299,56 € a 401,47 €/mes.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Un diseñador freelance que factura 3.000 € al mes</strong> y tiene 500 € de gastos deducibles.
+      Sus rendimientos netos son 2.500 €/mes. Aplicando la deducción del 7% por gastos de difícil justificación,
+      sus rendimientos netos a efectos de cotización son aproximadamente 2.325 €/mes.
+    </p>
+    <p>
+      Con esos rendimientos cae en el tramo 9 (de 2.030,01 € a 2.330 €), con una base mínima de 1.274,51 € y
+      una cuota mínima de 401,47 €/mes. Si elige cotizar por la base mínima de su tramo, pagará
+      <strong>401,47 € al mes</strong>, es decir, <strong>4.817,64 € al año</strong> en concepto de cuota de
+      autónomos.
+    </p>
+    <p>
+      Si este mismo diseñador fuera nuevo autónomo con tarifa plana, pagaría solo 80 €/mes durante el primer
+      año, ahorrándose 3.857,64 € respecto a la cuota normal de su tramo.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

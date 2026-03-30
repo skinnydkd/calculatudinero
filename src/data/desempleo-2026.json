@@ -1,0 +1,40 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "SEPE / BOE",
+  "iprem2026": {
+    "mensual": 600,
+    "anual12pagas": 7200,
+    "anual14pagas": 8400,
+    "nota": "Indicador Público de Renta de Efectos Múltiples"
+  },
+  "prestacionContributiva": {
+    "porcentajePrimeros180Dias": 70,
+    "porcentajeResto": 50,
+    "baseReguladora": {
+      "nota": "Media de bases cotización últimos 180 días"
+    },
+    "topes": {
+      "sinHijos": { "porcentajeIPREM": 175, "importe": 1050 },
+      "unHijo": { "porcentajeIPREM": 200, "importe": 1200 },
+      "dosOMasHijos": { "porcentajeIPREM": 225, "importe": 1350 }
+    },
+    "minimoSinHijos": { "porcentajeIPREM": 80, "importe": 480 },
+    "minimoConHijos": { "porcentajeIPREM": 107, "importe": 642 },
+    "duracionPorCotizacion": [
+      { "diasCotizadosMin": 360, "diasCotizadosMax": 539, "mesesPrestacion": 4 },
+      { "diasCotizadosMin": 540, "diasCotizadosMax": 719, "mesesPrestacion": 6 },
+      { "diasCotizadosMin": 720, "diasCotizadosMax": 899, "mesesPrestacion": 8 },
+      { "diasCotizadosMin": 900, "diasCotizadosMax": 1079, "mesesPrestacion": 10 },
+      { "diasCotizadosMin": 1080, "diasCotizadosMax": 1259, "mesesPrestacion": 12 },
+      { "diasCotizadosMin": 1260, "diasCotizadosMax": 1439, "mesesPrestacion": 14 },
+      { "diasCotizadosMin": 1440, "diasCotizadosMax": 1619, "mesesPrestacion": 16 },
+      { "diasCotizadosMin": 1620, "diasCotizadosMax": 1799, "mesesPrestacion": 18 },
+      { "diasCotizadosMin": 1800, "diasCotizadosMax": 1979, "mesesPrestacion": 20 },
+      { "diasCotizadosMin": 1980, "diasCotizadosMax": 2159, "mesesPrestacion": 22 },
+      { "diasCotizadosMin": 2160, "diasCotizadosMax": null, "mesesPrestacion": 24 }
+    ],
+    "cotizacionMinima": 360,
+    "nota": "Mínimo 360 días cotizados en los últimos 6 años"
+  }
+}

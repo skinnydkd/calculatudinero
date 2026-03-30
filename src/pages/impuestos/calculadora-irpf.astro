@@ -1,0 +1,172 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import CalculadoraIRPF from '@components/calculators/CalculadoraIRPF';
+import irpfData from '@data/irpf-2026.json';
+
+const title = 'Calculadora de IRPF 2026 — CalculaTuDinero.net';
+const description = 'Calcula tu cuota de IRPF 2026 con los tramos estatales y autonómicos actualizados. Válido para trabajadores por cuenta ajena y autónomos.';
+const canonical = 'https://calculatudinero.net/impuestos/calculadora-irpf/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'Calculadora IRPF' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto IRPF pago si gano 30.000 €?',
+    answer: 'Con un salario bruto de 30.000 € en Madrid, sin hijos y soltero, tu cuota de IRPF sería de aproximadamente 4.200-4.500 € anuales, lo que supone un tipo efectivo del 14-15%. La cifra exacta depende de tu comunidad autónoma, situación familiar y cotización a la Seguridad Social.',
+  },
+  {
+    question: '¿El IRPF varía según la comunidad autónoma?',
+    answer: 'Sí. El IRPF en régimen común se divide en dos partes: la estatal (igual en toda España) y la autonómica (que cada comunidad fija libremente). Por ejemplo, Madrid tiene los tramos autonómicos más bajos, mientras que Cataluña o Valencia tienen tipos más altos. Navarra y País Vasco tienen régimen foral propio con una escala única diferente.',
+  },
+  {
+    question: '¿Qué reducciones puedo aplicar en el IRPF?',
+    answer: 'Los trabajadores por cuenta ajena pueden aplicar la reducción por rendimientos del trabajo (hasta 7.302 € para rentas bajas), que reduce la base imponible. Además, todos los contribuyentes se benefician del mínimo personal (5.550 €) y el mínimo por descendientes (2.400 € por el primer hijo, 2.700 € por el segundo, etc.). Los mayores de 65 años tienen un mínimo personal incrementado.',
+  },
+  {
+    question: '¿Cómo se calcula el IRPF de un autónomo?',
+    answer: 'El autónomo calcula sus rendimientos netos restando los gastos deducibles (cuota de autónomos, suministros, material, etc.) de sus ingresos brutos. Sobre esos rendimientos netos se aplican los tramos de IRPF, sin la reducción por rendimientos del trabajo que sí aplican los asalariados. El resultado es la cuota anual que se liquida en la declaración de la renta.',
+  },
+  {
+    question: '¿Es lo mismo retención que IRPF?',
+    answer: 'No exactamente. La retención es el adelanto mensual que tu empresa descuenta de tu nómina a cuenta del IRPF. El IRPF es el impuesto anual que se liquida en la declaración de la renta. Si las retenciones acumuladas durante el año superan tu cuota de IRPF, Hacienda te devuelve la diferencia. Si son inferiores, deberás pagar lo que falte.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de IRPF 2026',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Calculadora de IRPF 2026"
+>
+  <CalculadoraIRPF client:load irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <h2>Cómo se calcula el IRPF en España</h2>
+    <p>
+      El IRPF (Impuesto sobre la Renta de las Personas Físicas) es un impuesto progresivo que grava
+      las rentas obtenidas por los residentes en España durante el año natural. «Progresivo» significa
+      que no se aplica un porcentaje único a toda tu renta, sino que cada tramo de ingresos tributa a
+      un tipo diferente, de menor a mayor.
+    </p>
+    <p>
+      El cálculo comienza con los <strong>rendimientos brutos</strong> (tu salario bruto o tus ingresos
+      como autónomo). A estos se les restan las cotizaciones a la Seguridad Social (en el caso de
+      trabajadores por cuenta ajena) o los gastos deducibles (en el caso de autónomos), obteniendo
+      los <strong>rendimientos netos</strong>.
+    </p>
+    <p>
+      Para los asalariados con rentas bajas, se aplica adicionalmente una <strong>reducción por
+      rendimientos del trabajo</strong> de hasta 7.302 € anuales (para rendimientos netos inferiores
+      a 14.852 €), que reduce la base imponible. Los autónomos no pueden aplicar esta reducción.
+    </p>
+    <p>
+      Sobre la <strong>base liquidable</strong> resultante se aplican los tramos del IRPF. En régimen
+      común, la cuota se divide en dos partes: la <strong>estatal</strong> (igual en toda España) y la
+      <strong>autonómica</strong> (que cada comunidad fija libremente). A ambas cuotas se les resta la
+      cuota correspondiente al <strong>mínimo personal y familiar</strong>, que es la parte de la renta
+      exenta por necesidades vitales básicas.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Un trabajador con un salario bruto de 35.000 € en Madrid</strong>, soltero y sin hijos,
+      tendría el siguiente cálculo aproximado:
+    </p>
+    <p>
+      Rendimientos brutos: 35.000 €. Cotización a la Seguridad Social del trabajador (~6,47%):
+      2.265 €. Rendimientos netos: 32.735 €. Como supera los 17.673,52 €, no aplica reducción
+      por rendimientos del trabajo. Base liquidable: 32.735 €.
+    </p>
+    <p>
+      Cuota estatal: se aplican los tramos estatales sobre 32.735 €, lo que da unos 4.050 €. Se
+      resta la cuota del mínimo personal (5.550 €), que es unos 527 €. Cuota estatal neta: ~3.523 €.
+    </p>
+    <p>
+      Cuota autonómica (Madrid): con los tramos de Madrid sobre la misma base, la cuota es de unos
+      3.200 €, menos la cuota del mínimo: ~2.728 €.
+    </p>
+    <p>
+      <strong>Cuota total de IRPF: ~6.251 €</strong>, lo que supone un <strong>tipo efectivo del
+      17,86%</strong>. Es decir, de cada 100 € que gana, destina unos 17,86 € al IRPF.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
