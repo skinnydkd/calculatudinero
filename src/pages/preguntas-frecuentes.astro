@@ -1,0 +1,256 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/layout/Breadcrumb.astro';
+
+const title = 'Preguntas Frecuentes sobre Finanzas en España — CalculaTuDinero.net';
+const description = 'Respuestas a las preguntas más comunes sobre IRPF, autónomos, nóminas, hipotecas, pensiones y más. Información actualizada a 2026.';
+const canonical = 'https://calculatudinero.net/preguntas-frecuentes/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Preguntas frecuentes' },
+];
+
+const sections = [
+  {
+    title: 'IRPF e impuestos',
+    icon: '🧾',
+    faqs: [
+      {
+        q: '¿Cuáles son los tramos de IRPF en 2026?',
+        a: 'Los tramos estatales son: hasta 12.450 € al 9,50%, de 12.450 a 20.200 € al 12%, de 20.200 a 35.200 € al 15%, de 35.200 a 60.000 € al 18,50%, de 60.000 a 300.000 € al 22,50% y más de 300.000 € al 24,50%. A estos se suman los tramos autonómicos.',
+        link: '/impuestos/calculadora-irpf/',
+      },
+      {
+        q: '¿En qué comunidad se paga menos IRPF?',
+        a: 'Madrid suele tener el IRPF más bajo gracias a sus tipos autonómicos reducidos. País Vasco y Navarra tienen regímenes forales propios también competitivos.',
+        link: '/impuestos/comparador-irpf-comunidades/',
+      },
+      {
+        q: '¿Cuánto es el IVA en España?',
+        a: 'El IVA general es del 21%, el reducido del 10% (alimentos, hostelería, vivienda nueva) y el superreducido del 4% (pan, leche, libros, medicamentos). En Canarias se aplica IGIC (7% general) y en Ceuta y Melilla IPSI (10% general).',
+        link: '/impuestos/calculadora-iva/',
+      },
+      {
+        q: '¿Qué es el mínimo personal y familiar?',
+        a: 'Es la parte de la renta exenta de tributación: 5.550 € personales (más para mayores de 65/75), más 2.400 € por el primer hijo, 2.700 € por el segundo, 4.000 € por el tercero y 4.500 € por el cuarto y siguientes.',
+        link: '/impuestos/calculadora-irpf/',
+      },
+    ],
+  },
+  {
+    title: 'Autónomos',
+    icon: '💼',
+    faqs: [
+      {
+        q: '¿Cuánto paga un autónomo de cuota en 2026?',
+        a: 'La cuota oscila entre 205,88 €/mes (rendimientos hasta 670 €) y 607,35 €/mes (rendimientos superiores a 6.000 €), según el sistema de cotización por ingresos reales con 15 tramos. La tarifa plana para nuevos autónomos es de 80 €/mes durante 12 meses.',
+        link: '/autonomos/cuota-autonomos/',
+      },
+      {
+        q: '¿Cuánto hay que facturar para ganar 2.000 € netos?',
+        a: 'Para ganar 2.000 € netos al mes como autónomo necesitarás facturar aproximadamente entre 3.200 € y 3.800 € mensuales (sin IVA), dependiendo de tu comunidad autónoma y tramo de IRPF.',
+        link: '/autonomos/cuanto-facturar/',
+      },
+      {
+        q: '¿Qué es la tarifa plana de autónomos?',
+        a: 'La tarifa plana permite pagar 80 €/mes de cuota durante los primeros 12 meses de actividad. Si los rendimientos son inferiores al SMI, se puede ampliar otros 12 meses. Requisito: no haber sido autónomo en los 2 años anteriores.',
+        link: '/autonomos/cuota-autonomos/',
+      },
+    ],
+  },
+  {
+    title: 'Laboral y nóminas',
+    icon: '💰',
+    faqs: [
+      {
+        q: '¿Cuál es el SMI en 2026?',
+        a: 'El Salario Mínimo Interprofesional en 2026 es de 1.221 € mensuales en 14 pagas (1.424,50 € en 12 pagas), lo que equivale a 17.094 € anuales.',
+        link: '/laboral/salario-neto/',
+      },
+      {
+        q: '¿Qué tipos de despido existen?',
+        a: 'Despido improcedente (33 días/año, máx. 24 mensualidades), objetivo (20 días/año, máx. 12 mensualidades), disciplinario procedente (0 €), ERE (20 días/año) y fin de contrato temporal (12 días/año).',
+        link: '/laboral/indemnizacion-despido/',
+      },
+      {
+        q: '¿El finiquito es lo mismo que la indemnización?',
+        a: 'No. El finiquito se cobra siempre al dejar el trabajo (días trabajados, vacaciones pendientes, prorrata pagas extra). La indemnización solo se cobra en determinados tipos de despido.',
+        link: '/laboral/finiquito/',
+      },
+      {
+        q: '¿Cuánto se cobra de paro?',
+        a: 'El 70% de la base reguladora durante los primeros 6 meses y el 50% después. Hay topes máximos (1.050-1.350 € según hijos) y mínimos (480-642 €). La duración va de 4 a 24 meses según días cotizados.',
+        link: '/laboral/prestacion-desempleo/',
+      },
+    ],
+  },
+  {
+    title: 'Vivienda e hipotecas',
+    icon: '🏠',
+    faqs: [
+      {
+        q: '¿Cuánto dinero necesito para comprar una casa?',
+        a: 'Necesitas aproximadamente el 30-32% del precio de la vivienda: un 20% de entrada (los bancos financian hasta el 80%) más un 10-12% de gastos (impuestos, notaría, registro, gestoría, tasación).',
+        link: '/vivienda/calculadora-hipoteca/',
+      },
+      {
+        q: '¿Hipoteca fija o variable en 2026?',
+        a: 'Depende de tu perfil de riesgo. La fija ofrece estabilidad (~2,5-3,5% en 2026) pero es más cara inicialmente. La variable (Euríbor + diferencial) puede ser más barata pero fluctúa. Con el Euríbor en ~2,45%, ambas opciones están relativamente próximas.',
+        link: '/vivienda/calculadora-hipoteca/',
+      },
+      {
+        q: '¿Qué es la plusvalía municipal?',
+        a: 'Es un impuesto municipal que se paga al vender un inmueble. Desde la sentencia del TC de 2021, solo se paga si hay incremento real de valor, y se puede elegir entre el método real y el objetivo (el que resulte menor).',
+        link: '/impuestos/plusvalia-municipal/',
+      },
+    ],
+  },
+  {
+    title: 'Ahorro, inversión y jubilación',
+    icon: '📈',
+    faqs: [
+      {
+        q: '¿Qué es el interés compuesto?',
+        a: 'Es el interés que se genera tanto sobre el capital inicial como sobre los intereses acumulados. Es la base del crecimiento exponencial de las inversiones a largo plazo. A un 7% anual, tu dinero se duplica cada ~10 años.',
+        link: '/ahorro-inversion/interes-compuesto/',
+      },
+      {
+        q: '¿A qué edad me puedo jubilar?',
+        a: 'A los 65 años si acreditas al menos 37 años y 6 meses cotizados, o a los 66 años y 6 meses en caso contrario. Existe jubilación anticipada voluntaria (desde los 63) e involuntaria (desde los 61) con penalizaciones.',
+        link: '/ahorro-inversion/pension-jubilacion/',
+      },
+      {
+        q: '¿Cuántos años hay que cotizar para la pensión máxima?',
+        a: 'Necesitas 37 años cotizados para cobrar el 100% de tu base reguladora. Con 15 años (mínimo) cobras el 50%. La pensión máxima en 2026 es de 3.267,60 €/mes.',
+        link: '/ahorro-inversion/pension-jubilacion/',
+      },
+    ],
+  },
+];
+
+const allFaqs = sections.flatMap((s) => s.faqs);
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': allFaqs.map((faq) => ({
+    '@type': 'Question',
+    'name': faq.q,
+    'acceptedAnswer': { '@type': 'Answer', 'text': faq.a },
+  })),
+}];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <div class="faq-page container">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="faq-page__header">
+      <h1>Preguntas frecuentes</h1>
+      <p class="faq-page__subtitle">Respuestas claras a las dudas más comunes sobre finanzas personales en España</p>
+    </header>
+
+    {sections.map((section) => (
+      <section class="faq-section">
+        <h2 class="faq-section__title">
+          <span class="faq-section__icon">{section.icon}</span>
+          {section.title}
+        </h2>
+        {section.faqs.map((faq) => (
+          <details class="faq__item">
+            <summary class="faq__question">{faq.q}</summary>
+            <div class="faq__answer">
+              <p>{faq.a}</p>
+              {faq.link && (
+                <a href={faq.link} class="faq__calc-link">Ir a la calculadora &rarr;</a>
+              )}
+            </div>
+          </details>
+        ))}
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .faq-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .faq-page__header {
+    margin-bottom: var(--space-10);
+  }
+
+  .faq-page__header h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .faq-page__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .faq-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .faq-section__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .faq-section__icon {
+    font-size: 1.3rem;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .faq__calc-link {
+    display: inline-block;
+    margin-top: var(--space-2);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .faq__calc-link:hover {
+    text-decoration: underline;
+  }
+</style>
