@@ -1,0 +1,142 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import PensionJubilacion from '@components/calculators/PensionJubilacion';
+import pensionesData from '@data/pensiones-2026.json';
+
+const title = 'Calculadora de Pensión de Jubilación 2026 — CalculaTuDinero.net';
+const description = 'Estima tu pensión de jubilación: base reguladora, porcentaje por años cotizados y complementos. Datos actualizados a 2026.';
+const canonical = 'https://calculatudinero.net/ahorro-inversion/pension-jubilacion/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Ahorro e inversión', href: '/ahorro-inversion/' },
+  { label: 'Pensión de jubilación' },
+];
+
+const faqs = [
+  {
+    question: '¿Cómo se calcula la pensión de jubilación?',
+    answer: 'La pensión se calcula aplicando un porcentaje a la base reguladora. La base reguladora es la media de tus bases de cotización de los últimos 25 años (300 meses), dividida entre 350. El porcentaje depende de los años cotizados: 50% con 15 años, y sube progresivamente hasta el 100% con 37 años.',
+  },
+  {
+    question: '¿A qué edad me puedo jubilar en 2026?',
+    answer: 'En 2026, la edad ordinaria de jubilación es de 65 años si acreditas al menos 37 años y 6 meses de cotización, o de 66 años y 6 meses si no alcanzas ese período. Existen modalidades de jubilación anticipada a partir de los 63 años (voluntaria) o 61 años (involuntaria/ERE).',
+  },
+  {
+    question: '¿Cuántos años hay que cotizar para cobrar el 100% de la pensión?',
+    answer: 'Necesitas 37 años cotizados para cobrar el 100% de tu base reguladora. Con 15 años (mínimo) cobras el 50%. Entre 15 y 37 años, cada mes adicional incrementa el porcentaje: 0,19% por mes los primeros 248 meses adicionales y 0,18% del mes 249 al 264.',
+  },
+  {
+    question: '¿Cuál es la pensión máxima en 2026?',
+    answer: 'La pensión máxima de jubilación en 2026 es de 3.267,60 € mensuales (en 14 pagas), lo que equivale a 45.746,40 € anuales. Se aplica con independencia de la base reguladora y los años cotizados si el resultado del cálculo supera este límite.',
+  },
+  {
+    question: '¿Cuál es la pensión mínima en 2026?',
+    answer: 'La pensión mínima para mayores de 65 años en 2026 es de 1.054 € mensuales con cónyuge a cargo y 854,60 € sin cónyuge a cargo (en 14 pagas). Si tu pensión calculada es inferior a estos importes, se complementa hasta el mínimo.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Pensión de Jubilación',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR' },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': { '@type': 'Answer', 'text': faq.answer },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Pensión de jubilación"
+>
+  <PensionJubilacion client:load pensionesData={pensionesData} />
+
+  <Fragment slot="content">
+    <h2>Cómo se calcula la pensión de jubilación</h2>
+    <p>
+      La pensión de jubilación en España se calcula en tres pasos. Primero se determina la
+      <strong>base reguladora</strong>, que es la media de tus bases de cotización de los últimos
+      25 años (300 meses), dividida entre 350. Segundo, se aplica un <strong>porcentaje</strong>
+      según los años cotizados: 50% con 15 años y hasta el 100% con 37 años. Tercero, se aplican
+      complementos y se comprueba que el resultado esté dentro de los topes máximo y mínimo.
+    </p>
+
+    <h2>El porcentaje por años cotizados</h2>
+    <p>
+      Con los primeros 15 años cotizados obtienes el 50% de tu base reguladora. A partir de ahí,
+      cada mes adicional suma un 0,19% durante los primeros 248 meses adicionales (unos 20 años),
+      y un 0,18% por mes desde el mes 249 hasta alcanzar el 100% a los 37 años de cotización.
+    </p>
+
+    <h2>Ejemplo práctico</h2>
+    <p>
+      <strong>Trabajador con base media de 2.500 €/mes y 35 años cotizados:</strong>
+    </p>
+    <p>
+      Base reguladora: 2.500 € (simplificada). Porcentaje: 50% + (20 × 12 × 0,19%) + (5 × 12 - 12) × 0,18%
+      = 50% + 45,6% + ~1% = ~96,6%. Pensión mensual estimada: 2.500 × 96,6% = 2.415 €/mes.
+      Al estar por debajo de la pensión máxima (3.267,60 €), no se aplica tope.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
