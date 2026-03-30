@@ -1,0 +1,285 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import RentabilidadAlquiler from '@components/calculators/RentabilidadAlquiler';
+
+const title = 'Calculadora de Rentabilidad del Alquiler 2026 — CalculaTuDinero.net';
+const description = 'Calcula la rentabilidad bruta y neta de alquilar un piso. Incluye gastos reales: IBI, comunidad, seguro, vacío y mantenimiento.';
+const canonical = 'https://calculatudinero.net/vivienda/rentabilidad-alquiler/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Vivienda', href: '/vivienda/' },
+  { label: 'Rentabilidad del alquiler' },
+];
+
+const faqs = [
+  {
+    question: '¿Qué es la rentabilidad bruta y neta del alquiler?',
+    answer: 'La rentabilidad bruta es el cociente entre los ingresos anuales por alquiler y el precio de compra de la vivienda, expresado en porcentaje. No tiene en cuenta los gastos. La rentabilidad neta descuenta todos los gastos anuales (IBI, comunidad, seguro, mantenimiento, vacío) y se calcula sobre la inversión total (precio + gastos de compra + reforma). La neta es la que refleja la realidad de tu inversión.',
+  },
+  {
+    question: '¿Cuál es una buena rentabilidad del alquiler en España?',
+    answer: 'En España, una rentabilidad neta del 4-5% se considera aceptable, y a partir del 6% es buena. La media nacional de rentabilidad bruta ronda el 6-7%, pero varía mucho por ciudades: Madrid y Barcelona están entre el 4-5% bruto, mientras que ciudades como Lleida, Huelva o Murcia pueden alcanzar el 7-9%. Hay que tener en cuenta que la rentabilidad bruta siempre es mayor que la neta.',
+  },
+  {
+    question: '¿Qué gastos tiene un piso en alquiler?',
+    answer: 'Los gastos principales son: IBI (Impuesto sobre Bienes Inmuebles, entre 300 € y 1.500 € anuales según el municipio), comunidad de propietarios (40-100 €/mes de media), seguro de hogar (150-350 €/año), mantenimiento y reparaciones (se estima un 1% del valor del inmueble al año), y periodos de vacío entre inquilinos. Además, si tienes hipoteca, la cuota mensual reduce tu cash-flow disponible.',
+  },
+  {
+    question: '¿Cómo tributan los ingresos por alquiler en el IRPF?',
+    answer: 'Los rendimientos del alquiler tributan en el IRPF como rendimiento del capital inmobiliario. Puedes deducir los gastos necesarios para obtener los ingresos (IBI, comunidad, seguro, intereses de hipoteca, amortización del inmueble al 3% anual). Sobre el rendimiento neto positivo, si el inmueble se destina a vivienda habitual del inquilino, se aplica una reducción del 50% (o del 60-90% en zonas tensionadas bajo la nueva ley de vivienda).',
+  },
+  {
+    question: '¿Qué es el cash-flow y por qué es importante?',
+    answer: 'El cash-flow (flujo de caja) es el dinero que te queda cada mes después de cobrar el alquiler y pagar todos los gastos, incluida la cuota de la hipoteca. Un cash-flow positivo significa que la inversión se autofinancia y genera un excedente mensual. Un cash-flow negativo indica que pones dinero de tu bolsillo cada mes. Aunque la rentabilidad neta sea positiva, el cash-flow puede ser negativo si la hipoteca es alta.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Rentabilidad del Alquiler',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Rentabilidad del Alquiler"
+>
+  <RentabilidadAlquiler client:load />
+
+  <Fragment slot="content">
+    <h2>Cómo funciona la calculadora de rentabilidad del alquiler</h2>
+    <p>
+      Invertir en vivienda para alquilar es una de las estrategias de inversión más populares en España. Sin embargo,
+      muchos inversores solo miran la rentabilidad bruta y se llevan sorpresas al descubrir los gastos reales.
+      Esta calculadora te muestra la rentabilidad neta real de tu inversión, teniendo en cuenta todos los gastos
+      anuales: IBI, comunidad, seguro, mantenimiento y periodos de vacío.
+    </p>
+    <p>
+      Las fórmulas utilizadas son: <strong>Rentabilidad bruta = (alquiler mensual &times; 12 / precio de compra) &times; 100</strong>.
+      <strong> Rentabilidad neta = (beneficio neto anual / inversión total) &times; 100</strong>, donde la
+      inversión total incluye el precio de compra, los gastos de adquisición y la reforma inicial.
+    </p>
+
+    <h2>Ejemplo práctico: piso de 180.000 € alquilado a 800 €/mes</h2>
+    <p>
+      <strong>Inversión:</strong> precio de compra 180.000 €, gastos de compra 18.000 € (ITP 10%), reforma 5.000 €.
+      Total invertido: 203.000 €.
+    </p>
+    <p>
+      <strong>Ingresos:</strong> 800 €/mes &times; 12 meses = 9.600 €/año.
+      Rentabilidad bruta = 9.600 / 180.000 = <strong>5,3%</strong>.
+    </p>
+    <p>
+      <strong>Gastos anuales:</strong> IBI 600 €, comunidad 720 € (60 &times; 12), seguro 250 €,
+      mantenimiento 1.800 € (1% de 180.000) = total 3.370 €/año.
+    </p>
+    <p>
+      <strong>Beneficio neto:</strong> 9.600 - 3.370 = 6.230 €/año.
+      Rentabilidad neta = 6.230 / 203.000 = <strong>3,1%</strong>.
+      Recuperas la inversión en unos 33 años.
+    </p>
+    <p>
+      Si además tienes una hipoteca de 500 €/mes, tu cash-flow mensual sería:
+      519 € (beneficio mensual) - 500 € (hipoteca) = <strong>+19 €/mes</strong>.
+      La inversión se autofinancia por poco.
+    </p>
+
+    <h2>Rentabilidad media del alquiler en España por ciudades (2026)</h2>
+    <p>
+      Según los últimos datos del mercado inmobiliario, la rentabilidad bruta media del alquiler en España
+      se sitúa en torno al 6,5%. Sin embargo, hay diferencias significativas entre ciudades:
+    </p>
+    <ul>
+      <li><strong>Alta rentabilidad (7-9%):</strong> Lleida, Huelva, Murcia, Jaén, Castellón</li>
+      <li><strong>Rentabilidad media (5-7%):</strong> Valencia, Alicante, Zaragoza, Las Palmas, Sevilla</li>
+      <li><strong>Baja rentabilidad (3-5%):</strong> Madrid, Barcelona, San Sebastián, Palma de Mallorca</li>
+    </ul>
+    <p>
+      Estas cifras son orientativas y de rentabilidad bruta. La neta dependerá de los gastos reales de
+      cada inmueble, que pueden variar enormemente según la antigüedad, la comunidad de propietarios
+      y el municipio.
+    </p>
+
+    <h2>Fiscalidad del alquiler: cómo tributa en el IRPF</h2>
+    <p>
+      Los ingresos por alquiler se declaran en el IRPF como rendimiento del capital inmobiliario. Puedes
+      deducir todos los gastos necesarios: IBI, comunidad, seguro, intereses de la hipoteca (no el capital),
+      gastos de reparación y conservación, y la amortización del inmueble (3% sobre el valor de construcción).
+    </p>
+    <p>
+      Si el inmueble se destina a vivienda habitual del inquilino, se aplica una <strong>reducción del 50%</strong>
+      sobre el rendimiento neto positivo. En zonas declaradas como mercado residencial tensionado (bajo la Ley de
+      Vivienda de 2023), la reducción puede llegar al 60%, 70% o incluso 90% si se rebaja el alquiler un 5%
+      respecto al contrato anterior.
+    </p>
+
+    <h2>Calculadoras relacionadas</h2>
+    <p>
+      Para calcular los gastos de compra de la vivienda, usa nuestro
+      <a href="/vivienda/calculadora-hipoteca/"> simulador de hipoteca</a> (incluye calculadora de gastos por
+      comunidad autónoma). Si quieres comparar la inversión en inmuebles con la inversión en fondos o acciones,
+      consulta la <a href="/ahorro-inversion/interes-compuesto/">calculadora de interés compuesto</a>. Y para
+      calcular la plusvalía municipal si vendes el piso, usa la
+      <a href="/impuestos/plusvalia-municipal/"> calculadora de plusvalía municipal</a>.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏠', title: 'Simulador de hipoteca', description: 'Calcula tu cuota mensual y gastos de compra por comunidad.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '📈', title: 'Interés compuesto', description: 'Compara invertir en inmuebles vs. mercados financieros.', href: '/ahorro-inversion/interes-compuesto/' },
+      { icon: '🏘️', title: 'Plusvalía municipal', description: 'Calcula el impuesto si decides vender la vivienda.', href: '/impuestos/plusvalia-municipal/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Rentabilidad alquiler summary cards */
+  :global(.ra-summary) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 640px) {
+    :global(.ra-summary) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  :global(.ra-summary__item) {
+    text-align: center;
+    padding: var(--space-3);
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+  }
+
+  :global(.ra-summary__label) {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-1);
+  }
+
+  :global(.ra-summary__value) {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  :global(.ra-bars) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  :global(.ra-bars__row) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  :global(.ra-bars__label) {
+    font-size: 0.85rem;
+    min-width: 70px;
+    text-align: right;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.ra-bars__track) {
+    flex: 1;
+    height: 20px;
+    background: var(--color-bg-alt);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  :global(.ra-bars__fill) {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+  }
+
+  :global(.ra-bars__value) {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 100px;
+  }
+</style>
