@@ -1,0 +1,105 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Página no encontrada — CalculaTuDinero.net';
+const description = 'La página que buscas no existe. Prueba nuestras calculadoras financieras gratuitas.';
+
+const popularCalcs = [
+  { icon: '🧾', title: 'Calculadora de IRPF', href: '/impuestos/calculadora-irpf/' },
+  { icon: '💰', title: 'Salario neto', href: '/laboral/salario-neto/' },
+  { icon: '🏠', title: 'Simulador de hipoteca', href: '/vivienda/calculadora-hipoteca/' },
+  { icon: '📋', title: 'Cuota de autónomos', href: '/autonomos/cuota-autonomos/' },
+  { icon: '📈', title: 'Interés compuesto', href: '/ahorro-inversion/interes-compuesto/' },
+  { icon: '📄', title: 'Finiquito', href: '/laboral/finiquito/' },
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="error-page container">
+    <h1 class="error-page__code">404</h1>
+    <p class="error-page__message">La página que buscas no existe o ha cambiado de dirección.</p>
+    <a href="/" class="btn btn--primary">Volver al inicio</a>
+
+    <div class="error-page__suggestions">
+      <h2>Calculadoras populares</h2>
+      <div class="error-page__grid">
+        {popularCalcs.map((calc) => (
+          <a href={calc.href} class="card card--accent error-page__card">
+            <span class="error-page__icon">{calc.icon}</span>
+            <span class="error-page__name">{calc.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .error-page {
+    padding: var(--space-16) 0;
+    text-align: center;
+  }
+
+  .error-page__code {
+    font-size: 6rem;
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+    line-height: 1;
+  }
+
+  .error-page__message {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+  }
+
+  .error-page__suggestions {
+    margin-top: var(--space-12);
+    text-align: left;
+  }
+
+  .error-page__suggestions h2 {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .error-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .error-page__card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform var(--transition-base);
+  }
+
+  .error-page__card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .error-page__icon {
+    font-size: 1.25rem;
+  }
+
+  .error-page__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 640px) {
+    .error-page__code {
+      font-size: 4rem;
+    }
+
+    .error-page__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
