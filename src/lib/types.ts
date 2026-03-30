@@ -664,3 +664,127 @@ export interface InteresCompuestoResult {
     interesesAcumulados: number;
   }[];
 }
+
+// ---------------------------------------------------------------------------
+// Pensión Jubilación
+// ---------------------------------------------------------------------------
+
+export interface PensionesData {
+  edadJubilacionOrdinaria: {
+    con37anios6meses: number;
+    sinRequisito: number;
+  };
+  porcentajesPorAniosCotizados: {
+    minimo15anios: number;
+    primeros15anios: number;
+    mesAdicional1a248: number;
+    mesAdicional249a264: number;
+    maximo: number;
+    aniosParaMaximo: number;
+  };
+  baseReguladora: {
+    mesesComputo: number;
+    divisor: number;
+  };
+  topesYMinimos: {
+    pensionMaxima2026: number;
+    pensionMinima65ConConyuge: number;
+    pensionMinima65SinConyuge: number;
+  };
+  complementoBrecha: {
+    porHijo: number;
+  };
+}
+
+export interface PensionInput {
+  baseCotizacionMedia: number;
+  aniosCotizados: number;
+  edadJubilacion: number;
+  tieneConyuge: boolean;
+  hijosCount: number;
+  esAnticipada: boolean;
+  anticipadaVoluntaria: boolean;
+}
+
+export interface PensionResult {
+  baseReguladora: number;
+  porcentajePorAnios: number;
+  pensionBrutaMensual: number;
+  pensionBrutaAnual: number;
+  pensionNeta14Pagas: number;
+  complementoBrecha: number;
+  reduccionAnticipada: number;
+  pensionMaximaAplicada: boolean;
+  pensionMinimaAplicada: boolean;
+  edadOrdinaria: number;
+}
+
+// ---------------------------------------------------------------------------
+// Plusvalía Municipal
+// ---------------------------------------------------------------------------
+
+export interface PlusvaliaData {
+  tipoImpositivoMaximo: number;
+  tipoImpositivoComun: number;
+  coeficientesObjetivo: Record<string, number>;
+  porcentajeSueloDefault: number;
+}
+
+export interface PlusvaliaInput {
+  valorAdquisicion: number;
+  valorTransmision: number;
+  valorCatastral: number;
+  porcentajeSuelo: number;
+  aniosPropiedad: number;
+  tipoImpositivo: number;
+}
+
+export interface PlusvaliaResult {
+  metodoReal: {
+    incrementoReal: number;
+    porcentajeSobreAdquisicion: number;
+    baseImponible: number;
+    cuota: number;
+  };
+  metodoObjetivo: {
+    coeficienteAplicado: number;
+    baseImponible: number;
+    cuota: number;
+  };
+  metodoElegido: 'real' | 'objetivo';
+  cuotaFinal: number;
+  hayIncrementoReal: boolean;
+  valorCatastralSuelo: number;
+}
+
+// ---------------------------------------------------------------------------
+// Impuesto Sucesiones
+// ---------------------------------------------------------------------------
+
+export interface SucesionesData {
+  tramosEstatales: { desde: number; hasta: number | null; tipo: number }[];
+  reduccionesGrupoII: { estatal: number };
+  reduccionesGrupoI: { estatal: number; adicionalPorAnioMenor21: number; maximo: number };
+  bonificacionesPorCcaa: Record<string, { nombre: string; bonificacion: number; nota: string }>;
+}
+
+export interface SucesionesInput {
+  valorHerencia: number;
+  ccaa: ComunidadAutonoma;
+  parentesco: 'grupo_I' | 'grupo_II' | 'grupo_III' | 'grupo_IV';
+  edadHeredero: number;
+  patrimonioPreexistente: number;
+}
+
+export interface SucesionesResult {
+  baseImponible: number;
+  reduccionAplicada: number;
+  baseLiquidable: number;
+  cuotaIntegra: number;
+  coeficienteMultiplicador: number;
+  cuotaTributaria: number;
+  bonificacionCcaa: number;
+  bonificacionPorcentaje: number;
+  cuotaFinal: number;
+  notaCcaa: string;
+}

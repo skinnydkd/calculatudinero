@@ -1,0 +1,59 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-03-29",
+  "source": "Normativa autonómica de Sucesiones",
+  "tramosEstatales": [
+    { "desde": 0, "hasta": 7993.46, "tipo": 7.65 },
+    { "desde": 7993.46, "hasta": 15980.91, "tipo": 8.50 },
+    { "desde": 15980.91, "hasta": 23968.36, "tipo": 9.35 },
+    { "desde": 23968.36, "hasta": 31955.81, "tipo": 10.20 },
+    { "desde": 31955.81, "hasta": 39943.26, "tipo": 11.05 },
+    { "desde": 39943.26, "hasta": 47930.72, "tipo": 11.90 },
+    { "desde": 47930.72, "hasta": 55918.17, "tipo": 12.75 },
+    { "desde": 55918.17, "hasta": 63905.62, "tipo": 13.60 },
+    { "desde": 63905.62, "hasta": 71893.07, "tipo": 14.45 },
+    { "desde": 71893.07, "hasta": 79880.52, "tipo": 15.30 },
+    { "desde": 79880.52, "hasta": 119820.77, "tipo": 16.15 },
+    { "desde": 119820.77, "hasta": 159761.03, "tipo": 18.70 },
+    { "desde": 159761.03, "hasta": 239641.54, "tipo": 21.25 },
+    { "desde": 239641.54, "hasta": 398402.57, "tipo": 25.50 },
+    { "desde": 398402.57, "hasta": 797805.14, "tipo": 29.75 },
+    { "desde": 797805.14, "hasta": null, "tipo": 34.00 }
+  ],
+  "reduccionesGrupoII": {
+    "estatal": 15956.87,
+    "nota": "Reducción estatal para Grupo II (descendientes mayores de 21, cónyuge, ascendientes)"
+  },
+  "reduccionesGrupoI": {
+    "estatal": 15956.87,
+    "adicionalPorAnioMenor21": 3990.72,
+    "maximo": 47869.66,
+    "nota": "Grupo I: descendientes menores de 21 años"
+  },
+  "bonificacionesPorCcaa": {
+    "andalucia": { "nombre": "Andalucía", "bonificacion": 99, "nota": "99% bonificación Grupos I y II (base < 1M €)" },
+    "aragon": { "nombre": "Aragón", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "asturias": { "nombre": "Asturias", "bonificacion": 99, "nota": "99% bonificación Grupos I y II (base < 300.000 €)" },
+    "baleares": { "nombre": "Islas Baleares", "bonificacion": 99, "nota": "99% bonificación Grupo I, reducciones variables Grupo II" },
+    "canarias": { "nombre": "Canarias", "bonificacion": 99.9, "nota": "99,9% bonificación Grupos I y II" },
+    "cantabria": { "nombre": "Cantabria", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "castilla-leon": { "nombre": "Castilla y León", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "castilla-mancha": { "nombre": "Castilla-La Mancha", "bonificacion": 100, "nota": "100% bonificación Grupos I y II" },
+    "cataluna": { "nombre": "Cataluña", "bonificacion": 99, "nota": "99% bonificación Grupos I y II (aplicación gradual)" },
+    "ceuta": { "nombre": "Ceuta", "bonificacion": 50, "nota": "50% bonificación estatal" },
+    "extremadura": { "nombre": "Extremadura", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "galicia": { "nombre": "Galicia", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "madrid": { "nombre": "Madrid", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "melilla": { "nombre": "Melilla", "bonificacion": 50, "nota": "50% bonificación estatal" },
+    "murcia": { "nombre": "Murcia", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "navarra": { "nombre": "Navarra", "bonificacion": 0, "nota": "Régimen foral propio. Tarifa reducida para Grupos I y II (0,8% hasta 250.000 €)" },
+    "pais-vasco": { "nombre": "País Vasco", "bonificacion": 0, "nota": "Régimen foral propio. Exención práctica para Grupos I y II" },
+    "rioja": { "nombre": "La Rioja", "bonificacion": 99, "nota": "99% bonificación Grupos I y II" },
+    "valencia": { "nombre": "C. Valenciana", "bonificacion": 99, "nota": "99% bonificación Grupos I y II (base < 500.000 €)" }
+  },
+  "coeficientesMultiplicadores": {
+    "grupoI_II": { "patrimonioHasta402678": 1.0, "hasta2007380": 1.05, "hasta4020770": 1.10, "masde4020770": 1.20 },
+    "grupoIII": { "patrimonioHasta402678": 1.5882, "hasta2007380": 1.6676, "hasta4020770": 1.7471, "masde4020770": 1.9059 },
+    "grupoIV": { "patrimonioHasta402678": 2.0, "hasta2007380": 2.1, "hasta4020770": 2.2, "masde4020770": 2.4 }
+  }
+}

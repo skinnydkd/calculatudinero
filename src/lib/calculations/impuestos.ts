@@ -18,6 +18,12 @@ import type {
   IVAData,
   IVAInput,
   IVAResult,
+  PlusvaliaData,
+  PlusvaliaInput,
+  PlusvaliaResult,
+  SucesionesData,
+  SucesionesInput,
+  SucesionesResult,
   TramoIRPF,
 } from '../types';
 
@@ -320,5 +326,222 @@ export function calcularIVA(input: IVAInput, ivaData: IVAData): IVAResult {
     totalConRecargo,
     impuestoNombre,
     esRegimenEspecial,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Plusvalía Municipal calculator
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate the Plusvalía Municipal (municipal capital gains tax) using
+ * both the "método real" and "método objetivo", and select the lower one.
+ *
+ * Since STC 182/2021, if there is no real increase in value (sale price <=
+ * purchase price), no tax is owed. The taxpayer can choose the most
+ * favorable method.
+ *
+ * @param input - Calculator inputs (prices, catastral value, years, etc.)
+ * @param plusvaliaData - Regulatory data from plusvalia-municipal.json
+ * @returns Full breakdown of both methods and the chosen one
+ */
+export function calcularPlusvalia(
+  input: PlusvaliaInput,
+  plusvaliaData: PlusvaliaData
+): PlusvaliaResult {
+  const {
+    valorAdquisicion,
+    valorTransmision,
+    valorCatastral,
+    porcentajeSuelo,
+    aniosPropiedad,
+    tipoImpositivo,
+  } = input;
+
+  // Step 1: Calculate land portion of catastral value
+  const valorCatastralSuelo = round2(valorCatastral * (porcentajeSuelo / 100));
+
+  // Step 2: Real increment
+  const incrementoReal = round2(valorTransmision - valorAdquisicion);
+  const hayIncrementoReal = incrementoReal > 0;
+
+  // Step 3: If no real increment, no tax is owed (STC 182/2021)
+  if (!hayIncrementoReal) {
+    return {
+      metodoReal: {
+        incrementoReal,
+        porcentajeSobreAdquisicion: valorAdquisicion > 0
+          ? round2((incrementoReal / valorAdquisicion) * 100)
+          : 0,
+        baseImponible: 0,
+        cuota: 0,
+      },
+      metodoObjetivo: {
+        coeficienteAplicado: 0,
+        baseImponible: 0,
+        cuota: 0,
+      },
+      metodoElegido: 'real',
+      cuotaFinal: 0,
+      hayIncrementoReal: false,
+      valorCatastralSuelo,
+    };
+  }
+
+  // Step 4: Método real
+  // Base imponible = incremento real * (valor catastral suelo / valor de transmisión)
+  const baseReal = round2(incrementoReal * (valorCatastralSuelo / valorTransmision));
+  const cuotaReal = round2(baseReal * tipoImpositivo / 100);
+  const porcentajeSobreAdquisicion = round2((incrementoReal / valorAdquisicion) * 100);
+
+  // Step 5: Método objetivo
+  // Coeficiente depends on years of ownership (capped at 20)
+  const aniosClave = String(Math.min(Math.max(aniosPropiedad, 1), 20));
+  const coeficiente = plusvaliaData.coeficientesObjetivo[aniosClave] ?? 0.45;
+  const baseObjetivo = round2(valorCatastralSuelo * coeficiente);
+  const cuotaObjetivo = round2(baseObjetivo * tipoImpositivo / 100);
+
+  // Step 6: Choose the lower method
+  const metodoElegido: 'real' | 'objetivo' = cuotaReal <= cuotaObjetivo ? 'real' : 'objetivo';
+  const cuotaFinal = metodoElegido === 'real' ? cuotaReal : cuotaObjetivo;
+
+  return {
+    metodoReal: {
+      incrementoReal,
+      porcentajeSobreAdquisicion,
+      baseImponible: baseReal,
+      cuota: cuotaReal,
+    },
+    metodoObjetivo: {
+      coeficienteAplicado: coeficiente,
+      baseImponible: baseObjetivo,
+      cuota: cuotaObjetivo,
+    },
+    metodoElegido,
+    cuotaFinal,
+    hayIncrementoReal: true,
+    valorCatastralSuelo,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Impuesto de Sucesiones calculator
+// ---------------------------------------------------------------------------
+
+/**
+ * Determine the coeficiente multiplicador based on parentesco group
+ * and pre-existing patrimonio of the heir.
+ */
+function getCoeficienteMultiplicador(
+  parentesco: SucesionesInput['parentesco'],
+  patrimonio: number,
+  coeficientes: Record<string, Record<string, number>>
+): number {
+  let grupo: Record<string, number>;
+
+  if (parentesco === 'grupo_I' || parentesco === 'grupo_II') {
+    grupo = coeficientes['grupoI_II'];
+  } else if (parentesco === 'grupo_III') {
+    grupo = coeficientes['grupoIII'];
+  } else {
+    grupo = coeficientes['grupoIV'];
+  }
+
+  if (patrimonio <= 402678) return grupo['patrimonioHasta402678'];
+  if (patrimonio <= 2007380) return grupo['hasta2007380'];
+  if (patrimonio <= 4020770) return grupo['hasta4020770'];
+  return grupo['masde4020770'];
+}
+
+/**
+ * Calculate the Impuesto de Sucesiones (inheritance tax) for a given
+ * inheritance value, CCAA, relationship group, and pre-existing patrimonio.
+ *
+ * Steps:
+ * 1. Apply reduction based on parentesco group
+ * 2. Calculate base liquidable
+ * 3. Apply progressive state brackets
+ * 4. Apply coeficiente multiplicador
+ * 5. Apply CCAA bonificación (only for Groups I and II)
+ *
+ * @param input - Calculator inputs
+ * @param sucesionesData - Regulatory data from sucesiones-por-ccaa.json
+ * @returns Full breakdown of the inheritance tax calculation
+ */
+export function calcularSucesiones(
+  input: SucesionesInput,
+  sucesionesData: SucesionesData
+): SucesionesResult {
+  const { valorHerencia, ccaa, parentesco, edadHeredero, patrimonioPreexistente } = input;
+
+  // Step 1: Calculate reduction based on parentesco group
+  let reduccionAplicada = 0;
+
+  if (parentesco === 'grupo_I') {
+    // Grupo I: descendants under 21
+    const adicional = sucesionesData.reduccionesGrupoI.adicionalPorAnioMenor21 * (21 - edadHeredero);
+    reduccionAplicada = Math.min(
+      sucesionesData.reduccionesGrupoI.estatal + adicional,
+      sucesionesData.reduccionesGrupoI.maximo
+    );
+  } else if (parentesco === 'grupo_II') {
+    // Grupo II: descendants >21, spouse, ascendants
+    reduccionAplicada = sucesionesData.reduccionesGrupoII.estatal;
+  } else if (parentesco === 'grupo_III') {
+    // Grupo III: collateral 2nd/3rd degree — 7993.46 €
+    reduccionAplicada = 7993.46;
+  }
+  // Grupo IV: no reduction
+
+  reduccionAplicada = round2(reduccionAplicada);
+
+  // Step 2: Base liquidable
+  const baseImponible = round2(valorHerencia);
+  const baseLiquidable = round2(Math.max(0, baseImponible - reduccionAplicada));
+
+  // Step 3: Apply progressive state brackets
+  const cuotaIntegra = round2(
+    calcularCuotaPorTramos(baseLiquidable, sucesionesData.tramosEstatales)
+  );
+
+  // Step 4: Coeficiente multiplicador
+  // We need the raw JSON data which includes coeficientes
+  // The coeficientes are passed through the JSON but not in the typed interface,
+  // so we cast to access them
+  const rawData = sucesionesData as unknown as {
+    coeficientesMultiplicadores: Record<string, Record<string, number>>;
+  };
+  const coeficienteMultiplicador = rawData.coeficientesMultiplicadores
+    ? getCoeficienteMultiplicador(parentesco, patrimonioPreexistente, rawData.coeficientesMultiplicadores)
+    : 1.0;
+
+  const cuotaTributaria = round2(cuotaIntegra * coeficienteMultiplicador);
+
+  // Step 5: Apply CCAA bonificación (only for Groups I and II)
+  const ccaaData = sucesionesData.bonificacionesPorCcaa[ccaa];
+  let bonificacionPorcentaje = 0;
+  let notaCcaa = '';
+
+  if (ccaaData) {
+    notaCcaa = ccaaData.nota;
+    if (parentesco === 'grupo_I' || parentesco === 'grupo_II') {
+      bonificacionPorcentaje = ccaaData.bonificacion;
+    }
+  }
+
+  const bonificacionCcaa = round2(cuotaTributaria * (bonificacionPorcentaje / 100));
+  const cuotaFinal = round2(cuotaTributaria - bonificacionCcaa);
+
+  return {
+    baseImponible,
+    reduccionAplicada,
+    baseLiquidable,
+    cuotaIntegra,
+    coeficienteMultiplicador,
+    cuotaTributaria,
+    bonificacionCcaa,
+    bonificacionPorcentaje,
+    cuotaFinal,
+    notaCcaa,
   };
 }
