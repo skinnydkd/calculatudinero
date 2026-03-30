@@ -1,0 +1,153 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import ComparadorIRPF from '@components/calculators/ComparadorIRPF';
+import irpfData from '@data/irpf-2026.json';
+
+const title = 'Comparador de IRPF por Comunidades Autónomas 2026 — CalculaTuDinero.net';
+const description = 'Compara el IRPF que pagarías en cada comunidad autónoma. Tabla interactiva con las 19 comunidades, tipo efectivo y ranking de menor a mayor impuesto.';
+const canonical = 'https://calculatudinero.net/impuestos/comparador-irpf-comunidades/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'Comparador IRPF por comunidades' },
+];
+
+const faqs = [
+  {
+    question: '¿En qué comunidad autónoma se paga menos IRPF?',
+    answer: 'Madrid suele ser la comunidad con el IRPF más bajo para la mayoría de niveles salariales, gracias a sus tramos autonómicos reducidos. País Vasco y Navarra tienen regímenes forales propios que también resultan competitivos en determinados tramos de renta.',
+  },
+  {
+    question: '¿En qué comunidad se paga más IRPF?',
+    answer: 'Cataluña y la Comunitat Valenciana tienen los tipos marginales autonómicos más elevados, especialmente para rentas medias y altas. La diferencia con la comunidad que menos cobra puede superar los 2.000 € anuales para un salario de 50.000 €.',
+  },
+  {
+    question: '¿Puedo mudarme a otra comunidad para pagar menos IRPF?',
+    answer: 'Sí, el IRPF se aplica según tu residencia fiscal habitual (donde vives más de 183 días al año). Si cambias tu residencia, tributarás por la normativa de la nueva comunidad. No obstante, Hacienda puede comprobar que el cambio de residencia es real y no ficticio.',
+  },
+  {
+    question: '¿Los tramos autonómicos afectan a todos los contribuyentes?',
+    answer: 'Sí. Tanto trabajadores por cuenta ajena como autónomos pagan la parte autonómica del IRPF. La diferencia por comunidad afecta a todos, aunque proporcionalmente es más notable en rentas medias-altas.',
+  },
+  {
+    question: '¿Cuánto varía el IRPF entre comunidades para un salario medio?',
+    answer: 'Para un salario bruto de 30.000 €, la diferencia entre la comunidad que menos cobra y la que más cobra suele estar entre 500 y 1.000 € anuales. A 50.000 € la diferencia puede superar los 2.000 €.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Comparador de IRPF por Comunidades Autónomas',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': { '@type': 'Offer', 'price': '0', 'priceCurrency': 'EUR' },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': { '@type': 'Answer', 'text': faq.answer },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Comparador de IRPF por comunidades"
+>
+  <ComparadorIRPF client:load irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <h2>Por qué varía el IRPF entre comunidades</h2>
+    <p>
+      El IRPF en España se divide en dos partes: la estatal (igual en toda España) y la autonómica
+      (fijada por cada comunidad). Ambas se aplican sobre la misma base liquidable, pero con tramos
+      y tipos diferentes. Por eso, dos personas con el mismo salario pueden pagar cantidades distintas
+      de IRPF según dónde residan.
+    </p>
+    <p>
+      Las comunidades con régimen común (todas excepto Navarra y País Vasco) comparten la escala estatal
+      pero definen su propia escala autonómica. Navarra y País Vasco tienen regímenes forales con una
+      escala única propia.
+    </p>
+
+    <h2>Los extremos: Madrid vs Cataluña</h2>
+    <p>
+      Madrid ha apostado históricamente por tipos autonómicos bajos como herramienta de atracción fiscal.
+      En el extremo opuesto, Cataluña y la Comunitat Valenciana aplican tipos más elevados, especialmente
+      en los tramos superiores. Para un salario de 50.000 € brutos, la diferencia entre Madrid y Cataluña
+      puede superar los 1.500 € anuales en IRPF.
+    </p>
+
+    <h2>Regímenes forales</h2>
+    <p>
+      Navarra y País Vasco no se rigen por la escala estatal+autonómica sino que tienen una tarifa única
+      propia. En general, sus tipos son competitivos con Madrid para rentas medias, aunque pueden ser
+      superiores para rentas muy altas o muy bajas según el tramo específico.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '💰', title: 'Salario neto', description: 'Calcula tu salario neto a partir del bruto anual.', href: '/laboral/salario-neto/' },
+      { icon: '💼', title: 'Cuánto facturar como autónomo', description: 'Calcula tu facturación necesaria para el sueldo neto deseado.', href: '/autonomos/cuanto-facturar/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
