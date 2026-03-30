@@ -48,6 +48,22 @@ const faqs = [
     question: '¿Qué es el Euríbor y cómo afecta a mi hipoteca?',
     answer: 'El Euríbor (Euro Interbank Offered Rate) es el tipo de interés al que los bancos europeos se prestan dinero entre sí. Se usa como referencia para las hipotecas a tipo variable en España. Tu cuota se calcula sumando el Euríbor vigente más un diferencial fijo pactado con el banco (por ejemplo, Euríbor + 0,9%). Se revisa normalmente cada 12 meses, tomando la media del Euríbor publicada por el Banco de España.',
   },
+  {
+    question: '¿Cuánto cuestan los gastos de notaría y registro?',
+    answer: 'Los gastos de notaría para una compraventa se regulan por arancel y dependen del precio del inmueble: oscilan entre 600 € y 1.200 € aproximadamente. Los gastos de registro de la propiedad van de 400 € a 700 €. La gestoría, que se encarga de tramitar la escritura y la liquidación de impuestos, cobra entre 300 € y 600 €. En total, notaría + registro + gestoría suelen sumar entre 1.500 € y 2.500 €, a lo que hay que añadir la tasación (entre 250 € y 500 €).',
+  },
+  {
+    question: '¿Merece la pena amortizar hipoteca anticipadamente?',
+    answer: 'Depende de tu tipo de interés y de las alternativas de inversión. Si tu hipoteca tiene un tipo de interés superior al 3%, amortizar anticipadamente suele ser una buena decisión porque el ahorro en intereses es significativo. Si tu tipo es bajo (1-2%), puede ser más rentable invertir ese dinero en fondos indexados u otros productos. Además, amortizar hasta 9.040 € al año puede desgravar en el IRPF si la hipoteca es anterior a enero de 2013.',
+  },
+  {
+    question: '¿Es mejor reducir cuota o reducir plazo al amortizar?',
+    answer: 'Reducir plazo siempre ahorra más intereses en el total de la hipoteca, porque acortas el tiempo durante el que pagas intereses. Reducir cuota ahorra menos en total pero te da más liquidez mensual. La recomendación general es reducir plazo si tu economía es estable, y reducir cuota si necesitas más holgura en tu presupuesto mensual. Compara ambas opciones con nuestra calculadora de amortización anticipada.',
+  },
+  {
+    question: '¿Qué rentabilidad da un piso en alquiler en España?',
+    answer: 'La rentabilidad bruta media del alquiler en España en 2026 ronda el 5-7% según la ubicación, pero la rentabilidad neta (descontando gastos reales como IBI, comunidad, seguro, mantenimiento, vacío y el IRPF sobre los rendimientos) baja habitualmente al 3-4,5%. Las ciudades grandes ofrecen menor rentabilidad (3-4% neta) pero mayor estabilidad, mientras que las ciudades medianas pueden alcanzar rentabilidades netas del 5-6%.',
+  },
 ];
 
 const jsonLd = [
@@ -83,6 +99,187 @@ const jsonLd = [
     </a>
   ))}
 </CategoryLayout>
+
+<!-- Pillar Content -->
+<section class="pillar-content container">
+
+  <h2>Guía completa para comprar vivienda en España 2026</h2>
+  <p>Comprar una vivienda es la decisión financiera más importante que la mayoría de españoles toma en su vida. Implica años de ahorro, comprometerse con una hipoteca a largo plazo y navegar un laberinto de impuestos, gastos y trámites que varían según la comunidad autónoma. Esta guía reúne toda la información que necesitas para tomar una decisión informada en 2026: cuánto dinero necesitas, cómo funciona una hipoteca, qué impuestos pagarás y si comprar es mejor que alquilar.</p>
+  <p>Cada sección enlaza a nuestras calculadoras gratuitas para que puedas hacer tus propios números con datos reales.</p>
+
+  <h2>Cuánto dinero necesitas para comprar una casa</h2>
+  <p>El primer muro al que se enfrenta cualquier comprador es el <strong>ahorro inicial necesario</strong>. Los bancos en España financian como máximo el 80% del valor de tasación para vivienda habitual (el 70% para segunda vivienda), lo que significa que necesitas aportar al menos el 20% restante de tu bolsillo. Pero eso no es todo: hay que sumar los gastos de compraventa.</p>
+
+  <h3>Los gastos de compra: del 10% al 13% del precio</h3>
+  <p>Los gastos adicionales a la compra incluyen:</p>
+  <ul>
+    <li><strong>Impuestos:</strong> ITP (segunda mano, 4-10% según comunidad) o IVA + AJD (nueva, 10% + 0,5-1,5%).</li>
+    <li><strong>Notaría:</strong> entre 600 € y 1.200 € según el precio del inmueble.</li>
+    <li><strong>Registro de la propiedad:</strong> entre 400 € y 700 €.</li>
+    <li><strong>Gestoría:</strong> entre 300 € y 600 €.</li>
+    <li><strong>Tasación:</strong> entre 250 € y 500 € (obligatoria para solicitar hipoteca).</li>
+  </ul>
+  <p>Consulta los gastos específicos de tu comunidad en nuestro artículo sobre <a href="/blog/gastos-compra-vivienda-ccaa/">gastos de compra de vivienda por comunidades autónomas</a>.</p>
+
+  <h3>Ejemplos prácticos por precio de vivienda</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Precio vivienda</th>
+        <th>Entrada (20%)</th>
+        <th>Gastos (aprox. 11%)</th>
+        <th>Total ahorro necesario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>150.000 €</td><td>30.000 €</td><td>16.500 €</td><td>46.500 €</td></tr>
+      <tr><td>200.000 €</td><td>40.000 €</td><td>22.000 €</td><td>62.000 €</td></tr>
+      <tr><td>250.000 €</td><td>50.000 €</td><td>27.500 €</td><td>77.500 €</td></tr>
+      <tr><td>300.000 €</td><td>60.000 €</td><td>33.000 €</td><td>93.000 €</td></tr>
+      <tr><td>400.000 €</td><td>80.000 €</td><td>44.000 €</td><td>124.000 €</td></tr>
+    </tbody>
+  </table>
+  <p>Para un cálculo personalizado que incluya los impuestos exactos de tu comunidad, utiliza nuestro <a href="/vivienda/calculadora-hipoteca/">simulador de hipoteca</a>, que integra un desglose completo de gastos de compra.</p>
+  <p>Para más detalle, lee nuestro artículo <a href="/blog/cuanto-necesito-comprar-casa/">¿Cuánto necesito ahorrar para comprar una casa?</a>.</p>
+
+  <h2>La hipoteca: tipos, plazos y cómo elegir</h2>
+  <p>Una hipoteca es un préstamo con garantía real (el propio inmueble) que el banco concede para financiar la compra de una vivienda. En España, los plazos habituales van de 15 a 30 años, aunque la tendencia regulatoria es limitar a 25-30 años máximo.</p>
+
+  <h3>Hipoteca a tipo fijo</h3>
+  <p>La cuota es la misma durante toda la vida del préstamo. Ofrece <strong>certidumbre total</strong>: sabes exactamente cuánto pagarás cada mes sin importar lo que haga el mercado. En 2026, los tipos fijos de las ofertas más competitivas se sitúan entre el 2,5% y el 3,5% TAE según el perfil del cliente y la vinculación con el banco.</p>
+
+  <h3>Hipoteca a tipo variable</h3>
+  <p>La cuota se compone de un <strong>índice de referencia (Euríbor)</strong> más un <strong>diferencial fijo</strong>. Se revisa normalmente cada 12 meses. En 2026, las ofertas más competitivas van desde Euríbor + 0,5% hasta Euríbor + 1,0%. El Euríbor ha venido bajando desde sus máximos de 2023 y se sitúa en torno al 2,3-2,5% en los primeros meses de 2026.</p>
+  <p>Para entender en profundidad el Euríbor, lee nuestro artículo <a href="/blog/que-es-euribor-como-afecta-hipoteca-2026/">Qué es el Euríbor y cómo afecta a tu hipoteca en 2026</a>.</p>
+
+  <h3>Hipoteca mixta</h3>
+  <p>Combina un periodo inicial a tipo fijo (normalmente 5-10 años) con el resto a tipo variable. Es una opción intermedia que ofrece estabilidad los primeros años y potencial de ahorro después si los tipos bajan.</p>
+
+  <h3>¿Cuál elegir?</h3>
+  <p>No hay una respuesta universal. La elección depende de tu <strong>aversión al riesgo</strong>, tu <strong>horizonte temporal</strong> y las <strong>condiciones del mercado</strong>. Como regla general:</p>
+  <ul>
+    <li>Si valoras la seguridad y duermes mejor sabiendo cuánto pagas, tipo fijo.</li>
+    <li>Si crees que los tipos bajarán a medio plazo y tienes colchón financiero, tipo variable.</li>
+    <li>Si quieres lo mejor de ambos mundos, mixta.</li>
+  </ul>
+  <p>Para un análisis más detallado, consulta nuestro artículo <a href="/blog/hipoteca-fija-variable-2026/">hipoteca fija vs variable en 2026</a>. Y simula tu cuota con el <a href="/vivienda/calculadora-hipoteca/">simulador de hipoteca</a>.</p>
+
+  <h2>Gastos de compra por comunidad autónoma</h2>
+  <p>El impuesto más variable en la compra de vivienda es el <strong>Impuesto de Transmisiones Patrimoniales (ITP)</strong>, que se paga en viviendas de segunda mano. Aquí un resumen del tipo general por comunidad:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Comunidad Autónoma</th>
+        <th>Tipo general ITP</th>
+        <th>Tipo reducido (jóvenes/VPO)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>País Vasco</td><td>4%</td><td>-</td></tr>
+      <tr><td>Navarra</td><td>6%</td><td>-</td></tr>
+      <tr><td>Madrid</td><td>6%</td><td>-</td></tr>
+      <tr><td>Canarias</td><td>6,5%</td><td>5%</td></tr>
+      <tr><td>La Rioja</td><td>7%</td><td>5%</td></tr>
+      <tr><td>Aragón</td><td>7%</td><td>3,5%</td></tr>
+      <tr><td>Castilla y León</td><td>8%</td><td>5%</td></tr>
+      <tr><td>Andalucía</td><td>7%</td><td>3,5%</td></tr>
+      <tr><td>Galicia</td><td>8%</td><td>4%</td></tr>
+      <tr><td>Cataluña</td><td>10%</td><td>5%</td></tr>
+      <tr><td>Comunidad Valenciana</td><td>10%</td><td>8%</td></tr>
+      <tr><td>Cantabria</td><td>10%</td><td>5%</td></tr>
+    </tbody>
+  </table>
+  <p>Nota: esta tabla muestra solo algunas comunidades y tipos generales aproximados. Muchas comunidades aplican tipos reducidos adicionales para familias numerosas, personas con discapacidad o viviendas por debajo de cierto valor. Consulta los tipos actualizados en nuestro artículo <a href="/blog/itp-por-comunidades-2026/">ITP por comunidades autónomas en 2026</a>.</p>
+
+  <h2>Amortización anticipada: cuándo y cómo</h2>
+  <p>Si tienes ahorros disponibles, puedes destinarlos a <strong>amortizar anticipadamente</strong> tu hipoteca, reduciendo la deuda pendiente. Existen dos modalidades:</p>
+
+  <h3>Reducir cuota</h3>
+  <p>Mantienes el plazo original pero reduces la mensualidad. Te da más <strong>liquidez cada mes</strong>. El ahorro total en intereses es menor que reduciendo plazo.</p>
+
+  <h3>Reducir plazo</h3>
+  <p>Mantienes la cuota mensual pero terminas de pagar antes. Ahorras <strong>más intereses en total</strong> porque el dinero lleva menos tiempo generando coste financiero. Es la opción más eficiente desde el punto de vista financiero.</p>
+
+  <h3>Ejemplo práctico</h3>
+  <p>Con una hipoteca de 180.000 € a 25 años al 3% de interés, si amortizas 10.000 €:</p>
+  <ul>
+    <li><strong>Reduciendo plazo:</strong> ahorras unos 8.500 € en intereses y terminas 18 meses antes.</li>
+    <li><strong>Reduciendo cuota:</strong> ahorras unos 4.200 € en intereses y tu cuota baja unos 42 €/mes.</li>
+  </ul>
+  <p>Compara ambas opciones con tus cifras reales en la <a href="/vivienda/amortizacion-anticipada/">calculadora de amortización anticipada</a>. Y para una guía completa, consulta nuestro artículo <a href="/blog/amortizacion-anticipada-hipoteca-guia/">guía de amortización anticipada de hipoteca</a>.</p>
+
+  <h2>Comprar para alquilar: ¿es rentable?</h2>
+  <p>La inversión inmobiliaria sigue siendo una de las favoritas de los españoles. Pero las rentabilidades ya no son las que eran, y es fundamental hacer bien los números antes de invertir.</p>
+
+  <h3>Rentabilidad bruta vs neta</h3>
+  <p>La <strong>rentabilidad bruta</strong> se calcula dividiendo el alquiler anual entre el precio de compra. Pero esta cifra es engañosa porque no tiene en cuenta los gastos reales:</p>
+  <ul>
+    <li><strong>IBI (Impuesto de Bienes Inmuebles):</strong> entre 300 € y 1.500 €/año según municipio y valor catastral.</li>
+    <li><strong>Comunidad de propietarios:</strong> entre 50 € y 150 €/mes.</li>
+    <li><strong>Seguro de hogar:</strong> entre 200 € y 500 €/año.</li>
+    <li><strong>Mantenimiento y reparaciones:</strong> se estima un 1-2% del valor del inmueble al año.</li>
+    <li><strong>Periodo de vacío:</strong> el tiempo que el piso está sin inquilino (se estima 1-2 meses/año en media).</li>
+    <li><strong>IRPF sobre rendimientos:</strong> los ingresos por alquiler tributan en la base general del IRPF (con una reducción del 50-60% para vivienda habitual del inquilino).</li>
+  </ul>
+  <p>La <strong>rentabilidad neta</strong>, descontando todos estos gastos, suele quedar entre el 3% y el 5% según la ubicación y el estado del inmueble. Calcula la tuya con la <a href="/vivienda/rentabilidad-alquiler/">calculadora de rentabilidad del alquiler</a>. Para un contexto más amplio, lee nuestro artículo sobre <a href="/blog/rentabilidad-alquiler-piso-espana/">rentabilidad del alquiler de un piso en España</a>.</p>
+
+  <h2>Impuestos al vender: plusvalía e IRPF</h2>
+  <p>Si vendes un inmueble, tienes que pagar dos impuestos:</p>
+
+  <h3>Plusvalía municipal</h3>
+  <p>Grava el incremento de valor del suelo urbano desde la compra hasta la venta. Desde la sentencia del Tribunal Constitucional (STC 182/2021), se puede elegir entre el <strong>método real</strong> (basado en la ganancia real) y el <strong>método objetivo</strong> (coeficientes sobre el valor catastral del suelo), pagando el menor de los dos. Si vendiste con pérdida real, no pagas.</p>
+  <p>Calcula la tuya con nuestra <a href="/impuestos/plusvalia-municipal/">calculadora de plusvalía municipal</a>.</p>
+
+  <h3>Ganancia patrimonial en el IRPF</h3>
+  <p>La diferencia entre el valor de venta y el valor de adquisición (incluyendo gastos e impuestos de compra, y mejoras realizadas) tributa en la <strong>base del ahorro del IRPF</strong>:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Ganancia</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Hasta 6.000 €</td><td>19%</td></tr>
+      <tr><td>6.000 - 50.000 €</td><td>21%</td></tr>
+      <tr><td>50.000 - 200.000 €</td><td>23%</td></tr>
+      <tr><td>200.000 - 300.000 €</td><td>27%</td></tr>
+      <tr><td>Más de 300.000 €</td><td>28%</td></tr>
+    </tbody>
+  </table>
+  <p>Existe una <strong>exención por reinversión en vivienda habitual</strong>: si reinviertes el importe total de la venta en la compra de otra vivienda habitual en un plazo de 2 años, la ganancia queda exenta. También están exentos los mayores de 65 años que vendan su vivienda habitual.</p>
+
+  <h2>Comprar vs alquilar: análisis financiero</h2>
+  <p>Es una de las preguntas más debatidas en finanzas personales. La respuesta depende de muchos factores: el precio de compra, el alquiler equivalente, los tipos de interés, tu horizonte temporal y tu capacidad de ahorro.</p>
+  <p>Como regla general:</p>
+  <ul>
+    <li><strong>Comprar suele ser mejor</strong> si piensas vivir en la misma ciudad al menos 7-10 años, tienes el ahorro inicial sin endeudarte y los precios de alquiler son altos en relación con los de compra.</li>
+    <li><strong>Alquilar suele ser mejor</strong> si valoras la flexibilidad, tu situación laboral es inestable, los precios de compra están inflados o puedes invertir la diferencia de ahorro con buena rentabilidad.</li>
+  </ul>
+  <p>Para un análisis detallado con datos de 2026, lee nuestro artículo <a href="/blog/comprar-vs-alquilar-2026/">comprar vs alquilar en 2026: qué te conviene más</a>.</p>
+
+  <h2>Planifica tu compra con nuestras calculadoras</h2>
+  <p>Todas nuestras herramientas de vivienda están actualizadas con los datos fiscales y financieros de 2026:</p>
+  <ul>
+    <li><a href="/vivienda/calculadora-hipoteca/">Simulador de hipoteca:</a> calcula tu cuota mensual, intereses totales y gastos de compra por comunidad.</li>
+    <li><a href="/vivienda/amortizacion-anticipada/">Calculadora de amortización anticipada:</a> compara reducir cuota vs reducir plazo.</li>
+    <li><a href="/vivienda/rentabilidad-alquiler/">Calculadora de rentabilidad del alquiler:</a> analiza si un piso en alquiler es una buena inversión.</li>
+    <li><a href="/impuestos/plusvalia-municipal/">Calculadora de plusvalía municipal:</a> estima el impuesto al vender tu vivienda.</li>
+    <li><a href="/impuestos/calculadora-irpf/">Calculadora de IRPF:</a> simula el impacto de la ganancia patrimonial en tu renta.</li>
+  </ul>
+  <p>Artículos recomendados sobre vivienda:</p>
+  <ul>
+    <li><a href="/blog/cuanto-necesito-comprar-casa/">¿Cuánto necesito ahorrar para comprar una casa?</a></li>
+    <li><a href="/blog/hipoteca-fija-variable-2026/">Hipoteca fija vs variable en 2026</a></li>
+    <li><a href="/blog/gastos-compra-vivienda-ccaa/">Gastos de compra de vivienda por comunidades autónomas</a></li>
+    <li><a href="/blog/itp-por-comunidades-2026/">ITP por comunidades autónomas en 2026</a></li>
+    <li><a href="/blog/amortizacion-anticipada-hipoteca-guia/">Guía de amortización anticipada de hipoteca</a></li>
+    <li><a href="/blog/comprar-vs-alquilar-2026/">Comprar vs alquilar en 2026</a></li>
+    <li><a href="/blog/cuanto-cuesta-notario-compra-vivienda/">¿Cuánto cuesta el notario al comprar vivienda?</a></li>
+    <li><a href="/blog/que-es-euribor-como-afecta-hipoteca-2026/">Qué es el Euríbor y cómo afecta a tu hipoteca</a></li>
+  </ul>
+
+</section>
 
 <section class="faq container">
   <h2>Preguntas frecuentes sobre vivienda e hipotecas</h2>
@@ -178,5 +375,69 @@ const jsonLd = [
     margin-top: var(--space-3);
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .pillar-content {
+    padding: var(--space-10) 0;
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .pillar-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .pillar-content h3 {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .pillar-content p {
+    margin-bottom: var(--space-4);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content ul, .pillar-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .pillar-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .pillar-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .pillar-content th, .pillar-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .pillar-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .pillar-content strong {
+    color: var(--color-text);
+  }
+
+  .pillar-content a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .pillar-content a:hover {
+    text-decoration: underline;
   }
 </style>
