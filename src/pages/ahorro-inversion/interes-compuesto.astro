@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import InteresCompuesto from '@components/calculators/InteresCompuesto';
 
 const title = 'Calculadora de Interés Compuesto — CalculaTuDinero.net';
@@ -157,6 +158,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏖️', title: 'Pensión de jubilación', description: 'Estima tu pensión según años cotizados.', href: '/ahorro-inversion/pension-jubilacion/' },
+      { icon: '🏠', title: 'Simulador de Hipoteca', description: 'Simula tu cuota mensual y cuadro de amortización.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 
