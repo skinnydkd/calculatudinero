@@ -1,0 +1,281 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/layout/Breadcrumb.astro';
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  breadcrumbItems: BreadcrumbItem[];
+  date: string;
+  lastUpdated?: string;
+  author: string;
+  category: string;
+  tags: string[];
+  relatedCalculators?: string[];
+  jsonLd?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  breadcrumbItems,
+  date,
+  lastUpdated,
+  author,
+  category,
+  tags,
+  relatedCalculators,
+  jsonLd,
+} = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  autonomos: 'Autónomos',
+  laboral: 'Laboral',
+  impuestos: 'Impuestos',
+  vivienda: 'Vivienda',
+  'ahorro-inversion': 'Ahorro e inversión',
+};
+
+const calculatorLinks: Record<string, { label: string; href: string }> = {
+  'cuanto-facturar': { label: 'Cuánto facturar como autónomo', href: '/autonomos/cuanto-facturar/' },
+  'cuota-autonomos': { label: 'Cuota de Autónomos 2026', href: '/autonomos/cuota-autonomos/' },
+  'salario-neto': { label: 'Calculadora de Salario Neto', href: '/laboral/salario-neto/' },
+  'indemnizacion-despido': { label: 'Indemnización por despido', href: '/laboral/indemnizacion-despido/' },
+  'finiquito': { label: 'Calculadora de Finiquito', href: '/laboral/finiquito/' },
+  'prestacion-desempleo': { label: 'Prestación por desempleo', href: '/laboral/prestacion-desempleo/' },
+  'calculadora-irpf': { label: 'Calculadora de IRPF 2026', href: '/impuestos/calculadora-irpf/' },
+  'calculadora-iva': { label: 'Calculadora de IVA', href: '/impuestos/calculadora-iva/' },
+  'plusvalia-municipal': { label: 'Plusvalía municipal', href: '/impuestos/plusvalia-municipal/' },
+  'impuesto-sucesiones': { label: 'Impuesto de Sucesiones', href: '/impuestos/impuesto-sucesiones/' },
+  'calculadora-hipoteca': { label: 'Simulador de Hipoteca', href: '/vivienda/calculadora-hipoteca/' },
+  'interes-compuesto': { label: 'Interés compuesto', href: '/ahorro-inversion/interes-compuesto/' },
+  'pension-jubilacion': { label: 'Pensión de jubilación', href: '/ahorro-inversion/pension-jubilacion/' },
+};
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <article class="blog-post container container--content">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="blog-post__header">
+      <span class="blog-post__category">{categoryLabels[category] ?? category}</span>
+      <h1 class="blog-post__title">{title}</h1>
+      <div class="blog-post__meta">
+        <time datetime={date}>{new Date(date).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+        {lastUpdated && (
+          <span class="blog-post__updated">
+            Actualizado: {new Date(lastUpdated).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </span>
+        )}
+      </div>
+    </header>
+
+    <div class="blog-post__body">
+      <slot />
+    </div>
+
+    {relatedCalculators && relatedCalculators.length > 0 && (
+      <aside class="blog-post__related">
+        <h2>Calculadoras relacionadas</h2>
+        <div class="blog-post__related-grid">
+          {relatedCalculators.map((key) => {
+            const calc = calculatorLinks[key];
+            return calc ? (
+              <a href={calc.href} class="card card--accent blog-post__related-card">
+                <span class="blog-post__related-title">{calc.label}</span>
+                <span class="blog-post__related-cta">Calcular &rarr;</span>
+              </a>
+            ) : null;
+          })}
+        </div>
+      </aside>
+    )}
+
+    {tags.length > 0 && (
+      <footer class="blog-post__tags">
+        {tags.map((tag) => (
+          <span class="blog-post__tag">{tag}</span>
+        ))}
+      </footer>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .blog-post {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-12);
+  }
+
+  .blog-post__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .blog-post__category {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-post__title {
+    margin-bottom: var(--space-4);
+    line-height: 1.2;
+  }
+
+  .blog-post__meta {
+    display: flex;
+    gap: var(--space-4);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .blog-post__updated {
+    padding-left: var(--space-4);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .blog-post__body {
+    line-height: 1.8;
+    margin-bottom: var(--space-10);
+  }
+
+  .blog-post__body :global(h2) {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-post__body :global(h3) {
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .blog-post__body :global(p) {
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-post__body :global(ul),
+  .blog-post__body :global(ol) {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .blog-post__body :global(li) {
+    margin-bottom: var(--space-2);
+  }
+
+  .blog-post__body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .blog-post__body :global(th),
+  .blog-post__body :global(td) {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .blog-post__body :global(th) {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .blog-post__body :global(strong) {
+    font-weight: 600;
+  }
+
+  .blog-post__body :global(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    padding-left: var(--space-4);
+    margin: var(--space-6) 0;
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+
+  .blog-post__related {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .blog-post__related h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .blog-post__related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .blog-post__related-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .blog-post__related-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .blog-post__related-title {
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+  }
+
+  .blog-post__related-cta {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 0.9rem;
+  }
+
+  .blog-post__tags {
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .blog-post__tag {
+    font-size: 0.8rem;
+    padding: var(--space-1) var(--space-3);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .blog-post__meta {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .blog-post__updated {
+      padding-left: 0;
+      border-left: none;
+    }
+
+    .blog-post__related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import Finiquito from '@components/calculators/Finiquito';
 import finiquitoData from '@data/finiquito-rules.json';
 
@@ -167,6 +168,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '⚖️', title: 'Indemnización por despido', description: 'Calcula tu indemnización según tipo de despido y antigüedad.', href: '/laboral/indemnizacion-despido/' },
+      { icon: '💰', title: 'Salario neto', description: 'Calcula tu salario neto a partir del bruto anual.', href: '/laboral/salario-neto/' },
+      { icon: '🏛️', title: 'Prestación por desempleo', description: 'Calcula cuánto cobrarás de paro y durante cuánto tiempo.', href: '/laboral/prestacion-desempleo/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 

@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import CalculadoraIRPF from '@components/calculators/CalculadoraIRPF';
 import irpfData from '@data/irpf-2026.json';
 
@@ -134,6 +135,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '💰', title: 'Salario neto', description: 'Calcula tu salario neto a partir del bruto anual.', href: '/laboral/salario-neto/' },
+      { icon: '💼', title: 'Cuánto facturar como autónomo', description: 'Calcula tu facturación necesaria para el sueldo neto deseado.', href: '/autonomos/cuanto-facturar/' },
+      { icon: '🏷️', title: 'Calculadora de IVA', description: 'Añade o quita IVA a cualquier importe.', href: '/impuestos/calculadora-iva/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 

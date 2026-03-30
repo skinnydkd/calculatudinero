@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import PensionJubilacion from '@components/calculators/PensionJubilacion';
 import pensionesData from '@data/pensiones-2026.json';
 
@@ -104,6 +105,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '📈', title: 'Interés compuesto', description: 'Simula cómo crece tu inversión a largo plazo.', href: '/ahorro-inversion/interes-compuesto/' },
+      { icon: '📋', title: 'Cuota de Autónomos 2026', description: 'Descubre qué cuota te corresponde según tus rendimientos.', href: '/autonomos/cuota-autonomos/' },
+      { icon: '💰', title: 'Salario neto', description: 'Calcula tu salario neto a partir del bruto anual.', href: '/laboral/salario-neto/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 

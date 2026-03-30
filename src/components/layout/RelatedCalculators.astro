@@ -1,0 +1,97 @@
+---
+interface RelatedItem {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+}
+
+interface Props {
+  items: RelatedItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="related-calcs">
+  <h2 class="related-calcs__title">Calculadoras relacionadas</h2>
+  <div class="related-calcs__grid">
+    {items.map((item) => (
+      <a href={item.href} class="card card--accent related-calcs__card">
+        <span class="related-calcs__icon">{item.icon}</span>
+        <span class="related-calcs__name">{item.title}</span>
+        <span class="related-calcs__desc">{item.description}</span>
+        <span class="related-calcs__cta">Calcular &rarr;</span>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  .related-calcs {
+    margin-top: var(--space-10);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-calcs__title {
+    margin-bottom: var(--space-6);
+  }
+
+  .related-calcs__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .related-calcs__card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow var(--transition-base), transform var(--transition-base);
+  }
+
+  .related-calcs__card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .related-calcs__icon {
+    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-accent-light);
+    border-radius: 12px;
+    margin-bottom: var(--space-3);
+  }
+
+  .related-calcs__name {
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: var(--space-1);
+  }
+
+  .related-calcs__desc {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    flex-grow: 1;
+    line-height: 1.5;
+  }
+
+  .related-calcs__cta {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    margin-top: var(--space-3);
+  }
+
+  @media (max-width: 640px) {
+    .related-calcs__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
