@@ -788,3 +788,71 @@ export interface SucesionesResult {
   cuotaFinal: number;
   notaCcaa: string;
 }
+
+// ---------------------------------------------------------------------------
+// Calculator: Amortización Anticipada de Hipoteca
+// ---------------------------------------------------------------------------
+
+export interface AmortizacionAnticipadaInput {
+  capitalPendiente: number;
+  cuotaActual: number;
+  tipoInteres: number; // annual %
+  plazoRestanteMeses: number;
+  cantidadAmortizar: number;
+  modalidad: 'reducir_cuota' | 'reducir_plazo';
+}
+
+export interface AmortizacionAnticipadaComparativa {
+  modalidad: string;
+  nuevaCuota: number;
+  nuevosPlazoMeses: number;
+  ahorroIntereses: number;
+}
+
+export interface AmortizacionAnticipadaResult {
+  nuevoCapital: number;
+  // Reducir cuota
+  nuevaCuota: number;
+  ahorroCuotaMensual: number;
+  ahorroTotalIntereses: number;
+  // Reducir plazo
+  nuevosPlazoMeses: number;
+  mesesAhorrados: number;
+  ahorroTotalInteresesPlazo: number;
+  // Comparison
+  mejorOpcion: 'reducir_cuota' | 'reducir_plazo';
+  comparativa: AmortizacionAnticipadaComparativa[];
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Rentabilidad del Alquiler
+// ---------------------------------------------------------------------------
+
+export interface RentabilidadAlquilerInput {
+  precioCompra: number;
+  gastosCompra: number;
+  reformaInicial: number;
+  alquilerMensual: number;
+  ibiAnual: number;
+  comunidadMensual: number;
+  seguroAnual: number;
+  hipotecaCuotaMensual: number;
+  periodoVacioMeses: number;
+}
+
+export interface RentabilidadAlquilerDesglose {
+  concepto: string;
+  importe: number;
+}
+
+export interface RentabilidadAlquilerResult {
+  inversionTotal: number;
+  ingresosAnuales: number;
+  gastosAnualesTotales: number;
+  beneficioNetoAnual: number;
+  rentabilidadBruta: number;
+  rentabilidadNeta: number;
+  cashFlowMensual: number;
+  anosRecuperacion: number;
+  desglose: RentabilidadAlquilerDesglose[];
+}

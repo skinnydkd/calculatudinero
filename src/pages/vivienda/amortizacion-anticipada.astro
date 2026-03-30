@@ -1,0 +1,323 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import AmortizacionAnticipada from '@components/calculators/AmortizacionAnticipada';
+
+const title = 'Calculadora de Amortización Anticipada de Hipoteca — CalculaTuDinero.net';
+const description = 'Calcula cuánto ahorras amortizando hipoteca: compara reducir cuota vs reducir plazo. Descubre la mejor opción para tu situación.';
+const canonical = 'https://calculatudinero.net/vivienda/amortizacion-anticipada/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Vivienda', href: '/vivienda/' },
+  { label: 'Amortización anticipada' },
+];
+
+const faqs = [
+  {
+    question: '¿Qué es la amortización anticipada de hipoteca?',
+    answer: 'La amortización anticipada consiste en hacer un pago extra a tu banco para reducir el capital pendiente de tu hipoteca antes de lo previsto. Puedes elegir entre reducir la cuota mensual (manteniendo el mismo plazo) o reducir el plazo (manteniendo la misma cuota). Ambas opciones te ahorran intereses, pero en distinta medida.',
+  },
+  {
+    question: '¿Es mejor reducir cuota o reducir plazo?',
+    answer: 'En la gran mayoría de los casos, reducir plazo te ahorra más dinero en intereses a largo plazo, porque dejas de pagar intereses durante los meses eliminados. Reducir cuota puede ser mejor si necesitas aliviar tu carga mensual por motivos de liquidez. La diferencia puede ser de miles de euros, especialmente en hipotecas con tipos de interés altos o plazos largos.',
+  },
+  {
+    question: '¿Tiene comisión la amortización anticipada?',
+    answer: 'Sí, los bancos pueden cobrar una comisión, pero está legalmente limitada. Para hipotecas a tipo variable: máximo 0,25% durante los primeros 3 años o 0,15% durante los primeros 5 años. Para hipotecas a tipo fijo: máximo 2% durante los primeros 10 años o 1,5% después. Muchas hipotecas firmadas recientemente ya no incluyen esta comisión.',
+  },
+  {
+    question: '¿Cuándo conviene amortizar hipoteca anticipadamente?',
+    answer: 'Conviene amortizar cuando el tipo de interés de tu hipoteca es superior a la rentabilidad que obtendrías invirtiendo ese dinero. También es ventajoso si puedes deducirte la amortización en la declaración de la renta (hipotecas anteriores a 2013, con un máximo de 9.040 euros anuales entre capital e intereses). Si tu tipo es bajo (por ejemplo, 1,5%) y puedes invertir al 5-7%, puede ser mejor invertir.',
+  },
+  {
+    question: '¿Puedo amortizar hipoteca parcialmente varias veces?',
+    answer: 'Sí, puedes realizar amortizaciones parciales tantas veces como quieras, siempre que tu contrato lo permita (la mayoría lo hacen). Una estrategia habitual es amortizar una cantidad cada año para aprovechar la deducción fiscal (en hipotecas anteriores a 2013) o simplemente para ir reduciendo la deuda. Cada amortización reduce el capital pendiente y, por tanto, los intereses futuros.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Amortización Anticipada de Hipoteca',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName="Amortización Anticipada de Hipoteca"
+>
+  <AmortizacionAnticipada client:load />
+
+  <Fragment slot="content">
+    <h2>Cómo funciona la calculadora de amortización anticipada</h2>
+    <p>
+      La amortización anticipada de hipoteca es una de las decisiones financieras más rentables que puedes tomar
+      como propietario. Al adelantar un pago extra, reduces el capital pendiente de tu préstamo y, con ello,
+      los intereses que pagarás durante el resto de la vida de la hipoteca. Esta calculadora compara las dos
+      opciones disponibles y te recomienda la más ventajosa.
+    </p>
+    <p>
+      El cálculo se basa en el sistema de amortización francés (el habitual en España). Se utiliza la fórmula
+      <strong> M = P &times; r &times; (1+r)<sup>n</sup> / ((1+r)<sup>n</sup> - 1)</strong> para recalcular
+      la cuota tras la reducción de capital, y <strong>n = -log(1 - P&times;r/M) / log(1+r)</strong> para
+      calcular el nuevo plazo si mantienes la misma cuota.
+    </p>
+
+    <h2>Ejemplo práctico: amortizar 20.000 € de una hipoteca</h2>
+    <p>
+      <strong>Situación:</strong> tienes una hipoteca con 150.000 € de capital pendiente, cuota de 700 €/mes,
+      tipo de interés del 2,9% y 20 años de plazo restante. Decides amortizar 20.000 € de golpe.
+    </p>
+    <p>
+      <strong>Opción 1 — Reducir cuota:</strong> tu nueva cuota baja a unos 607 €/mes (te ahorras 93 €/mes).
+      El plazo sigue siendo 20 años. Ahorras aproximadamente 2.300 € en intereses totales.
+    </p>
+    <p>
+      <strong>Opción 2 — Reducir plazo:</strong> tu cuota sigue siendo 700 €/mes, pero terminas de pagar la
+      hipoteca unos 3 años y medio antes (en unos 16 años y medio en vez de 20). Ahorras aproximadamente
+      9.200 € en intereses totales.
+    </p>
+    <p>
+      En este ejemplo, reducir plazo te ahorra casi 7.000 € más que reducir cuota. La razón es sencilla:
+      al mantener una cuota más alta, amortizas capital más rápido y generas menos intereses en cada periodo.
+    </p>
+
+    <h2>Comisiones por amortización anticipada en 2026</h2>
+    <p>
+      Los bancos pueden cobrar una comisión por amortización anticipada, pero está limitada por ley.
+      Para hipotecas a <strong>tipo variable</strong>, el máximo es del 0,25% durante los primeros 3 años
+      o del 0,15% durante los primeros 5 años (se aplica lo que figure en tu escritura). Para hipotecas a
+      <strong> tipo fijo</strong>, el máximo es del 2% durante los primeros 10 años o del 1,5% después.
+    </p>
+    <p>
+      Muchas hipotecas firmadas a partir de 2019 ya no incluyen comisión por amortización anticipada.
+      Revisa tu escritura o pregunta a tu banco antes de realizar el pago.
+    </p>
+
+    <h2>Deducción fiscal por amortización de hipoteca</h2>
+    <p>
+      Si tu hipoteca es <strong>anterior al 1 de enero de 2013</strong>, puedes deducirte hasta 9.040 €
+      anuales en la declaración de la renta (entre capital pagado e intereses). Esto significa que, si tu
+      cuota anual más la amortización anticipada superan los 9.040 €, puedes ajustar la cantidad amortizada
+      para maximizar la deducción. Para hipotecas posteriores a 2013, esta deducción ya no existe.
+    </p>
+
+    <h2>Calculadoras relacionadas</h2>
+    <p>
+      Si estás valorando amortizar tu hipoteca, también te interesa nuestro
+      <a href="/vivienda/calculadora-hipoteca/"> simulador de hipoteca</a> para ver tu cuadro de amortización
+      completo. Para planificar el ahorro a largo plazo, consulta la
+      <a href="/ahorro-inversion/interes-compuesto/"> calculadora de interés compuesto</a>. Y para calcular
+      el impacto fiscal, no te pierdas la <a href="/impuestos/calculadora-irpf/">calculadora de IRPF 2026</a>.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏠', title: 'Simulador de hipoteca', description: 'Calcula tu cuota mensual y cuadro de amortización completo.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '📈', title: 'Interés compuesto', description: 'Compara amortizar hipoteca vs. invertir tu dinero.', href: '/ahorro-inversion/interes-compuesto/' },
+      { icon: '📋', title: 'Calculadora de IRPF', description: 'Calcula tu declaración y posibles deducciones.', href: '/impuestos/calculadora-irpf/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Amortización anticipada comparison cards */
+  :global(.aa-comparison) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 640px) {
+    :global(.aa-comparison) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  :global(.aa-method) {
+    padding: var(--space-4);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    position: relative;
+  }
+
+  :global(.aa-method--selected) {
+    border-color: var(--color-accent);
+    background: var(--color-accent-light);
+  }
+
+  :global(.aa-method__badge) {
+    position: absolute;
+    top: calc(-1 * var(--space-2));
+    right: var(--space-3);
+    background: var(--color-accent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  :global(.aa-method__title) {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+
+  :global(.aa-method__subtitle) {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  :global(.aa-method__table) {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  :global(.aa-method__table td) {
+    padding: var(--space-1) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  :global(.aa-method__table td:last-child) {
+    text-align: right;
+  }
+
+  :global(.aa-notice) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--color-accent-light);
+    border-radius: var(--radius-md);
+  }
+
+  :global(.aa-notice__icon) {
+    font-size: 1.25rem;
+    line-height: 1;
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  :global(.aa-notice__text) {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.aa-bars) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  :global(.aa-bars__row) {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  :global(.aa-bars__label) {
+    font-size: 0.85rem;
+    min-width: 110px;
+    text-align: right;
+    color: var(--color-text-secondary);
+  }
+
+  :global(.aa-bars__track) {
+    flex: 1;
+    height: 16px;
+    background: var(--color-bg-alt);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  :global(.aa-bars__fill) {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.5s ease;
+  }
+
+  :global(.aa-bars__value) {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 100px;
+  }
+</style>

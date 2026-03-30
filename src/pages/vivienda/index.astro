@@ -2,7 +2,7 @@
 import CategoryLayout from '@layouts/CategoryLayout.astro';
 
 const title = 'Calculadoras de Vivienda — CalculaTuDinero.net';
-const description = 'Simulador de hipoteca, calculadora de gastos de compra y más herramientas para tu vivienda. Calcula tu cuota mensual y los gastos asociados a la compra.';
+const description = 'Simulador de hipoteca, amortización anticipada, rentabilidad del alquiler y más herramientas para tu vivienda. Calcula tu cuota mensual, compara opciones y analiza tu inversión.';
 const canonical = 'https://calculatudinero.net/vivienda/';
 
 const breadcrumbItems = [
@@ -16,6 +16,18 @@ const calculators = [
     title: 'Simulador de Hipoteca',
     description: 'Calcula tu cuota mensual, el total de intereses y el cuadro de amortización. Incluye calculadora de gastos de compra por comunidad autónoma.',
     href: '/vivienda/calculadora-hipoteca/',
+  },
+  {
+    icon: '💸',
+    title: 'Amortización Anticipada',
+    description: 'Compara reducir cuota vs. reducir plazo al amortizar hipoteca. Descubre cuánto ahorras en intereses con cada opción.',
+    href: '/vivienda/amortizacion-anticipada/',
+  },
+  {
+    icon: '🏘️',
+    title: 'Rentabilidad del Alquiler',
+    description: 'Calcula la rentabilidad bruta y neta de alquilar un piso. Incluye gastos reales: IBI, comunidad, seguro, vacío y mantenimiento.',
+    href: '/vivienda/rentabilidad-alquiler/',
   },
 ];
 
@@ -60,7 +72,7 @@ const jsonLd = [
   canonical={canonical}
   breadcrumbItems={breadcrumbItems}
   categoryTitle="Calculadoras de Vivienda"
-  categoryDescription="Simulador de hipoteca, calculadora de gastos de compra y más herramientas para planificar la compra de tu vivienda."
+  categoryDescription="Simulador de hipoteca, amortización anticipada, rentabilidad del alquiler y más herramientas para planificar la compra o inversión en vivienda."
 >
   {calculators.map((calc) => (
     <a href={calc.href} class="card card--accent calculator-card">
