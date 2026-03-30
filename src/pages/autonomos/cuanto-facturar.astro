@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import CuantoFacturar from '@components/calculators/CuantoFacturar';
 import autonomosData from '@data/autonomos-2026.json';
 import irpfData from '@data/irpf-2026.json';
@@ -122,6 +123,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '📋', title: 'Cuota de Autónomos 2026', description: 'Descubre qué cuota te corresponde según tus rendimientos.', href: '/autonomos/cuota-autonomos/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '🏷️', title: 'Calculadora de IVA', description: 'Añade o quita IVA a cualquier importe.', href: '/impuestos/calculadora-iva/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 

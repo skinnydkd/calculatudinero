@@ -1,5 +1,6 @@
 ---
 import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
 import ImpuestoSucesiones from '@components/calculators/ImpuestoSucesiones';
 import sucesionesData from '@data/sucesiones-por-ccaa.json';
 
@@ -118,6 +119,14 @@ const jsonLd = [
         <p class="faq__answer">{faq.answer}</p>
       </details>
     ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏘️', title: 'Plusvalía municipal', description: 'Compara método real y objetivo para tu venta.', href: '/impuestos/plusvalia-municipal/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '🏖️', title: 'Pensión de jubilación', description: 'Estima tu pensión según años cotizados.', href: '/ahorro-inversion/pension-jubilacion/' },
+    ]} />
   </Fragment>
 </CalculatorLayout>
 
