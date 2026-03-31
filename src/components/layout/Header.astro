@@ -2,12 +2,12 @@
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { href: '/autonomos/', label: 'Autónomos' },
-  { href: '/laboral/', label: 'Laboral' },
-  { href: '/impuestos/', label: 'Impuestos' },
-  { href: '/vivienda/', label: 'Vivienda' },
-  { href: '/ahorro-inversion/', label: 'Ahorro' },
-  { href: '/blog/', label: 'Blog' },
+  { href: '/declaracion-renta/', label: 'Renta 2025', highlight: true },
+  { href: '/autonomos/', label: 'Autónomos', highlight: false },
+  { href: '/laboral/', label: 'Laboral', highlight: false },
+  { href: '/impuestos/', label: 'Impuestos', highlight: false },
+  { href: '/vivienda/', label: 'Vivienda', highlight: false },
+  { href: '/ahorro-inversion/', label: 'Ahorro', highlight: false },
 ];
 ---
 
@@ -31,11 +31,15 @@ const navLinks = [
 
     <nav class="header__nav" aria-label="Navegación principal">
       <ul class="header__nav-list">
-        {navLinks.map(({ href, label }) => (
+        {navLinks.map(({ href, label, highlight }) => (
           <li>
             <a
               href={href}
-              class:list={['header__nav-link', { 'header__nav-link--active': currentPath.startsWith(href) }]}
+              class:list={[
+                'header__nav-link',
+                { 'header__nav-link--active': currentPath.startsWith(href) },
+                { 'header__nav-link--highlight': highlight },
+              ]}
             >
               {label}
             </a>
@@ -101,6 +105,22 @@ const navLinks = [
   .header__nav-link--active {
     color: var(--color-accent);
     border-bottom-color: var(--color-accent);
+  }
+
+  .header__nav-link--highlight {
+    color: #fff;
+    background-color: var(--color-accent);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    border-bottom: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .header__nav-link--highlight:hover {
+    background-color: var(--color-accent-hover, #A8461F);
+    color: #fff;
+    border-bottom: none;
   }
 
   /* Hamburger — hidden on desktop */

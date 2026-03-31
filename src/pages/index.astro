@@ -88,6 +88,16 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- Renta Campaign Banner -->
+  <section class="renta-banner container">
+    <a href="/declaracion-renta/" class="renta-banner__link">
+      <span class="renta-banner__badge">Campaña 2025-2026</span>
+      <span class="renta-banner__title">Declaración de la Renta</span>
+      <span class="renta-banner__desc">Plazos, deducciones, calculadora y guía completa. Campaña abierta del 2 de abril al 30 de junio.</span>
+      <span class="renta-banner__cta">Ver guía completa &rarr;</span>
+    </a>
+  </section>
+
   <!-- Calculator Cards -->
   <section class="calculators container">
     <div class="calculators__grid">
@@ -138,6 +148,59 @@ const jsonLd = [
     font-size: 1.25rem;
     color: var(--color-text-secondary);
     margin-bottom: 0;
+  }
+
+  /* Renta banner */
+  .renta-banner {
+    padding: var(--space-6) 0 0;
+  }
+
+  .renta-banner__link {
+    display: block;
+    padding: var(--space-6) var(--space-8);
+    background: linear-gradient(135deg, #111110 0%, #2a1a10 100%);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: #fff;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .renta-banner__link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: #fff;
+  }
+
+  .renta-banner__badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background-color: var(--color-accent);
+    padding: 2px 10px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-2);
+  }
+
+  .renta-banner__title {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .renta-banner__desc {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: var(--space-3);
+  }
+
+  .renta-banner__cta {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent);
   }
 
   .calculators {
