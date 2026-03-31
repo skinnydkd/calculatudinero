@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularInteresCompuesto } from '@lib/calculations/ahorro';
+import CopyButton from './CopyButton';
 import type { InteresCompuestoResult } from '@lib/types';
 
 export default function InteresCompuesto() {
@@ -212,6 +213,7 @@ export default function InteresCompuesto() {
           <p class="calculator__result-label">
             Capital final (nominal)
           </p>
+          <CopyButton text={`Capital final: ${formatCurrency(result.capitalFinal)} (${plazoAnios} años)`} />
 
           <p style={{
             textAlign: 'center',

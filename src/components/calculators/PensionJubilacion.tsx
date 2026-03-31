@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularPension } from '@lib/calculations/pensiones';
+import CopyButton from './CopyButton';
 import type { PensionesData, PensionResult } from '@lib/types';
 
 interface Props {
@@ -230,6 +231,7 @@ export default function PensionJubilacion({ pensionesData }: Props) {
           <p class="calculator__result-label">
             Pensión mensual estimada (14 pagas)
           </p>
+          <CopyButton text={`Pensión mensual: ${formatCurrency(result.pensionBrutaMensual)}`} />
 
           {/* Secondary results */}
           <div style={{

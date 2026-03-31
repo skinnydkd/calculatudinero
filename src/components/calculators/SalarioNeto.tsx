@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularSalarioNeto } from '@lib/calculations/laboral';
+import CopyButton from './CopyButton';
 import type {
   SeguridadSocialData,
   IRPFData,
@@ -286,6 +287,7 @@ export default function SalarioNeto({ ssData, irpfData }: Props) {
           <p class="calculator__result-label">
             Salario neto mensual ({numPagas} pagas)
           </p>
+          <CopyButton text={`Salario neto mensual: ${formatCurrency(result.salarioNetoMensual)} (${numPagas} pagas)`} />
 
           <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-6)' }}>
             Neto anual: <strong style={{ fontFamily: 'var(--font-mono)' }}>

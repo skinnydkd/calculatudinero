@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularFiniquito } from '@lib/calculations/laboral';
+import CopyButton from './CopyButton';
 import type { FiniquitoData, FiniquitoResult } from '@lib/types';
 
 interface Props {
@@ -267,6 +268,7 @@ export default function Finiquito({ finiquitoData }: Props) {
           <p class="calculator__result-label">
             Finiquito neto
           </p>
+          <CopyButton text={`Finiquito neto: ${formatCurrency(result.totalNeto)}`} />
 
           <p style={{
             textAlign: 'center',

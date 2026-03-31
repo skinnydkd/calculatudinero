@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency } from '@lib/formatters';
 import { calcularIndemnizacion } from '@lib/calculations/laboral';
+import CopyButton from './CopyButton';
 import type {
   IndemnizacionData,
   IndemnizacionResult,
@@ -202,6 +203,7 @@ export default function IndemnizacionDespido({ indemnizacionData }: Props) {
           <p class="calculator__result-label">
             Indemnización total
           </p>
+          <CopyButton text={`Indemnización: ${formatCurrency(result.indemnizacionTotal)}`} />
 
           {/* Details table */}
           <table class="calculator__breakdown">

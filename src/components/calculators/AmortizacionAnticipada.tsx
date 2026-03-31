@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularAmortizacionAnticipada } from '@lib/calculations/vivienda';
+import CopyButton from './CopyButton';
 import type { AmortizacionAnticipadaResult } from '@lib/types';
 
 export default function AmortizacionAnticipada() {
@@ -214,6 +215,7 @@ export default function AmortizacionAnticipada() {
           <p style={{ textAlign: 'center', marginBottom: 'var(--space-4)', color: 'var(--color-text-secondary)' }}>
             Nuevo capital pendiente: <strong style={{ fontFamily: 'var(--font-mono)' }}>{formatCurrency(result.nuevoCapital)}</strong>
           </p>
+          <CopyButton text={`Ahorro intereses: ${formatCurrency(result.ahorroTotalInteresesPlazo || result.ahorroTotalIntereses)}`} />
 
           {/* Comparison cards */}
           <div class="aa-comparison">

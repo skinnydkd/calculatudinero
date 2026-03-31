@@ -7,6 +7,17 @@ author: "CalculaTuDinero"
 category: "laboral"
 tags: ["nómina", "salario", "Seguridad Social", "IRPF", "conceptos nómina", "2026"]
 relatedCalculators: ["salario-neto", "calculadora-irpf"]
+howTo:
+  - name: "Identifica los devengos"
+    text: "Busca el bloque superior: salario base, complementos (antigüedad, transporte, nocturnidad) y prorrata de pagas extra si están prorrateadas."
+  - name: "Suma el total devengado"
+    text: "Es tu salario bruto mensual. Si tienes 14 pagas, la prorrata de extras está aquí. Si tienes 12, ya está incluida."
+  - name: "Revisa las deducciones de Seguridad Social"
+    text: "Contingencias comunes (4,70%), desempleo (1,55%), formación (0,10%) y MEI (0,15%). Total: ~6,50% de tu base de cotización."
+  - name: "Comprueba la retención de IRPF"
+    text: "El porcentaje depende de tu salario, situación familiar y comunidad. Usa la calculadora de IRPF para verificar."
+  - name: "Calcula el líquido a percibir"
+    text: "Total devengado - deducciones SS - retención IRPF = lo que recibes en tu cuenta."
 ---
 
 Tu nómina es el documento que desglosa cómo se calcula tu salario mensual: desde el salario bruto (lo que cuesta al empresa tu puesto) hasta el salario neto (lo que recibes en cuenta). Se compone de tres bloques principales: devengos (lo que ganas), deducciones (lo que te descuentan por Seguridad Social e IRPF) y el líquido a percibir (lo que cobras). Entender cada línea te permite verificar que te pagan correctamente.

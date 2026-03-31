@@ -2,6 +2,7 @@ import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularCuotaPorTramos } from '@lib/calculations/shared';
 import { round2 } from '@lib/formatters';
+import CopyButton from './CopyButton';
 import type { IRPFData, ComunidadAutonoma } from '@lib/types';
 import { CCAA_OPTIONS } from '@lib/types';
 
@@ -186,6 +187,7 @@ export default function ComparadorIRPF({ irpfData }: Props) {
               </p>
             </div>
           </div>
+          <CopyButton text={`IRPF más bajo: ${sorted[0].label} (${formatCurrency(sorted[0].cuotaTotal)}) | Más alto: ${sorted[sorted.length - 1].label} (${formatCurrency(sorted[sorted.length - 1].cuotaTotal)})`} />
 
           <div style={{ marginBottom: 'var(--space-4)', display: 'flex', gap: 'var(--space-3)', fontSize: '0.85rem' }}>
             <span style={{ color: 'var(--color-text-secondary)' }}>Ordenar por:</span>

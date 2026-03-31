@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularHipoteca, calcularGastosCompra } from '@lib/calculations/vivienda';
+import CopyButton from './CopyButton';
 import type {
   HipotecaReferenceData,
   ITPData,
@@ -339,6 +340,7 @@ export default function CalculadoraHipoteca({ hipotecaData, itpData }: Props) {
                 Cuota mensual durante {plazoAnios} años
                 {tipoHipoteca === 'variable' && ' (al tipo actual)'}
               </p>
+              <CopyButton text={`Cuota mensual: ${formatCurrency(hipotecaResult.cuotaMensual)}`} />
 
               <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-6)' }}>
                 Total intereses: <strong style={{ fontFamily: 'var(--font-mono)' }}>

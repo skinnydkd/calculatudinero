@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularCuotaAutonomo } from '@lib/calculations/autonomos';
+import CopyButton from './CopyButton';
 import type { AutonomosData, CuotaAutonomoResult } from '@lib/types';
 
 interface Props {
@@ -189,6 +190,7 @@ export default function CuotaAutonomos({ autonomosData }: Props) {
           <p class="calculator__result-label">
             Cuota mensual de autónomos
           </p>
+          <CopyButton text={`Cuota autónomos: ${formatCurrency(result.cuotaMensual)}/mes`} />
 
           {/* Tarifa plana badge */}
           {result.esTarifaPlana && (

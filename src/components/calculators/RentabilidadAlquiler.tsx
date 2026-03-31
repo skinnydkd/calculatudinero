@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularRentabilidadAlquiler } from '@lib/calculations/vivienda';
+import CopyButton from './CopyButton';
 import type { RentabilidadAlquilerResult } from '@lib/types';
 
 export default function RentabilidadAlquiler() {
@@ -312,6 +313,7 @@ export default function RentabilidadAlquiler() {
             {formatPercent(result.rentabilidadNeta, 1)}
           </div>
           <p class="calculator__result-label">Rentabilidad neta anual</p>
+          <CopyButton text={`Rentabilidad neta: ${formatPercent(result.rentabilidadNeta, 1)}`} />
 
           {/* Summary cards */}
           <div class="ra-summary">

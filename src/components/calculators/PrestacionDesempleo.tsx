@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularPrestacionDesempleo } from '@lib/calculations/desempleo';
+import CopyButton from './CopyButton';
 import type { DesempleoData, DesempleoResult } from '@lib/types';
 
 interface Props {
@@ -187,6 +188,7 @@ export default function PrestacionDesempleo({ desempleoData }: Props) {
           <p class="calculator__result-label">
             Prestación mensual (primeros 6 meses)
           </p>
+          <CopyButton text={`Prestación: ${formatCurrency(result.importePrimeros180Dias)}/mes (${result.duracionMeses} meses)`} />
 
           {/* Secondary results */}
           <div style={{

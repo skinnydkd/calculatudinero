@@ -7,6 +7,17 @@ author: "CalculaTuDinero"
 category: "ahorro-inversion"
 tags: ["invertir desde cero", "principiante", "fondos indexados", "robo-advisor", "ahorro", "2026"]
 relatedCalculators: ["interes-compuesto"]
+howTo:
+  - name: "Crea un fondo de emergencia"
+    text: "Ahorra entre 3 y 6 meses de gastos fijos en una cuenta accesible (cuenta remunerada o letras del Tesoro)."
+  - name: "Elimina deudas con intereses altos"
+    text: "Paga primero tarjetas de crédito o préstamos personales con intereses superiores al 5-6%."
+  - name: "Elige un bróker o robo-advisor"
+    text: "Abre cuenta en un bróker español (MyInvestor, Indexa Capital) o internacional (Interactive Brokers, Trade Republic)."
+  - name: "Selecciona un fondo indexado global"
+    text: "Elige un fondo indexado al MSCI World o similar con comisiones por debajo del 0,30% anual."
+  - name: "Configura aportaciones periódicas"
+    text: "Automatiza una transferencia mensual (desde 50 €) para invertir de forma constante independientemente del mercado."
 ---
 
 Para empezar a invertir desde cero en España necesitas tres cosas: un fondo de emergencia de 3-6 meses de gastos, eliminar deudas con intereses altos y una aportación periódica (desde 50 €/mes basta) a un fondo indexado global de bajo coste. No necesitas grandes conocimientos ni grandes cantidades: lo más importante es empezar pronto y ser constante.

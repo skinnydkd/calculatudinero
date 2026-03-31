@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularIRPF } from '@lib/calculations/impuestos';
+import CopyButton from './CopyButton';
 import type { IRPFData, IRPFResult, ComunidadAutonoma } from '@lib/types';
 import { CCAA_OPTIONS } from '@lib/types';
 
@@ -336,6 +337,7 @@ export default function CalculadoraIRPF({ irpfData }: Props) {
           <p class="calculator__result-label">
             Cuota íntegra anual de IRPF
           </p>
+          <CopyButton text={`IRPF: ${formatCurrency(result.cuotaIntegra)} (tipo efectivo: ${formatPercent(result.tipoEfectivo, 2)})`} />
 
           <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-6)' }}>
             Tipo efectivo:{' '}
