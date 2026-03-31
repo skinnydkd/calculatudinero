@@ -1,0 +1,586 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/layout/Breadcrumb.astro';
+
+const title = 'Declaración de la Renta 2025-2026: Guía Completa, Plazos y Calculadora — CalculaTuDinero.net';
+const description = 'Todo sobre la declaración de la renta 2025-2026: plazos, quién está obligado, novedades, deducciones y calculadora de IRPF gratuita. Campaña abril-junio 2026.';
+const canonical = 'https://calculatudinero.net/declaracion-renta/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Declaración de la Renta 2025-2026' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuándo empieza la declaración de la renta 2025-2026?',
+    answer: 'La campaña de la Renta 2025 comienza el 2 de abril de 2026 para presentaciones por internet y app. La atención telefónica empieza el 6 de mayo y la presencial el 2 de junio. El plazo finaliza el 30 de junio de 2026.',
+  },
+  {
+    question: '¿Estoy obligado a hacer la declaración de la renta?',
+    answer: 'Están obligados los contribuyentes con rendimientos del trabajo superiores a 22.000 € anuales de un solo pagador (o 15.876 € con dos o más pagadores si el segundo supera 1.500 €). También están obligados quienes tengan rendimientos del capital mobiliario o ganancias patrimoniales superiores a 1.600 €, o rendimientos inmobiliarios imputados superiores a 1.000 €.',
+  },
+  {
+    question: '¿Cómo puedo consultar mi borrador de la renta?',
+    answer: 'Puedes acceder a tu borrador desde el primer día de campaña (2 de abril) a través de la sede electrónica de la Agencia Tributaria (sede.agenciatributaria.gob.es), la app "Agencia Tributaria" o con certificado digital/Cl@ve PIN/referencia. Revísalo siempre antes de confirmarlo.',
+  },
+  {
+    question: '¿Qué pasa si la declaración me sale a devolver?',
+    answer: 'Si te sale a devolver, Hacienda tiene un plazo de 6 meses desde el fin de la campaña para realizar la devolución. Si se retrasa, te corresponden intereses de demora. Las declaraciones presentadas al inicio de la campaña suelen devolverse antes (generalmente en 2-4 semanas).',
+  },
+  {
+    question: '¿Puedo hacer la declaración conjunta con mi pareja?',
+    answer: 'Sí, si estáis casados podéis optar por la tributación conjunta. Conviene hacer el cálculo de ambas opciones (individual y conjunta) y elegir la más favorable. En general, la conjunta interesa cuando uno de los cónyuges tiene ingresos bajos o nulos.',
+  },
+  {
+    question: '¿Qué deducciones puedo aplicar en la renta 2025?',
+    answer: 'Las principales son: deducción por inversión en vivienda habitual (si la compraste antes de 2013), deducción por maternidad (hasta 1.200 €/año), deducciones autonómicas (alquiler, nacimiento de hijos, gastos educativos...), y las reducciones por aportaciones a planes de pensiones (máximo 1.500 €/año).',
+  },
+  {
+    question: '¿Cuánto tarda Hacienda en devolver?',
+    answer: 'Si presentas la declaración al inicio de la campaña (abril) y te sale a devolver, Hacienda suele hacer la devolución en 2-4 semanas. Las declaraciones presentadas en junio pueden tardar más. El plazo máximo legal es de 6 meses desde el 30 de junio.',
+  },
+  {
+    question: '¿Qué novedades hay en la renta 2025 respecto al año anterior?',
+    answer: 'Las principales novedades para la declaración de 2025 son: actualización de los tramos autonómicos en varias comunidades, ampliación de la obligación de declarar para perceptores del IMV, mantenimiento de la reducción por rendimientos del trabajo para rentas hasta 21.000 €, y nuevas deducciones por eficiencia energética en vivienda.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': { '@type': 'Answer', 'text': faq.answer },
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    'name': title,
+    'description': description,
+    'url': canonical,
+    'dateModified': '2026-03-31',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <div class="renta-page container">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <!-- Hero -->
+    <header class="renta-hero">
+      <span class="renta-hero__badge">Campaña 2025-2026</span>
+      <h1 class="renta-hero__title">Declaración de la Renta 2025-2026</h1>
+      <p class="renta-hero__subtitle">
+        Guía completa con plazos, novedades, deducciones y calculadora gratuita de IRPF
+      </p>
+    </header>
+
+    <!-- Key Dates -->
+    <section class="renta-dates">
+      <h2 class="renta-dates__title">Plazos clave</h2>
+      <div class="renta-dates__grid">
+        <div class="renta-dates__item">
+          <span class="renta-dates__date">2 abril</span>
+          <span class="renta-dates__label">Inicio campaña online</span>
+          <span class="renta-dates__detail">Web y app Agencia Tributaria</span>
+        </div>
+        <div class="renta-dates__item">
+          <span class="renta-dates__date">6 mayo</span>
+          <span class="renta-dates__label">Atención telefónica</span>
+          <span class="renta-dates__detail">Solicitar cita: 91 535 73 26</span>
+        </div>
+        <div class="renta-dates__item">
+          <span class="renta-dates__date">2 junio</span>
+          <span class="renta-dates__label">Atención presencial</span>
+          <span class="renta-dates__detail">Oficinas de la AEAT con cita previa</span>
+        </div>
+        <div class="renta-dates__item renta-dates__item--deadline">
+          <span class="renta-dates__date">30 junio</span>
+          <span class="renta-dates__label">Fin de la campaña</span>
+          <span class="renta-dates__detail">Último día para presentar</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator CTA -->
+    <section class="renta-cta">
+      <h2>Calcula tu IRPF antes de presentar</h2>
+      <p>Comprueba si tu borrador es correcto calculando tu cuota de IRPF con nuestros datos actualizados a 2026.</p>
+      <div class="renta-cta__buttons">
+        <a href="/impuestos/calculadora-irpf/" class="btn btn--primary btn--large">Calculadora de IRPF</a>
+        <a href="/impuestos/comparador-irpf-comunidades/" class="btn btn--outline btn--large">Comparar por comunidades</a>
+      </div>
+    </section>
+
+    <!-- Pillar Content -->
+    <section class="renta-content">
+      <h2>¿Quién está obligado a declarar?</h2>
+      <p>
+        No todos los contribuyentes están obligados a presentar la declaración. Los principales umbrales para la renta 2025 son:
+      </p>
+      <table>
+        <thead>
+          <tr><th>Tipo de renta</th><th>Límite</th><th>Condición</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rendimientos del trabajo</td><td>22.000 €</td><td>Un solo pagador</td></tr>
+          <tr><td>Rendimientos del trabajo</td><td>15.876 €</td><td>Dos o más pagadores (si 2.º supera 1.500 €)</td></tr>
+          <tr><td>Capital mobiliario + ganancias</td><td>1.600 €</td><td>Sujetos a retención</td></tr>
+          <tr><td>Rentas inmobiliarias imputadas</td><td>1.000 €</td><td>Segundas viviendas no alquiladas</td></tr>
+          <tr><td>Rendimientos del trabajo</td><td>Cualquiera</td><td>Perceptores del IMV (obligatorio)</td></tr>
+        </tbody>
+      </table>
+      <p>
+        <strong>Consejo:</strong> Aunque no estés obligado, puede interesarte presentarla si te sale a devolver
+        (por ejemplo, si te han practicado retenciones excesivas en las nóminas). Calcula tu resultado con la
+        <a href="/impuestos/calculadora-irpf/">calculadora de IRPF</a>.
+      </p>
+
+      <h2>Cómo funciona la declaración: paso a paso</h2>
+      <h3>1. Accede al borrador</h3>
+      <p>
+        Entra en <strong>Renta Web</strong> (sede.agenciatributaria.gob.es) con tu certificado digital,
+        Cl@ve PIN o número de referencia. Hacienda te mostrará un borrador con los datos fiscales que tiene
+        (nóminas, intereses bancarios, cotizaciones).
+      </p>
+      <h3>2. Revisa cada casilla</h3>
+      <p>
+        El borrador <strong>no siempre está completo</strong>. Comprueba especialmente:
+      </p>
+      <ul>
+        <li>Deducciones autonómicas (alquiler, hijos, gastos educativos)</li>
+        <li>Aportaciones a planes de pensiones</li>
+        <li>Deducción por maternidad</li>
+        <li>Deducción por vivienda habitual (si compraste antes de 2013)</li>
+        <li>Rendimientos de actividades económicas (autónomos)</li>
+        <li>Ganancias y pérdidas patrimoniales (venta de acciones, fondos, inmuebles)</li>
+      </ul>
+      <h3>3. Elige tributación individual o conjunta</h3>
+      <p>
+        Si estás casado/a, haz el cálculo en ambas modalidades y elige la más favorable.
+        La tributación conjunta suele interesar cuando uno de los cónyuges tiene ingresos muy bajos o nulos.
+      </p>
+      <h3>4. Confirma y presenta</h3>
+      <p>
+        Si estás de acuerdo, confirma el borrador. Si te sale a pagar, puedes fraccionar en dos plazos
+        (60% al presentar + 40% el 5 de noviembre, sin intereses). Si te sale a devolver, indica tu cuenta bancaria.
+      </p>
+
+      <h2>Deducciones que quizás no estés aplicando</h2>
+      <p>Estas son las deducciones más olvidadas que pueden ahorrarte dinero:</p>
+
+      <h3>Deducciones estatales</h3>
+      <ul>
+        <li><strong>Deducción por maternidad:</strong> 1.200 €/año por hijo menor de 3 años (trabajadoras en activo). Se puede solicitar el abono anticipado de 100 €/mes.</li>
+        <li><strong>Deducción por familia numerosa:</strong> 1.200-2.400 € según categoría.</li>
+        <li><strong>Deducción por vivienda habitual:</strong> Hasta un 15% sobre un máximo de 9.040 € anuales, solo si compraste antes del 1 de enero de 2013.</li>
+        <li><strong>Planes de pensiones:</strong> Reducción de hasta 1.500 €/año en la base imponible.</li>
+        <li><strong>Donativos:</strong> 80% de deducción sobre los primeros 250 € donados a ONGs y fundaciones.</li>
+      </ul>
+
+      <h3>Deducciones autonómicas (varían por comunidad)</h3>
+      <p>
+        Cada comunidad autónoma tiene deducciones propias. Las más comunes:
+      </p>
+      <ul>
+        <li><strong>Alquiler de vivienda habitual:</strong> Disponible en Madrid, Cataluña, Comunitat Valenciana, Andalucía y más. Consulta los requisitos (edad, renta máxima).</li>
+        <li><strong>Gastos educativos:</strong> Madrid permite deducir uniformes, enseñanza de idiomas y gastos de escolaridad.</li>
+        <li><strong>Nacimiento/adopción de hijos:</strong> Importes variables por comunidad (100-600 €/hijo).</li>
+        <li><strong>Eficiencia energética:</strong> Obras de mejora energética en vivienda (nuevas desde 2023).</li>
+      </ul>
+      <p>
+        Consulta las deducciones exactas de tu comunidad en nuestra
+        <a href="/impuestos/calculadora-irpf/">calculadora de IRPF</a> o en las
+        <a href="/impuestos/comparador-irpf-comunidades/">guías por comunidad autónoma</a>.
+      </p>
+
+      <h2>Novedades de la declaración 2025</h2>
+      <ul>
+        <li><strong>Obligación de declarar para perceptores del IMV:</strong> Todas las personas que hayan percibido el Ingreso Mínimo Vital deben presentar declaración, aunque sus ingresos no superen los umbrales generales.</li>
+        <li><strong>Reducción por rendimientos del trabajo:</strong> Se mantiene la mejora aplicada desde 2023, beneficiando a rentas del trabajo de hasta 21.000 €.</li>
+        <li><strong>Criptomonedas:</strong> Obligación de declarar ganancias y pérdidas por operaciones con criptoactivos. El modelo 721 para declarar tenencias en el extranjero ya está en vigor.</li>
+        <li><strong>Deducción por eficiencia energética:</strong> Se prorrogan las deducciones por obras de mejora de eficiencia energética en vivienda (del 20% al 40% según tipo de obra).</li>
+        <li><strong>Actualización de tramos autonómicos:</strong> Varias comunidades han modificado su escala. Comprueba los <a href="/impuestos/comparador-irpf-comunidades/">tramos de tu comunidad</a>.</li>
+      </ul>
+
+      <h2>Errores más comunes (y cómo evitarlos)</h2>
+      <ol>
+        <li><strong>No revisar el borrador:</strong> Hacienda no incluye todas las deducciones autonómicas. Revísalo siempre.</li>
+        <li><strong>Olvidar ingresos de dos pagadores:</strong> Si cambiaste de trabajo, la retención puede haber sido insuficiente y la declaración te saldrá a pagar.</li>
+        <li><strong>No declarar ventas de fondos/acciones:</strong> Aunque sea a pérdidas, debes declararlas (y puedes compensar pérdidas).</li>
+        <li><strong>Tributación conjunta sin calcular:</strong> A veces la individual es más favorable. Calcula ambas.</li>
+        <li><strong>No aplicar deducciones por alquiler:</strong> Si pagas alquiler, comprueba si tu comunidad tiene deducción.</li>
+      </ol>
+
+      <h2>Herramientas para tu declaración</h2>
+      <div class="renta-tools">
+        <a href="/impuestos/calculadora-irpf/" class="card card--accent renta-tool">
+          <span class="renta-tool__icon">🧾</span>
+          <span class="renta-tool__name">Calculadora de IRPF 2026</span>
+          <span class="renta-tool__desc">Calcula tu cuota exacta con los tramos de tu comunidad</span>
+        </a>
+        <a href="/laboral/salario-neto/" class="card card--accent renta-tool">
+          <span class="renta-tool__icon">💰</span>
+          <span class="renta-tool__name">Salario neto</span>
+          <span class="renta-tool__desc">Comprueba las retenciones de tu nómina</span>
+        </a>
+        <a href="/impuestos/comparador-irpf-comunidades/" class="card card--accent renta-tool">
+          <span class="renta-tool__icon">📊</span>
+          <span class="renta-tool__name">Comparador IRPF por CCAA</span>
+          <span class="renta-tool__desc">Descubre cuánto pagarías en otra comunidad</span>
+        </a>
+        <a href="/autonomos/cuanto-facturar/" class="card card--accent renta-tool">
+          <span class="renta-tool__icon">💼</span>
+          <span class="renta-tool__name">Cuánto facturar (autónomos)</span>
+          <span class="renta-tool__desc">Calcula tu facturación contando el IRPF anual</span>
+        </a>
+      </div>
+
+      <h2>Calendario completo de la campaña</h2>
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Evento</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2 de abril 2026</td><td>Inicio presentación online (Renta Web y app)</td></tr>
+          <tr><td>6 de mayo 2026</td><td>Inicio atención telefónica (plan "Le llamamos")</td></tr>
+          <tr><td>2 de junio 2026</td><td>Inicio atención presencial en oficinas AEAT</td></tr>
+          <tr><td>25 de junio 2026</td><td>Último día para presentar con resultado a domiciliar</td></tr>
+          <tr><td><strong>30 de junio 2026</strong></td><td><strong>Fin de la campaña (último día para presentar)</strong></td></tr>
+          <tr><td>5 de noviembre 2026</td><td>Segundo plazo de pago (40% restante si fraccionaste)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="renta-faq">
+      <h2>Preguntas frecuentes sobre la declaración de la renta</h2>
+      {faqs.map((faq) => (
+        <details class="faq__item">
+          <summary class="faq__question">{faq.question}</summary>
+          <p class="faq__answer">{faq.answer}</p>
+        </details>
+      ))}
+    </section>
+
+    <!-- Related articles -->
+    <section class="renta-articles">
+      <h2>Artículos relacionados</h2>
+      <div class="renta-articles__grid">
+        <a href="/blog/tramos-irpf-2026/" class="renta-article-link">Tramos del IRPF 2026: tabla completa</a>
+        <a href="/blog/diferencias-irpf-comunidades/" class="renta-article-link">IRPF por comunidades: dónde se paga más</a>
+        <a href="/blog/retencion-irpf-nomina/" class="renta-article-link">Cómo se calcula la retención en tu nómina</a>
+        <a href="/blog/minimo-personal-familiar-irpf/" class="renta-article-link">Mínimo personal y familiar</a>
+        <a href="/blog/modelo-130-irpf-autonomos/" class="renta-article-link">Modelo 130 para autónomos</a>
+        <a href="/blog/declaracion-renta-2026-novedades/" class="renta-article-link">Novedades de la renta 2025-2026</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .renta-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  /* Hero */
+  .renta-hero {
+    text-align: center;
+    padding: var(--space-10) 0;
+    margin-bottom: var(--space-10);
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .renta-hero__badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    background-color: var(--color-accent);
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-4);
+  }
+
+  .renta-hero__title {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .renta-hero__subtitle {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Key dates */
+  .renta-dates {
+    margin-bottom: var(--space-10);
+  }
+
+  .renta-dates__title {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .renta-dates__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .renta-dates__item {
+    text-align: center;
+    padding: var(--space-6) var(--space-4);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+  }
+
+  .renta-dates__item--deadline {
+    background-color: var(--color-accent-light);
+  }
+
+  .renta-dates__date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .renta-dates__label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .renta-dates__detail {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* CTA */
+  .renta-cta {
+    text-align: center;
+    padding: var(--space-10);
+    background-color: var(--color-accent-light);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-10);
+  }
+
+  .renta-cta h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .renta-cta p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+  }
+
+  .renta-cta__buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn--outline {
+    background: transparent;
+    border: 2px solid var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .btn--outline:hover {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Content */
+  .renta-content {
+    max-width: var(--max-width-content);
+    margin: 0 auto var(--space-10);
+    line-height: 1.8;
+  }
+
+  .renta-content h2 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .renta-content h3 {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-3);
+  }
+
+  .renta-content p {
+    margin-bottom: var(--space-4);
+  }
+
+  .renta-content ul, .renta-content ol {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+  }
+
+  .renta-content li {
+    margin-bottom: var(--space-2);
+  }
+
+  .renta-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--space-6);
+    font-size: 0.9rem;
+  }
+
+  .renta-content th, .renta-content td {
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  .renta-content th {
+    font-weight: 600;
+    background-color: var(--color-bg-alt);
+  }
+
+  .renta-content a {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  /* Tools grid */
+  .renta-tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .renta-tool {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform var(--transition-base);
+  }
+
+  .renta-tool:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .renta-tool__icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .renta-tool__name {
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .renta-tool__desc {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* FAQ */
+  .renta-faq {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+    padding-bottom: var(--space-10);
+  }
+
+  .renta-faq h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Related articles */
+  .renta-articles {
+    max-width: var(--max-width-content);
+    margin: 0 auto;
+  }
+
+  .renta-articles h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .renta-articles__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .renta-article-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .renta-article-link:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .renta-hero__title {
+      font-size: 1.75rem;
+    }
+
+    .renta-dates__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .renta-tools {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
