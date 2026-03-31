@@ -1,0 +1,568 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import ImpuestoSucesiones from '@components/calculators/ImpuestoSucesiones';
+import sucesionesData from '@data/sucesiones-por-ccaa.json';
+import { CCAA_OPTIONS } from '@lib/types';
+import { calcularCuotaPorTramos } from '@lib/calculations/shared';
+import { round2, formatCurrency } from '@lib/formatters';
+
+// ---------------------------------------------------------------------------
+// Static paths — one page per CCAA
+// ---------------------------------------------------------------------------
+
+export function getStaticPaths() {
+  return CCAA_OPTIONS.map((opt) => ({
+    params: { ccaa: opt.value },
+    props: { ccaaValue: opt.value, ccaaLabel: opt.label },
+  }));
+}
+
+const { ccaaValue, ccaaLabel } = Astro.props;
+
+// ---------------------------------------------------------------------------
+// Unique content data per CCAA
+// ---------------------------------------------------------------------------
+
+interface CcaaInfo {
+  bonificacionTexto: string;
+  limiteTexto: string;
+  regimen: 'comun' | 'foral';
+  gruposConBonificacion: string;
+  particularidad: string;
+}
+
+const ccaaInfo: Record<string, CcaaInfo> = {
+  'andalucia': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'La bonificacion se aplica cuando la base imponible no supera 1.000.000 euros. Por encima de ese importe, se pierde la bonificacion.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Andalucia fue una de las ultimas comunidades en aprobar la bonificacion del 99%, vigente desde 2019. La bonificacion tiene un limite de base imponible de 1 millon de euros, lo que la diferencia de otras comunidades sin limite.',
+  },
+  'aragon': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de base imponible. La bonificacion se aplica con independencia del valor de la herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Aragon aplica la bonificacion del 99% sin limite de cuantia para familiares directos. La comunidad tambien contempla reducciones adicionales para la transmision de la empresa familiar y la vivienda habitual del fallecido.',
+  },
+  'asturias': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'La bonificacion se aplica solo cuando la base imponible no excede los 300.000 euros. Para herencias superiores, se aplica la tarifa estatal sin bonificacion.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'El Principado de Asturias tiene uno de los limites mas bajos de Espana para la bonificacion en sucesiones (300.000 euros). Herencias de mayor cuantia pueden generar una cuota significativa, lo que ha motivado planificaciones sucesorias para fraccionar la transmision.',
+  },
+  'baleares': {
+    bonificacionTexto: '99% de bonificacion para Grupo I y reducciones variables para Grupo II',
+    limiteTexto: 'El Grupo I (menores de 21 anos) disfruta del 99%. Para el Grupo II, la bonificacion es del 99% para herencias de bajo valor, pero se reduce progresivamente en herencias mayores.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupo I completo; Grupo II con escala decreciente segun valor',
+    particularidad: 'Baleares tiene un sistema mixto: los menores de 21 anos (Grupo I) gozan de bonificacion plena, mientras que para el Grupo II la bonificacion va reduciendose a medida que aumenta el valor de la herencia. Esto la convierte en una de las comunidades mas complejas en materia de sucesiones.',
+  },
+  'canarias': {
+    bonificacionTexto: '99,9% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. Es la bonificacion mas alta de Espana.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Canarias ofrece la bonificacion mas generosa de toda Espana: el 99,9%, lo que hace que el impuesto de sucesiones sea practicamente inexistente para familiares directos. Una herencia de 1 millon de euros pagaria menos de 300 euros.',
+  },
+  'cantabria': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de base imponible. La bonificacion se aplica a cualquier herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Cantabria aplica la bonificacion del 99% sin restricciones de cuantia. La comunidad tambien ofrece reducciones propias adicionales para la vivienda habitual y la empresa familiar.',
+  },
+  'castilla-leon': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion se aplica con independencia del valor de la herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Castilla y Leon aprobo la bonificacion del 99% para familiares directos en anos recientes, alineandose con la mayoria de comunidades. Antes de esta reforma, era una de las comunidades mas gravosas para las herencias de gran cuantia.',
+  },
+  'castilla-mancha': {
+    bonificacionTexto: '100% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion es total: los herederos directos no pagan nada.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Castilla-La Mancha es la unica comunidad de regimen comun que aplica una bonificacion del 100%, lo que equivale a la supresion completa del impuesto para herederos directos. No importa el valor de la herencia: hijos, conyuges y padres no pagan nada.',
+  },
+  'cataluna': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'La bonificacion se aplica de forma gradual. El 99% es el maximo, con aplicacion progresiva segun la cuantia de la herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Cataluna introdujo una bonificacion del 99% con aplicacion gradual, tras ser históricamente una de las comunidades donde mas se pagaba por herencias. La bonificacion tiene una escala progresiva que puede reducir su efecto en herencias de gran valor.',
+  },
+  'ceuta': {
+    bonificacionTexto: '50% de bonificacion estatal',
+    limiteTexto: 'Se aplica la bonificacion estatal del 50% para residentes. No existe bonificacion autonomica adicional.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Todos los grupos (bonificacion general del 50%)',
+    particularidad: 'Ceuta no tiene capacidad normativa propia en sucesiones, por lo que aplica la normativa estatal con una bonificacion del 50%. Esto la convierte, junto con Melilla, en uno de los territorios donde mas se paga por herencias entre familiares directos.',
+  },
+  'extremadura': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion se aplica a cualquier herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Extremadura aplica la bonificacion del 99% sin restricciones de cuantia para familiares directos. La comunidad tambien ha establecido reducciones propias para la empresa familiar y explotaciones agrarias.',
+  },
+  'galicia': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de base imponible. La bonificacion se aplica con independencia del valor heredado.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Galicia aplica una bonificacion del 99% sin restricciones de cuantia. La comunidad tiene ademas reducciones propias significativas para la transmision de la vivienda habitual del fallecido y de la empresa familiar gallega.',
+  },
+  'madrid': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion se aplica a cualquier herencia, sin importar el valor.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Madrid fue pionera en Espana en aplicar la bonificacion del 99% en sucesiones para familiares directos. Desde 2007 los herederos del Grupo I y II pagan solo el 1% de la cuota, lo que ha atraido a contribuyentes de otras comunidades buscando planificacion fiscal sucesoria.',
+  },
+  'melilla': {
+    bonificacionTexto: '50% de bonificacion estatal',
+    limiteTexto: 'Se aplica la bonificacion estatal del 50%. No existe bonificacion autonomica adicional.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Todos los grupos (bonificacion general del 50%)',
+    particularidad: 'Melilla, al igual que Ceuta, aplica la normativa estatal con una bonificacion del 50%. Esto significa que los herederos directos pagan significativamente mas que en la mayoria de comunidades autonomas, donde la bonificacion llega al 99% o mas.',
+  },
+  'murcia': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion se aplica a cualquier herencia entre familiares directos.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'Murcia aplica la bonificacion del 99% sin restricciones de cuantia, alineandose con la mayoria de comunidades de regimen comun. La region tambien ofrece reducciones adicionales para la empresa familiar y la vivienda habitual.',
+  },
+  'navarra': {
+    bonificacionTexto: 'Regimen foral propio con tarifa reducida',
+    limiteTexto: 'No se aplica la tarifa estatal. Navarra tiene una tarifa propia muy reducida: 0,8% para herencias hasta 250.000 euros en Grupos I y II.',
+    regimen: 'foral',
+    gruposConBonificacion: 'Grupos I y II con tarifa propia muy reducida',
+    particularidad: 'Navarra tiene un regimen foral propio que no se basa en bonificaciones sino en una tarifa autonoma muy reducida. Para los Grupos I y II, el tipo es del 0,8% hasta 250.000 euros, subiendo al 0,8% a 250.000, lo que resulta en una tributacion muy baja pero no nula. A diferencia de las bonificaciones del 99%, aqui no se aplica la tarifa estatal progresiva.',
+  },
+  'pais-vasco': {
+    bonificacionTexto: 'Regimen foral propio con exencion practica',
+    limiteTexto: 'El Pais Vasco (Alava, Bizkaia y Gipuzkoa) tiene normativa foral propia. Las herencias entre familiares directos estan practicamente exentas.',
+    regimen: 'foral',
+    gruposConBonificacion: 'Grupos I y II practicamente exentos',
+    particularidad: 'El Pais Vasco tiene un regimen foral propio con tres diputaciones (Alava, Bizkaia y Gipuzkoa), cada una con su propia normativa. En la practica, las herencias entre padres e hijos o conyuges estan exentas o tributan cantidades minimas. Es uno de los territorios mas favorables de Espana para las sucesiones.',
+  },
+  'rioja': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'Sin limite de cuantia. La bonificacion se aplica con independencia del valor de la herencia.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'La Rioja aplica la bonificacion del 99% sin restricciones de cuantia para familiares directos. La comunidad tambien ofrece reducciones propias para la empresa familiar y la vivienda habitual.',
+  },
+  'valencia': {
+    bonificacionTexto: '99% de bonificacion para Grupos I y II',
+    limiteTexto: 'La bonificacion se aplica cuando la base imponible no supera los 500.000 euros. Para herencias superiores a esa cifra, se pierde la bonificacion.',
+    regimen: 'comun',
+    gruposConBonificacion: 'Grupos I y II (descendientes, conyuge y ascendientes)',
+    particularidad: 'La Comunitat Valenciana aplica el 99% de bonificacion para familiares directos, pero con un limite de 500.000 euros de base imponible. Para herencias que superen ese umbral, se pierde la bonificacion y se aplica la tarifa completa, lo que puede generar cuotas elevadas.',
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Example computation: herencia de 300.000 euros
+// ---------------------------------------------------------------------------
+
+const herencia = 300000;
+const reduccion = 15956.87; // Grupo II estatal
+const baseLiq = round2(Math.max(0, herencia - reduccion));
+const cuotaIntegra = round2(calcularCuotaPorTramos(baseLiq, sucesionesData.tramosEstatales as { desde: number; hasta: number | null; tipo: number }[]));
+const bonifData = (sucesionesData.bonificacionesPorCcaa as Record<string, { nombre: string; bonificacion: number; nota: string }>)[ccaaValue];
+const bonifPct = bonifData?.bonificacion ?? 0;
+const bonifAmount = round2(cuotaIntegra * bonifPct / 100);
+const cuotaFinal = round2(cuotaIntegra - bonifAmount);
+
+// Compute for Ceuta/Melilla comparison (always 50%)
+const cuotaCeuta = round2(cuotaIntegra - round2(cuotaIntegra * 50 / 100));
+
+// Compute for Castilla-La Mancha (100% bonification)
+const cuotaCLM = 0;
+
+// Compute the cheapest CCAA (Canarias 99.9%)
+const cuotaCanarias = round2(cuotaIntegra - round2(cuotaIntegra * 99.9 / 100));
+
+// ---------------------------------------------------------------------------
+// SEO metadata
+// ---------------------------------------------------------------------------
+
+const info = ccaaInfo[ccaaValue] ?? {
+  bonificacionTexto: 'Sin datos',
+  limiteTexto: '',
+  regimen: 'comun' as const,
+  gruposConBonificacion: '',
+  particularidad: '',
+};
+
+const title = `Impuesto de Sucesiones en ${ccaaLabel} 2026 — CalculaTuDinero.net`;
+const description = `Calcula el impuesto de sucesiones en ${ccaaLabel}. ${info.bonificacionTexto}. Calculadora gratuita actualizada a 2026.`;
+const canonical = `https://calculatudinero.net/impuestos/sucesiones/${ccaaValue}/`;
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'Impuesto de Sucesiones', href: '/impuestos/impuesto-sucesiones/' },
+  { label: ccaaLabel },
+];
+
+// ---------------------------------------------------------------------------
+// FAQs — unique per CCAA
+// ---------------------------------------------------------------------------
+
+const faqs = [
+  {
+    question: `¿Cuánto se paga de impuesto de sucesiones en ${ccaaLabel}?`,
+    answer: info.regimen === 'foral'
+      ? `${ccaaLabel} tiene régimen foral propio. ${info.limiteTexto} Para una herencia de 300.000 euros recibida por un hijo (Grupo II), la cuota resultante sería de ${formatCurrency(cuotaFinal)}.`
+      : `En ${ccaaLabel}, los herederos directos (Grupos I y II) se benefician de una ${info.bonificacionTexto}. Para una herencia de 300.000 euros recibida por un hijo mayor de 21 años, la cuota final sería de ${formatCurrency(cuotaFinal)}, frente a los ${formatCurrency(cuotaIntegra)} que resultarían sin bonificación.`,
+  },
+  {
+    question: `¿La bonificación del impuesto de sucesiones en ${ccaaLabel} aplica a todos los herederos?`,
+    answer: info.regimen === 'foral'
+      ? `${ccaaLabel} tiene régimen foral propio. La tarifa reducida se aplica principalmente a los ${info.gruposConBonificacion}. Los herederos del Grupo III (hermanos, sobrinos, tíos) y Grupo IV (parientes lejanos y extraños) tributan a tipos significativamente más altos, sin reducciones especiales.`
+      : `No, la bonificación en ${ccaaLabel} se aplica a los ${info.gruposConBonificacion}. Los herederos del Grupo III (hermanos, sobrinos, tíos) y del Grupo IV (parientes lejanos y personas sin parentesco) no se benefician de esta bonificación y tributan según la tarifa estatal con coeficientes multiplicadores más elevados.`,
+  },
+  {
+    question: `¿Cuál es el plazo para pagar el impuesto de sucesiones en ${ccaaLabel}?`,
+    answer: `El plazo para liquidar el impuesto de sucesiones en ${ccaaLabel} es de 6 meses desde la fecha de fallecimiento. Es posible solicitar una prórroga de otros 6 meses, pero debe pedirse dentro de los 5 primeros meses y conlleva el pago de intereses de demora. La liquidación se presenta ante la administración tributaria de ${ccaaLabel}.`,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// JSON-LD schemas
+// ---------------------------------------------------------------------------
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': `Calculadora Impuesto de Sucesiones ${ccaaLabel} 2026`,
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName={`Impuesto de Sucesiones en ${ccaaLabel} 2026`}
+>
+  <ImpuestoSucesiones client:load sucesionesData={sucesionesData} />
+
+  <Fragment slot="content">
+    <h2>Impuesto de Sucesiones en {ccaaLabel} en 2026</h2>
+    <p class="intro">
+      {info.regimen === 'foral' ? (
+        `${ccaaLabel} tiene un régimen foral propio en materia de sucesiones, con una normativa fiscal independiente del sistema estatal. ${info.particularidad}`
+      ) : (
+        `El impuesto de sucesiones en ${ccaaLabel} aplica la tarifa progresiva estatal, pero con una ${info.bonificacionTexto} para herederos directos. ${info.particularidad}`
+      )}
+    </p>
+
+    <div class="resumen-box">
+      <div class="resumen-box__row">
+        <span class="resumen-box__label">Bonificación</span>
+        <span class="resumen-box__value">{info.bonificacionTexto}</span>
+      </div>
+      <div class="resumen-box__row">
+        <span class="resumen-box__label">Grupos beneficiados</span>
+        <span class="resumen-box__value">{info.gruposConBonificacion}</span>
+      </div>
+      <div class="resumen-box__row">
+        <span class="resumen-box__label">Límites</span>
+        <span class="resumen-box__value">{info.limiteTexto}</span>
+      </div>
+      <div class="resumen-box__row">
+        <span class="resumen-box__label">Régimen</span>
+        <span class="resumen-box__value">{info.regimen === 'foral' ? 'Régimen foral propio' : 'Régimen común con bonificación autonómica'}</span>
+      </div>
+    </div>
+
+    <h2>Ejemplo práctico: herencia de 300.000 € en {ccaaLabel}</h2>
+    <p>
+      Veamos paso a paso cuánto pagaría un hijo mayor de 21 años (Grupo II) que hereda 300.000 euros en {ccaaLabel}:
+    </p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Importe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Valor de la herencia</td>
+            <td class="mono">{formatCurrency(herencia)}</td>
+          </tr>
+          <tr>
+            <td>Reducción Grupo II (estatal)</td>
+            <td class="mono">-{formatCurrency(reduccion)}</td>
+          </tr>
+          <tr>
+            <td><strong>Base liquidable</strong></td>
+            <td class="mono"><strong>{formatCurrency(baseLiq)}</strong></td>
+          </tr>
+          <tr>
+            <td>Cuota íntegra (tarifa progresiva estatal)</td>
+            <td class="mono">{formatCurrency(cuotaIntegra)}</td>
+          </tr>
+          {bonifPct > 0 && (
+            <tr>
+              <td>Bonificación autonómica ({bonifPct.toLocaleString('es-ES')}%)</td>
+              <td class="mono">-{formatCurrency(bonifAmount)}</td>
+            </tr>
+          )}
+          <tr class="row-total">
+            <td><strong>Cuota final a pagar</strong></td>
+            <td class="mono"><strong>{formatCurrency(cuotaFinal)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      Cálculo para un heredero del Grupo II (hijo mayor de 21 años), patrimonio preexistente inferior a 402.678 euros (coeficiente multiplicador 1,0). No se aplican reducciones adicionales por vivienda habitual o empresa familiar.
+    </p>
+
+    <h2>Comparativa con otras comunidades</h2>
+    <p>
+      En {ccaaLabel}, los herederos directos (Grupo II) pagan <strong>{formatCurrency(cuotaFinal)}</strong> por una herencia de 300.000 euros, frente a <strong>{formatCurrency(cuotaCeuta)}</strong> que pagarían en Ceuta o Melilla (bonificación del 50%), o <strong>{formatCurrency(cuotaCLM)}</strong> en Castilla-La Mancha (bonificación del 100%).
+      {ccaaValue !== 'canarias' && ` Canarias, con su bonificación del 99,9%, es la comunidad de régimen común más favorable, con una cuota de ${formatCurrency(cuotaCanarias)}.`}
+    </p>
+    <p>
+      <a href="/impuestos/impuesto-sucesiones/">Compara todas las comunidades en nuestra calculadora de Impuesto de Sucesiones</a>, donde puedes simular cualquier herencia con tu comunidad, grupo de parentesco y patrimonio.
+    </p>
+
+    <h2>Grupos de parentesco y reducciones en {ccaaLabel}</h2>
+    <p>
+      El impuesto de sucesiones clasifica a los herederos en cuatro grupos según su relación con el fallecido. Las reducciones y bonificaciones varían significativamente entre grupos:
+    </p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Grupo</th>
+            <th>Parentesco</th>
+            <th>Reducción estatal</th>
+            <th>Bonificación en {ccaaLabel}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Grupo I</strong></td>
+            <td>Descendientes menores de 21 años</td>
+            <td class="mono">15.956,87 € + 3.990,72 €/año &lt; 21</td>
+            <td>{info.regimen === 'foral' ? 'Tarifa foral reducida' : (bonifPct >= 99 ? `${bonifPct.toLocaleString('es-ES')}% bonificación` : `${bonifPct.toLocaleString('es-ES')}% bonificación`)}</td>
+          </tr>
+          <tr>
+            <td><strong>Grupo II</strong></td>
+            <td>Descendientes +21, cónyuge, ascendientes</td>
+            <td class="mono">15.956,87 €</td>
+            <td>{info.regimen === 'foral' ? 'Tarifa foral reducida' : `${bonifPct.toLocaleString('es-ES')}% bonificación`}</td>
+          </tr>
+          <tr>
+            <td><strong>Grupo III</strong></td>
+            <td>Hermanos, tíos, sobrinos, suegros</td>
+            <td class="mono">7.993,46 €</td>
+            <td>Sin bonificación autonómica</td>
+          </tr>
+          <tr>
+            <td><strong>Grupo IV</strong></td>
+            <td>Parientes lejanos y extraños</td>
+            <td class="mono">0 €</td>
+            <td>Sin bonificación autonómica</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      {info.regimen === 'foral'
+        ? `${ccaaLabel} tiene un régimen foral propio con tarifas y reducciones específicas que difieren de la normativa estatal. Los importes de la tabla son las reducciones estatales de referencia.`
+        : `Las bonificaciones autonómicas en ${ccaaLabel} se aplican sobre la cuota tributaria, después de aplicar las reducciones y la tarifa progresiva. Los Grupos III y IV no disfrutan de bonificación autonómica y tributan con coeficientes multiplicadores más elevados (1,5882 a 2,4 según el patrimonio preexistente).`
+      }
+    </p>
+
+    <h2>Preguntas frecuentes sobre sucesiones en {ccaaLabel}</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '📜', title: 'Impuesto de Sucesiones', description: 'Calcula el impuesto de sucesiones para cualquier comunidad autónoma.', href: '/impuestos/impuesto-sucesiones/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '🏘️', title: 'Plusvalía municipal', description: 'Compara método real y objetivo para la venta de un inmueble heredado.', href: '/impuestos/plusvalia-municipal/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .intro {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+  }
+
+  .resumen-box {
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5) var(--space-6);
+    margin: var(--space-6) 0;
+  }
+
+  .resumen-box__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .resumen-box__row:last-child {
+    border-bottom: none;
+  }
+
+  .resumen-box__label {
+    font-weight: 600;
+    color: var(--color-text);
+    flex-shrink: 0;
+    min-width: 140px;
+  }
+
+  .resumen-box__value {
+    color: var(--color-text-secondary);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .data-table th {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--color-bg-alt);
+  }
+
+  .data-table tbody tr:hover {
+    background-color: var(--color-bg-alt);
+  }
+
+  .row-total {
+    background-color: var(--color-bg-alt);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .note {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .resumen-box__row {
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .resumen-box__value {
+      text-align: left;
+    }
+  }
+</style>
