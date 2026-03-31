@@ -1,0 +1,620 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import CalculadoraHipoteca from '@components/calculators/CalculadoraHipoteca';
+import hipotecaData from '@data/hipoteca-reference.json';
+import itpData from '@data/itp-por-ccaa.json';
+import { CCAA_OPTIONS } from '@lib/types';
+import { round2, formatCurrency } from '@lib/formatters';
+
+// ---------------------------------------------------------------------------
+// Static paths — one page per CCAA
+// ---------------------------------------------------------------------------
+
+export function getStaticPaths() {
+  return CCAA_OPTIONS.map((opt) => ({
+    params: { ccaa: opt.value },
+    props: { ccaaValue: opt.value, ccaaLabel: opt.label },
+  }));
+}
+
+const { ccaaValue, ccaaLabel } = Astro.props;
+
+// ---------------------------------------------------------------------------
+// ITP data for this CCAA
+// ---------------------------------------------------------------------------
+
+const ccaaITP = (itpData.tiposPorCcaa as Record<string, any>)[ccaaValue];
+const tipoGeneral = ccaaITP?.tipo ?? 8;
+const tipoReducido = ccaaITP?.reducido ?? tipoGeneral;
+const notaReducido = ccaaITP?.notaReducido ?? '';
+const tieneTipoUnico = tipoGeneral === tipoReducido;
+
+// ---------------------------------------------------------------------------
+// Unique content data per CCAA
+// ---------------------------------------------------------------------------
+
+interface CcaaItpInfo {
+  descripcion: string;
+  quienReducido: string;
+  requisitosReducido: string[];
+  comparativa: string;
+  ccaaBarata: string;
+  ccaaCara: string;
+}
+
+const ccaaInfoMap: Record<string, CcaaItpInfo> = {
+  'andalucia': {
+    descripcion: 'Andalucia aplica un tipo general del 7% en el ITP, inferior a la media nacional. Ademas, ofrece un tipo reducido del 3,5% para jovenes menores de 35 anos que compren su vivienda habitual por menos de 150.000 euros, uno de los mas bajos de Espana.',
+    quienReducido: 'Menores de 35 anos que adquieran su vivienda habitual con un precio inferior a 150.000 euros.',
+    requisitosReducido: ['Ser menor de 35 anos en la fecha de compra', 'Que la vivienda sea la residencia habitual', 'Precio de la vivienda inferior a 150.000 euros', 'Escriturar la vivienda como habitual en un plazo de 12 meses'],
+    comparativa: 'Con un 7% general, Andalucia esta por debajo de la media nacional (~8%) y de comunidades como Valencia o Cataluna (10%), pero por encima de Madrid (6%) y Pais Vasco (4%).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'aragon': {
+    descripcion: 'Aragon aplica un tipo general del 8% en el ITP, en linea con la media nacional. Dispone de un tipo reducido del 2% exclusivamente para viviendas de proteccion oficial (VPO), el tipo reducido mas bajo tras la ausencia de tipo diferenciado en las comunidades forales.',
+    quienReducido: 'Compradores de viviendas calificadas como VPO (Vivienda de Proteccion Oficial).',
+    requisitosReducido: ['Que la vivienda tenga calificacion de VPO vigente', 'Destinarla a vivienda habitual', 'Cumplir los requisitos de renta maxima de la normativa de VPO'],
+    comparativa: 'Aragon se situa en la media nacional con su 8%. Paga mas que Madrid (6%) o Pais Vasco (4%), pero menos que Valencia, Cataluna o Cantabria (10%).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'asturias': {
+    descripcion: 'Asturias aplica un tipo general del 8% en el ITP. Para viviendas de precio inferior a 100.000 euros que se destinen a vivienda habitual, existe un tipo reducido del 4%.',
+    quienReducido: 'Compradores de vivienda habitual cuyo precio no supere los 100.000 euros.',
+    requisitosReducido: ['Precio de la vivienda inferior a 100.000 euros', 'Destinar la vivienda a residencia habitual del comprador', 'Residir en la vivienda un minimo de 3 anos'],
+    comparativa: 'Asturias esta en la media con un 8% general. El tipo reducido del 4% solo aplica a viviendas de bajo valor, lo que limita su impacto en el mercado urbano.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'baleares': {
+    descripcion: 'Las Islas Baleares aplican un tipo general del 8% en el ITP. Para la primera vivienda habitual del comprador, se dispone de un tipo reducido del 5%, lo que supone un ahorro significativo en un mercado inmobiliario con precios elevados.',
+    quienReducido: 'Compradores que adquieran su primera vivienda para destinarla a residencia habitual.',
+    requisitosReducido: ['Que sea la primera vivienda del comprador', 'Destinarla a vivienda habitual', 'No haber disfrutado de esta bonificacion anteriormente', 'Residir en la vivienda un minimo de 3 anos'],
+    comparativa: 'Con un 8% general, Baleares esta en la media nacional. Dada la elevada media de precios en las islas, el tipo reducido del 5% para primera vivienda resulta especialmente util.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'canarias': {
+    descripcion: 'Canarias aplica un tipo general del 6,5% en el ITP, de los mas bajos de Espana. Para la compra de vivienda habitual, el tipo se reduce al 5%. Recuerda que en Canarias se aplica el IGIC en lugar del IVA para vivienda nueva.',
+    quienReducido: 'Cualquier comprador que destine la vivienda a residencia habitual.',
+    requisitosReducido: ['Destinar la vivienda a residencia habitual', 'Residir efectivamente en ella en un plazo de 12 meses desde la compra', 'Mantener la residencia un minimo de 3 anos'],
+    comparativa: 'Canarias es una de las comunidades mas asequibles en ITP, con un 6,5% general frente al ~8% de media nacional. Solo Pais Vasco (4%), Madrid (6%) y Navarra (6%) tienen tipos generales mas bajos.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'cantabria': {
+    descripcion: 'Cantabria aplica uno de los tipos mas altos de Espana: un 10% general en el ITP. No obstante, para viviendas habituales con un precio inferior a 200.000 euros, se aplica un tipo reducido del 5%, lo que supone una diferencia de 10.000 euros en una vivienda de 200.000 euros.',
+    quienReducido: 'Compradores de vivienda habitual cuyo precio no supere los 200.000 euros.',
+    requisitosReducido: ['Precio de la vivienda inferior a 200.000 euros', 'Destinarla a vivienda habitual del comprador', 'Residir en la vivienda un minimo de 3 anos', 'No poseer otra vivienda en propiedad en Cantabria'],
+    comparativa: 'El tipo general del 10% situa a Cantabria junto a Cataluna y C. Valenciana como las comunidades mas caras en ITP. Sin embargo, el tipo reducido del 5% para vivienda habitual asequible compensa parcialmente.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'castilla-leon': {
+    descripcion: 'Castilla y Leon aplica un tipo general del 8% en el ITP, igual a la media nacional. Para viviendas de proteccion oficial (VPO), el tipo se reduce al 4%.',
+    quienReducido: 'Compradores de viviendas calificadas como VPO.',
+    requisitosReducido: ['Que la vivienda tenga calificacion de VPO vigente', 'Destinarla a vivienda habitual', 'Cumplir los requisitos de renta maxima para VPO'],
+    comparativa: 'Castilla y Leon esta en la media nacional con un 8%. Para la mayoria de compradores de vivienda usada no VPO, el tipo es similar al de Aragon, Baleares, Extremadura o Murcia.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'castilla-mancha': {
+    descripcion: 'Castilla-La Mancha aplica un tipo general del 9% en el ITP, por encima de la media nacional. Para vivienda habitual se dispone de un tipo reducido del 6%, un ahorro notable en las compras de segunda mano.',
+    quienReducido: 'Cualquier comprador que destine la vivienda a residencia habitual.',
+    requisitosReducido: ['Destinar la vivienda a residencia habitual', 'Residir en ella en un plazo de 12 meses', 'Mantener la residencia un minimo de 3 anos'],
+    comparativa: 'Con un 9% general, Castilla-La Mancha esta por encima de la media (~8%) pero por debajo de Cataluna o Valencia (10%). El tipo reducido del 6% para vivienda habitual la acerca a Madrid.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'cataluna': {
+    descripcion: 'Cataluna aplica un tipo general del 10% en el ITP, el mas alto de Espana junto a la C. Valenciana y Cantabria. Para menores de 32 anos y familias numerosas que compren su vivienda habitual, existe un tipo reducido del 5%.',
+    quienReducido: 'Menores de 32 anos o miembros de familias numerosas que adquieran su vivienda habitual.',
+    requisitosReducido: ['Ser menor de 32 anos en la fecha de compra, o acreditar la condicion de familia numerosa', 'Destinar la vivienda a residencia habitual', 'No superar un determinado nivel de renta (consultar normativa vigente)', 'Residir en la vivienda un minimo de 3 anos'],
+    comparativa: 'Cataluna tiene el tipo mas alto de Espana (10%), el doble que Pais Vasco (4%) y notablemente superior a Madrid (6%). El tipo reducido del 5% alivia la carga para jovenes y familias numerosas.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'ceuta': {
+    descripcion: 'Ceuta aplica un tipo unico del 6% en el ITP para todas las transmisiones patrimoniales, sin distincion entre tipos general y reducido. Es uno de los territorios con menor presion fiscal en la compra de vivienda usada.',
+    quienReducido: 'Ceuta aplica un tipo unico del 6% sin diferenciacion, por lo que no existe un tipo reducido especifico.',
+    requisitosReducido: ['No aplica: el tipo del 6% es unico para todas las transmisiones'],
+    comparativa: 'El tipo unico del 6% situa a Ceuta entre los territorios mas economicos para comprar vivienda de segunda mano, a la par que Madrid y Navarra, y solo por encima de Pais Vasco (4%).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'extremadura': {
+    descripcion: 'Extremadura aplica un tipo general del 8% en el ITP, en la media nacional. Para menores de 35 anos que compren su vivienda habitual, se reduce al 4%, una bonificacion significativa para jovenes compradores en una de las comunidades con precios de vivienda mas asequibles.',
+    quienReducido: 'Menores de 35 anos que adquieran su vivienda habitual.',
+    requisitosReducido: ['Ser menor de 35 anos en la fecha de la compra', 'Destinar la vivienda a residencia habitual', 'Residir en la vivienda un minimo de 3 anos', 'No ser propietario de otra vivienda'],
+    comparativa: 'Extremadura esta en la media con un 8%. Para jovenes menores de 35, el tipo reducido del 4% la convierte en una de las comunidades mas atractivas fiscalmente.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'galicia': {
+    descripcion: 'Galicia aplica un tipo general del 9% en el ITP, por encima de la media nacional. Sin embargo, para menores de 36 anos que compren su vivienda habitual, el tipo se reduce al 3%, uno de los mas bajos de Espana.',
+    quienReducido: 'Menores de 36 anos que compren su vivienda habitual.',
+    requisitosReducido: ['Ser menor de 36 anos en la fecha de la escritura', 'Destinar la vivienda a residencia habitual', 'Residir en la vivienda durante al menos 3 anos', 'No ser titular de otra vivienda en propiedad'],
+    comparativa: 'El tipo general del 9% situa a Galicia por encima de la media, pero el tipo reducido del 3% para jovenes es de los mas atractivos del pais, solo superado por el 2% de Aragon para VPO.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'madrid': {
+    descripcion: 'Madrid aplica un tipo unico del 6% en el ITP, sin distinguir entre tipo general y reducido. Es una de las comunidades con menor presion fiscal en la compra de vivienda de segunda mano, lo que compensa parcialmente los elevados precios del mercado inmobiliario madrileno.',
+    quienReducido: 'Madrid aplica un tipo unico del 6% para todas las transmisiones, sin tipo reducido diferenciado.',
+    requisitosReducido: ['No aplica: el tipo del 6% es unico para todas las transmisiones patrimoniales'],
+    comparativa: 'Madrid tiene uno de los tipos mas bajos de Espana (6%), solo superado por Pais Vasco (4%). Frente a Cataluna o Valencia (10%), un comprador en Madrid se ahorra 8.000 euros en una vivienda de 200.000 euros.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'melilla': {
+    descripcion: 'Melilla aplica un tipo unico del 6% en el ITP, identico al de Ceuta y Madrid. No existe diferenciacion entre tipo general y reducido, lo que simplifica la tributacion de la compra de vivienda usada.',
+    quienReducido: 'Melilla aplica un tipo unico del 6% sin tipo reducido diferenciado.',
+    requisitosReducido: ['No aplica: el tipo del 6% es unico para todas las transmisiones'],
+    comparativa: 'Con un tipo unico del 6%, Melilla se situa entre los territorios mas economicos para la compra de vivienda de segunda mano, junto a Madrid, Ceuta y Navarra.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'murcia': {
+    descripcion: 'Murcia aplica un tipo general del 8% en el ITP. Para menores de 35 anos que compren su vivienda habitual por menos de 150.000 euros, el tipo se reduce al 3%, uno de los mas bajos de toda Espana.',
+    quienReducido: 'Menores de 35 anos que compren su vivienda habitual con un precio inferior a 150.000 euros.',
+    requisitosReducido: ['Ser menor de 35 anos en la fecha de la compra', 'Precio de la vivienda inferior a 150.000 euros', 'Destinar la vivienda a residencia habitual', 'Residir en la vivienda un minimo de 3 anos'],
+    comparativa: 'Murcia esta en la media con un 8% general. El tipo reducido del 3% para jovenes con vivienda asequible es muy competitivo, similar al de Galicia y mejor que la mayoria de comunidades.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'navarra': {
+    descripcion: 'Navarra, como territorio foral, aplica un tipo unico del 6% en el ITP. Su regimen fiscal propio establece condiciones uniformes para todas las transmisiones patrimoniales onerosas de inmuebles.',
+    quienReducido: 'Navarra aplica un tipo unico del 6% bajo su regimen foral, sin diferenciacion de tipos.',
+    requisitosReducido: ['No aplica: el tipo del 6% es unico bajo el regimen foral navarro'],
+    comparativa: 'El tipo unico del 6% situa a Navarra entre las comunidades mas asequibles en ITP, a la par que Madrid, Ceuta y Melilla, y solo por encima de Pais Vasco (4%).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'pais-vasco': {
+    descripcion: 'Pais Vasco tiene el ITP mas bajo de toda Espana: un tipo unico del 4% para todas las transmisiones patrimoniales. Su regimen foral permite esta fiscalidad privilegiada, lo que convierte a Euskadi en la comunidad mas atractiva fiscalmente para comprar vivienda de segunda mano.',
+    quienReducido: 'Pais Vasco aplica un tipo unico del 4% para todas las transmisiones, sin necesidad de tipo reducido.',
+    requisitosReducido: ['No aplica: el tipo del 4% ya es el mas bajo de Espana y se aplica a todas las transmisiones'],
+    comparativa: 'Pais Vasco tiene el ITP mas bajo de toda Espana (4%), la mitad que la media nacional (~8%) y menos de la mitad que Cataluna o Valencia (10%). En una vivienda de 200.000 euros, la diferencia con Cataluna es de 12.000 euros.',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'rioja': {
+    descripcion: 'La Rioja aplica un tipo general del 7% en el ITP, ligeramente por debajo de la media nacional. Para menores de 36 anos que compren su vivienda habitual, el tipo se reduce al 5%.',
+    quienReducido: 'Menores de 36 anos que adquieran su vivienda habitual.',
+    requisitosReducido: ['Ser menor de 36 anos en la fecha de la compra', 'Destinar la vivienda a residencia habitual', 'Residir en la vivienda un minimo de 3 anos'],
+    comparativa: 'Con un 7% general, La Rioja esta por debajo de la media nacional (~8%). El tipo reducido del 5% para jovenes resulta competitivo pero no alcanza las bonificaciones de Galicia (3%) o Murcia (3%).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+  'valencia': {
+    descripcion: 'La Comunitat Valenciana aplica un tipo general del 10% en el ITP, el mas alto de Espana junto a Cataluna y Cantabria. Para vivienda habitual con un precio inferior a 180.000 euros, se reduce al 8%, aunque sigue siendo de los mas altos del pais.',
+    quienReducido: 'Compradores de vivienda habitual cuyo precio no supere los 180.000 euros.',
+    requisitosReducido: ['Precio de la vivienda inferior a 180.000 euros', 'Destinar la vivienda a residencia habitual', 'Residir en la vivienda un minimo de 3 anos', 'Escriturar la vivienda como habitual en el plazo de 12 meses'],
+    comparativa: 'Con un 10% general, la C. Valenciana comparte el tipo mas alto con Cataluna y Cantabria. Incluso el tipo reducido (8%) supera al tipo general de la mayoria de comunidades. En una vivienda de 200.000 euros, el ITP valenciano (20.000 euros) duplica al vasco (8.000 euros).',
+    ccaaBarata: 'Pais Vasco (4%)',
+    ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+  },
+};
+
+// ---------------------------------------------------------------------------
+// Computed example: 200,000 EUR property
+// ---------------------------------------------------------------------------
+
+const precioEjemplo = 200000;
+const itpEjemplo = round2(precioEjemplo * tipoGeneral / 100);
+const itpEjemploReducido = round2(precioEjemplo * tipoReducido / 100);
+const gastosNotaria = 1000;
+const gastosRegistro = 600;
+const gastosGestoria = 400;
+const gastosTasacion = 350;
+const gastosAprox = round2(itpEjemplo + gastosNotaria + gastosRegistro + gastosGestoria + gastosTasacion);
+
+// Madrid comparison
+const itpMadrid = round2(precioEjemplo * 6 / 100);
+const gastosMadrid = round2(itpMadrid + gastosNotaria + gastosRegistro + gastosGestoria + gastosTasacion);
+
+// Cheapest (Pais Vasco) and most expensive (10% communities)
+const itpPaisVasco = round2(precioEjemplo * 4 / 100);
+const gastosPaisVasco = round2(itpPaisVasco + gastosNotaria + gastosRegistro + gastosGestoria + gastosTasacion);
+const itpMax = round2(precioEjemplo * 10 / 100);
+const gastosMax = round2(itpMax + gastosNotaria + gastosRegistro + gastosGestoria + gastosTasacion);
+
+// New build comparison
+const ivaViviendaNueva = round2(precioEjemplo * itpData.tipoIVAViviendaNueva / 100);
+const ajdViviendaNueva = round2(precioEjemplo * itpData.tipoAJD / 100);
+
+// ---------------------------------------------------------------------------
+// SEO metadata
+// ---------------------------------------------------------------------------
+
+const info = ccaaInfoMap[ccaaValue] ?? {
+  descripcion: '',
+  quienReducido: '',
+  requisitosReducido: [],
+  comparativa: '',
+  ccaaBarata: 'Pais Vasco (4%)',
+  ccaaCara: 'Cataluna, C. Valenciana y Cantabria (10%)',
+};
+
+const tipoGeneralStr = tipoGeneral % 1 === 0 ? `${tipoGeneral}` : tipoGeneral.toLocaleString('es-ES');
+const tipoReducidoStr = tipoReducido % 1 === 0 ? `${tipoReducido}` : tipoReducido.toLocaleString('es-ES');
+
+const title = `ITP en ${ccaaLabel} 2026: Tipo Impositivo y Calculadora — CalculaTuDinero.net`;
+const description = tieneTipoUnico
+  ? `Conoce el tipo de ITP en ${ccaaLabel} para la compra de vivienda usada en 2026. Tipo unico del ${tipoGeneralStr}% y calculadora gratuita.`
+  : `Conoce el tipo de ITP en ${ccaaLabel} para la compra de vivienda usada en 2026. Tipo general del ${tipoGeneralStr}%, reducido del ${tipoReducidoStr}% y calculadora gratuita.`;
+const canonical = `https://calculatudinero.net/impuestos/itp/${ccaaValue}/`;
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Impuestos', href: '/impuestos/' },
+  { label: 'ITP', href: '/impuestos/itp/madrid/' },
+  { label: ccaaLabel },
+];
+
+// ---------------------------------------------------------------------------
+// FAQs — unique per CCAA
+// ---------------------------------------------------------------------------
+
+const faqs = [
+  {
+    question: `¿Cuanto es el ITP en ${ccaaLabel}?`,
+    answer: tieneTipoUnico
+      ? `El ITP en ${ccaaLabel} es del ${tipoGeneralStr}%, un tipo unico que se aplica a todas las transmisiones patrimoniales de vivienda usada. No existe un tipo reducido diferenciado.`
+      : `El ITP en ${ccaaLabel} es del ${tipoGeneralStr}% como tipo general. Existe un tipo reducido del ${tipoReducidoStr}% para: ${notaReducido.toLowerCase()}.`,
+  },
+  {
+    question: `¿Quien puede pagar el tipo reducido de ITP en ${ccaaLabel}?`,
+    answer: tieneTipoUnico
+      ? `${ccaaLabel} aplica un tipo unico del ${tipoGeneralStr}% a todas las transmisiones, por lo que no existe un tipo reducido diferenciado. Todos los compradores pagan el mismo porcentaje.`
+      : `Pueden acceder al tipo reducido del ${tipoReducidoStr}%: ${notaReducido.toLowerCase()}. Es necesario cumplir los requisitos de destino a vivienda habitual y residir en ella durante el plazo establecido por la normativa autonomica.`,
+  },
+  {
+    question: `¿Cuando se paga el ITP en ${ccaaLabel}?`,
+    answer: `El ITP se paga en un plazo de 30 dias habiles desde la firma de la escritura de compraventa. El pago se realiza ante la Hacienda autonomica de ${ccaaLabel} mediante el modelo 600. El retraso en el pago genera recargos e intereses de demora.`,
+  },
+];
+
+// ---------------------------------------------------------------------------
+// JSON-LD schemas
+// ---------------------------------------------------------------------------
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': `Calculadora ITP ${ccaaLabel} 2026`,
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="marzo 2026"
+  calculatorName={`ITP en ${ccaaLabel} 2026`}
+>
+  <CalculadoraHipoteca client:load hipotecaData={hipotecaData} itpData={itpData} />
+
+  <Fragment slot="content">
+    <p class="intro">
+      {tieneTipoUnico ? (
+        `El Impuesto de Transmisiones Patrimoniales (ITP) en ${ccaaLabel} tiene un tipo unico del ${tipoGeneralStr}% para la compra de vivienda de segunda mano. ${info.descripcion}`
+      ) : (
+        `El Impuesto de Transmisiones Patrimoniales (ITP) en ${ccaaLabel} tiene un tipo general del ${tipoGeneralStr}% y un tipo reducido del ${tipoReducidoStr}% para la compra de vivienda de segunda mano. ${info.descripcion}`
+      )}
+    </p>
+
+    <h2>ITP en {ccaaLabel} en 2026</h2>
+    {tieneTipoUnico ? (
+      <p>
+        {ccaaLabel} aplica un <strong>tipo unico del {tipoGeneralStr}%</strong> en el ITP para todas las transmisiones patrimoniales de bienes inmuebles. No existe diferenciacion entre tipo general y reducido.
+      </p>
+    ) : (
+      <>
+        <p>
+          El tipo general del ITP en {ccaaLabel} es del <strong>{tipoGeneralStr}%</strong>. Ademas, existe un tipo reducido del <strong>{tipoReducidoStr}%</strong> para determinados compradores: {notaReducido.toLowerCase()}.
+        </p>
+      </>
+    )}
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{tieneTipoUnico ? 'Tipo unico' : 'Tipo general'}</td>
+            <td class="mono">{tipoGeneralStr}%</td>
+          </tr>
+          {!tieneTipoUnico && (
+            <tr>
+              <td>Tipo reducido ({notaReducido.toLowerCase()})</td>
+              <td class="mono">{tipoReducidoStr}%</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      {info.comparativa}
+    </p>
+
+    <h2>Ejemplo practico: compra de vivienda en {ccaaLabel}</h2>
+    <p>
+      Veamos cuanto costaria comprar una vivienda de segunda mano de <strong>{formatCurrency(precioEjemplo)}</strong> en {ccaaLabel}, incluyendo todos los gastos asociados:
+    </p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Importe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ITP ({tipoGeneralStr}% sobre {formatCurrency(precioEjemplo)})</td>
+            <td class="mono">{formatCurrency(itpEjemplo)}</td>
+          </tr>
+          <tr>
+            <td>Notaria (aproximado)</td>
+            <td class="mono">{formatCurrency(gastosNotaria)}</td>
+          </tr>
+          <tr>
+            <td>Registro de la Propiedad</td>
+            <td class="mono">{formatCurrency(gastosRegistro)}</td>
+          </tr>
+          <tr>
+            <td>Gestoria</td>
+            <td class="mono">{formatCurrency(gastosGestoria)}</td>
+          </tr>
+          <tr>
+            <td>Tasacion</td>
+            <td class="mono">{formatCurrency(gastosTasacion)}</td>
+          </tr>
+          <tr class="row-total">
+            <td><strong>Total gastos de compra</strong></td>
+            <td class="mono"><strong>{formatCurrency(gastosAprox)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    {ccaaValue !== 'madrid' && (
+      <p>
+        En comparacion, la misma vivienda en <strong>Madrid</strong> (ITP del 6%) tendria unos gastos totales de {formatCurrency(gastosMadrid)}, una diferencia de {formatCurrency(Math.abs(gastosAprox - gastosMadrid))}.
+      </p>
+    )}
+
+    {ccaaValue !== 'pais-vasco' && (
+      <p>
+        En <strong>Pais Vasco</strong>, la comunidad mas barata (ITP del 4%), los gastos serian de {formatCurrency(gastosPaisVasco)}.
+        {ccaaValue !== 'cataluna' && ccaaValue !== 'valencia' && ccaaValue !== 'cantabria' && (
+          ` En Cataluna, C. Valenciana o Cantabria (ITP del 10%), ascenderian a ${formatCurrency(gastosMax)}.`
+        )}
+      </p>
+    )}
+
+    {!tieneTipoUnico && (
+      <>
+        <h2>Tipo reducido de ITP en {ccaaLabel}</h2>
+        <p>
+          {ccaaLabel} ofrece un tipo reducido del <strong>{tipoReducidoStr}%</strong> frente al tipo general del {tipoGeneralStr}%. Para una vivienda de {formatCurrency(precioEjemplo)}, esto supone pagar {formatCurrency(itpEjemploReducido)} en lugar de {formatCurrency(itpEjemplo)}, un ahorro de <strong>{formatCurrency(itpEjemplo - itpEjemploReducido)}</strong>.
+        </p>
+        <p><strong>¿Quien puede acceder al tipo reducido?</strong></p>
+        <p>{info.quienReducido}</p>
+        <p><strong>Requisitos:</strong></p>
+        <ul>
+          {info.requisitosReducido.map((req) => (
+            <li>{req}</li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {tieneTipoUnico && (
+      <>
+        <h2>Tipo de ITP en {ccaaLabel}: tipo unico</h2>
+        <p>
+          {ccaaLabel} aplica un tipo unico del {tipoGeneralStr}% a todas las transmisiones patrimoniales onerosas. {info.quienReducido}
+        </p>
+      </>
+    )}
+
+    <h2>Vivienda nueva vs vivienda usada en {ccaaLabel}</h2>
+    <p>
+      La fiscalidad de la compra de vivienda es muy diferente segun se trate de un inmueble nuevo (de promotor) o de segunda mano. En {ccaaLabel}:
+    </p>
+
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Concepto</th>
+            <th>Vivienda nueva</th>
+            <th>Vivienda usada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Impuesto principal</td>
+            <td>IVA: 10%</td>
+            <td>ITP: {tipoGeneralStr}%</td>
+          </tr>
+          <tr>
+            <td>Actos Juridicos Documentados (AJD)</td>
+            <td class="mono">~1,5%</td>
+            <td>No aplica</td>
+          </tr>
+          <tr>
+            <td>Coste fiscal para {formatCurrency(precioEjemplo)}</td>
+            <td class="mono">{formatCurrency(ivaViviendaNueva + ajdViviendaNueva)}</td>
+            <td class="mono">{formatCurrency(itpEjemplo)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>
+      <strong>Vivienda nueva:</strong> tributa por IVA al 10% (4% si es VPO) mas AJD de aproximadamente el 1,5%, lo que supone unos {formatCurrency(ivaViviendaNueva + ajdViviendaNueva)} en una vivienda de {formatCurrency(precioEjemplo)}. Estos tipos son iguales en toda Espana.
+    </p>
+    <p>
+      <strong>Vivienda usada:</strong> tributa por ITP al tipo de la comunidad autonoma ({tipoGeneralStr}% en {ccaaLabel}), lo que supone {formatCurrency(itpEjemplo)} para la misma vivienda. No se paga AJD.
+    </p>
+    <p class="note">
+      {tipoGeneral < 10
+        ? `En ${ccaaLabel}, comprar vivienda usada resulta fiscalmente mas economico que comprar obra nueva, ya que el ITP (${tipoGeneralStr}%) es inferior a la suma de IVA + AJD (11,5%).`
+        : tipoGeneral === 10
+          ? `En ${ccaaLabel}, el coste fiscal de la vivienda usada (ITP del ${tipoGeneralStr}%) es similar pero ligeramente inferior al de la vivienda nueva (IVA 10% + AJD ~1,5% = 11,5%).`
+          : `En ${ccaaLabel}, el coste fiscal de la vivienda usada es similar al de la vivienda nueva.`
+      }
+    </p>
+
+    <h2>Preguntas frecuentes sobre ITP en {ccaaLabel}</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏠', title: 'Calculadora de hipoteca', description: 'Simula tu hipoteca y calcula los gastos de compra por comunidad autonoma.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '🏘️', title: 'Plusvalia municipal', description: 'Calcula la plusvalia municipal por venta de vivienda.', href: '/impuestos/plusvalia-municipal/' },
+      { icon: '🧾', title: 'Calculadora de IRPF', description: 'Calcula tu cuota de IRPF con tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .intro {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    margin: var(--space-6) 0;
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    text-align: left;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .data-table th {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--color-bg-alt);
+  }
+
+  .data-table tbody tr:hover {
+    background-color: var(--color-bg-alt);
+  }
+
+  .row-total td {
+    border-top: 2px solid var(--color-accent);
+    background-color: var(--color-bg-alt);
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .note {
+    font-size: 0.88rem;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  ul {
+    padding-left: var(--space-6);
+    margin: var(--space-4) 0;
+  }
+
+  ul li {
+    margin-bottom: var(--space-2);
+    line-height: 1.6;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
