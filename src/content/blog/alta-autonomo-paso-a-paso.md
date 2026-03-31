@@ -7,6 +7,15 @@ author: "CalculaTuDinero"
 category: "autonomos"
 tags: ["alta autónomo", "modelo 036", "modelo 037", "TA.0521", "Seguridad Social", "Hacienda"]
 relatedCalculators: ["cuota-autonomos", "cuanto-facturar"]
+howTo:
+  - name: "Obtén certificado digital o Cl@ve"
+    text: "Necesitas identificación electrónica para hacer los trámites online. Solicita el certificado de la FNMT o activa Cl@ve."
+  - name: "Alta en Hacienda (modelo 036/037)"
+    text: "Presenta el modelo 036 (o 037 simplificado) en la sede electrónica de la AEAT. Indica tu actividad económica (epígrafe IAE) y obligaciones fiscales (IVA, IRPF)."
+  - name: "Alta en Seguridad Social (TA.0521)"
+    text: "Presenta el formulario TA.0521 en la sede de la Seguridad Social (Import@ss). Elige tu base de cotización y si solicitas la tarifa plana."
+  - name: "Elige tu base de cotización"
+    text: "Selecciona tu base dentro del tramo correspondiente a tus rendimientos previstos. Si eres nuevo, puedes acogerte a la tarifa plana de 80 €/mes."
 ---
 
 Darse de alta como autónomo en España requiere dos trámites obligatorios: registrarte en Hacienda mediante el modelo 036 o 037 (declaración censal) y darte de alta en el Régimen Especial de Trabajadores Autónomos (RETA) de la Seguridad Social con el formulario TA.0521. Ambos trámites se pueden hacer online con certificado digital y, desde 2026, el proceso no debería llevarte más de un día.

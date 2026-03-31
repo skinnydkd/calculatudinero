@@ -21,7 +21,7 @@ const breadcrumbItems = [
   { label: post.data.title },
 ];
 
-const jsonLd = [
+const jsonLd: Record<string, unknown>[] = [
   {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -42,6 +42,22 @@ const jsonLd = [
     'mainEntityOfPage': canonical,
   },
 ];
+
+// Add HowTo schema if the article has step-by-step instructions
+if (post.data.howTo && post.data.howTo.length > 0) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    'name': post.data.title,
+    'description': post.data.description,
+    'step': post.data.howTo.map((step: { name: string; text: string }, i: number) => ({
+      '@type': 'HowToStep',
+      'position': i + 1,
+      'name': step.name,
+      'text': step.text,
+    })),
+  });
+}
 ---
 
 <BlogLayout

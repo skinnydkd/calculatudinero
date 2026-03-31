@@ -7,6 +7,19 @@ author: "CalculaTuDinero"
 category: "autonomos"
 tags: ["factura", "autónomos", "facturación electrónica", "IVA", "retención IRPF"]
 relatedCalculators: ["cuanto-facturar", "calculadora-iva"]
+howTo:
+  - name: "Pon tus datos y los del cliente"
+    text: "Incluye nombre completo o razón social, NIF/CIF y dirección fiscal tanto del emisor como del destinatario."
+  - name: "Numera la factura correctamente"
+    text: "Usa una serie correlativa sin saltos (F-2026-001, F-2026-002...). Puedes tener varias series."
+  - name: "Describe el servicio o producto"
+    text: "Detalla qué vendes o qué servicio prestas, la cantidad, el precio unitario y el importe total de cada línea."
+  - name: "Calcula la base imponible y el IVA"
+    text: "Suma todos los conceptos para obtener la base imponible. Aplica el tipo de IVA correspondiente (21%, 10% o 4%)."
+  - name: "Aplica la retención de IRPF si corresponde"
+    text: "Si facturas a empresas como profesional: 15% de retención (7% los primeros 3 años). Resta de la base imponible."
+  - name: "Calcula el total a cobrar"
+    text: "Total = base imponible + IVA - retención IRPF. Es el importe que el cliente te debe pagar."
 ---
 
 Una factura de autónomo en España debe incluir obligatoriamente: número de factura correlativo, fecha de expedición, datos completos del emisor y del destinatario (nombre, NIF, dirección), descripción del servicio o producto, base imponible, tipo y cuota de IVA, y el importe total. Si facturas a empresas como profesional, también debes incluir la retención de IRPF (15% general, 7% los primeros tres años).

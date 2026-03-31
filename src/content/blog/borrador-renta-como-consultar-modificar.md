@@ -7,6 +7,19 @@ author: "CalculaTuDinero"
 category: "impuestos"
 tags: ["borrador renta", "AEAT", "Renta Web", "declaración renta", "2026"]
 relatedCalculators: ["calculadora-irpf", "salario-neto"]
+howTo:
+  - name: "Accede a Renta Web"
+    text: "Entra en sede.agenciatributaria.gob.es con certificado digital, Cl@ve PIN o número de referencia."
+  - name: "Revisa los datos personales"
+    text: "Comprueba tu situación familiar, dirección fiscal y datos de los pagadores."
+  - name: "Revisa rendimientos del trabajo"
+    text: "Verifica que las nóminas y retenciones coinciden con tus certificados de empresa."
+  - name: "Añade deducciones autonómicas"
+    text: "Hacienda no las incluye automáticamente. Comprueba alquiler, hijos, gastos educativos de tu comunidad."
+  - name: "Compara individual vs conjunta"
+    text: "Si estás casado/a, haz el cálculo en ambas modalidades y elige la más favorable."
+  - name: "Confirma y presenta"
+    text: "Si estás conforme, confirma el borrador. Si te sale a pagar, puedes fraccionar en dos plazos."
 ---
 
 El borrador de la renta es la propuesta que Hacienda elabora con los datos fiscales que ya tiene sobre ti. Puedes consultarlo desde el 2 de abril en Renta WEB, pero confirmar el borrador sin revisarlo es uno de los errores más caros que puedes cometer: Hacienda no incluye automáticamente todas las deducciones a las que tienes derecho, y puede contener datos incorrectos o incompletos.
