@@ -1,0 +1,231 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/layout/Breadcrumb.astro';
+import glosario from '@data/glosario.json';
+
+const calculatorLinks: Record<string, { label: string; href: string }> = {
+  'cuanto-facturar': { label: 'Cuánto facturar como autónomo', href: '/autonomos/cuanto-facturar/' },
+  'cuota-autonomos': { label: 'Cuota de Autónomos 2026', href: '/autonomos/cuota-autonomos/' },
+  'salario-neto': { label: 'Calculadora de Salario Neto', href: '/laboral/salario-neto/' },
+  'indemnizacion-despido': { label: 'Indemnización por despido', href: '/laboral/indemnizacion-despido/' },
+  'finiquito': { label: 'Calculadora de Finiquito', href: '/laboral/finiquito/' },
+  'prestacion-desempleo': { label: 'Prestación por desempleo', href: '/laboral/prestacion-desempleo/' },
+  'calculadora-irpf': { label: 'Calculadora de IRPF 2026', href: '/impuestos/calculadora-irpf/' },
+  'calculadora-iva': { label: 'Calculadora de IVA', href: '/impuestos/calculadora-iva/' },
+  'plusvalia-municipal': { label: 'Plusvalía municipal', href: '/impuestos/plusvalia-municipal/' },
+  'impuesto-sucesiones': { label: 'Impuesto de Sucesiones', href: '/impuestos/impuesto-sucesiones/' },
+  'calculadora-hipoteca': { label: 'Simulador de Hipoteca', href: '/vivienda/calculadora-hipoteca/' },
+  'interes-compuesto': { label: 'Interés compuesto', href: '/ahorro-inversion/interes-compuesto/' },
+  'pension-jubilacion': { label: 'Pensión de jubilación', href: '/ahorro-inversion/pension-jubilacion/' },
+};
+
+const categoryLabels: Record<string, string> = {
+  impuestos: 'Impuestos',
+  laboral: 'Laboral',
+  autonomos: 'Autónomos',
+  vivienda: 'Vivienda',
+  'ahorro-inversion': 'Ahorro e inversión',
+};
+
+export function getStaticPaths() {
+  return glosario.map((item: any) => ({
+    params: { id: item.id },
+    props: { entry: item },
+  }));
+}
+
+const { entry } = Astro.props;
+
+const relatedTerms = entry.related
+  .map((id: string) => glosario.find((g: any) => g.id === id))
+  .filter(Boolean);
+
+const calc = calculatorLinks[entry.calculator];
+
+const title = `${entry.term}: qué es y cómo funciona — CalculaTuDinero.net`;
+const description = entry.definition.slice(0, 155);
+const canonical = `https://calculatudinero.net/glosario/${entry.id}/`;
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Glosario', href: '/glosario/' },
+  { label: entry.term },
+];
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  'name': entry.term,
+  'description': entry.definition,
+  'url': canonical,
+  'inDefinedTermSet': {
+    '@type': 'DefinedTermSet',
+    'name': 'Glosario Financiero de CalculaTuDinero.net',
+    'url': 'https://calculatudinero.net/glosario/',
+  },
+}];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <div class="term-page container container--content">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <article class="term">
+      <header class="term__header">
+        <span class="term__category">{categoryLabels[entry.category]}</span>
+        <h1 class="term__title">{entry.term}</h1>
+      </header>
+
+      <div class="term__definition">
+        <p>{entry.definition}</p>
+      </div>
+
+      {calc && (
+        <div class="term__calculator">
+          <a href={calc.href} class="card card--accent term__calc-card">
+            <span class="term__calc-label">Calculadora relacionada</span>
+            <span class="term__calc-name">{calc.label}</span>
+            <span class="term__calc-cta">Calcular &rarr;</span>
+          </a>
+        </div>
+      )}
+
+      {relatedTerms.length > 0 && (
+        <section class="term__related">
+          <h2>Términos relacionados</h2>
+          <div class="term__related-grid">
+            {relatedTerms.map((rel: any) => (
+              <a href={`/glosario/${rel.id}/`} class="term__related-link">
+                <strong>{rel.term}</strong>
+                <span>{rel.definition.slice(0, 80)}...</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .term-page {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .term__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .term__category {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-2);
+  }
+
+  .term__title {
+    line-height: 1.2;
+  }
+
+  .term__definition {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+  }
+
+  .term__definition p {
+    margin-bottom: 0;
+  }
+
+  .term__calculator {
+    margin-bottom: var(--space-8);
+  }
+
+  .term__calc-card {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: transform var(--transition-base);
+  }
+
+  .term__calc-card:hover {
+    transform: translateY(-2px);
+    color: var(--color-text);
+  }
+
+  .term__calc-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-2);
+  }
+
+  .term__calc-name {
+    display: block;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: var(--space-2);
+  }
+
+  .term__calc-cta {
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 0.9rem;
+  }
+
+  .term__related {
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-8);
+  }
+
+  .term__related h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .term__related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .term__related-link {
+    display: block;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: background-color var(--transition-fast);
+  }
+
+  .term__related-link:hover {
+    background-color: var(--color-accent-light);
+    color: var(--color-text);
+  }
+
+  .term__related-link strong {
+    display: block;
+    margin-bottom: var(--space-1);
+  }
+
+  .term__related-link span {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .term__related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

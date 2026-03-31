@@ -1,0 +1,402 @@
+[
+  {
+    "id": "irpf",
+    "term": "IRPF",
+    "definition": "Impuesto sobre la Renta de las Personas Físicas. Es el principal impuesto directo en España, de carácter progresivo, que grava las rentas obtenidas por personas físicas durante el año natural. Se divide en parte estatal y autonómica.",
+    "category": "impuestos",
+    "related": ["base-liquidable", "tipo-efectivo", "retencion"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "iva",
+    "term": "IVA",
+    "definition": "Impuesto sobre el Valor Añadido. Impuesto indirecto que grava el consumo de bienes y servicios. En España hay tres tipos: general (21%), reducido (10%) y superreducido (4%). En Canarias se aplica el IGIC y en Ceuta y Melilla el IPSI.",
+    "category": "impuestos",
+    "related": ["igic", "ipsi", "recargo-equivalencia"],
+    "calculator": "calculadora-iva"
+  },
+  {
+    "id": "base-liquidable",
+    "term": "Base liquidable",
+    "definition": "Cantidad resultante de restar a la base imponible las reducciones legalmente establecidas (como la reducción por rendimientos del trabajo o aportaciones a planes de pensiones). Sobre ella se aplican los tramos del IRPF para calcular la cuota.",
+    "category": "impuestos",
+    "related": ["irpf", "base-imponible", "minimo-personal"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "base-imponible",
+    "term": "Base imponible",
+    "definition": "Magnitud que resulta de la cuantificación del hecho imponible. En el IRPF, es la suma de los rendimientos netos (del trabajo, capital, actividades económicas) menos las reducciones generales. Es el punto de partida para calcular la cuota tributaria.",
+    "category": "impuestos",
+    "related": ["base-liquidable", "irpf", "rendimientos-netos"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "tipo-efectivo",
+    "term": "Tipo efectivo",
+    "definition": "Porcentaje real de impuestos que se paga sobre el total de los ingresos. Se calcula dividiendo la cuota íntegra entre la renta total. Siempre es inferior al tipo marginal debido a la progresividad del impuesto.",
+    "category": "impuestos",
+    "related": ["tipo-marginal", "irpf", "cuota-integra"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "tipo-marginal",
+    "term": "Tipo marginal",
+    "definition": "El porcentaje de impuesto que se aplica al último euro ganado. Corresponde al tramo más alto del IRPF al que llega tu renta. No se aplica a toda la renta, solo a la parte que supera el umbral de ese tramo.",
+    "category": "impuestos",
+    "related": ["tipo-efectivo", "irpf", "tramos-irpf"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "minimo-personal",
+    "term": "Mínimo personal y familiar",
+    "definition": "Parte de la renta que queda exenta de tributación por considerarse necesaria para cubrir las necesidades básicas del contribuyente y su familia. En 2026: 5.550 € personales, más importes por descendientes, ascendientes y discapacidad.",
+    "category": "impuestos",
+    "related": ["irpf", "base-liquidable", "cuota-integra"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "retencion",
+    "term": "Retención",
+    "definition": "Cantidad que el pagador (empresa o cliente) descuenta de tu retribución e ingresa directamente a Hacienda como anticipo del IRPF. En la nómina, la retención se calcula según tu salario, situación familiar y tipo de contrato.",
+    "category": "laboral",
+    "related": ["irpf", "nomina", "tipo-efectivo"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "cuota-integra",
+    "term": "Cuota íntegra",
+    "definition": "Resultado de aplicar los tipos impositivos (tramos) a la base liquidable. Es la cantidad de IRPF antes de aplicar deducciones (vivienda, donativos, etc.) y bonificaciones autonómicas.",
+    "category": "impuestos",
+    "related": ["base-liquidable", "irpf", "tipo-efectivo"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "tramos-irpf",
+    "term": "Tramos del IRPF",
+    "definition": "Escalones de renta con tipos impositivos crecientes que definen cuánto se paga de IRPF. En 2026, los tramos estatales van del 9,50% (hasta 12.450 €) al 24,50% (más de 300.000 €). Cada comunidad tiene además sus propios tramos autonómicos.",
+    "category": "impuestos",
+    "related": ["irpf", "tipo-marginal", "tipo-efectivo"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "rendimientos-netos",
+    "term": "Rendimientos netos",
+    "definition": "Ingresos totales menos los gastos deducibles asociados a su obtención. Para un trabajador: salario bruto - cotizaciones a la Seguridad Social. Para un autónomo: ingresos - gastos de la actividad - cuota de autónomos.",
+    "category": "impuestos",
+    "related": ["base-imponible", "irpf", "gastos-deducibles"],
+    "calculator": "calculadora-irpf"
+  },
+  {
+    "id": "seguridad-social",
+    "term": "Seguridad Social",
+    "definition": "Sistema público que protege a los ciudadanos frente a contingencias como enfermedad, desempleo, jubilación o accidentes laborales. Se financia mediante las cotizaciones de trabajadores y empresas sobre la base de cotización.",
+    "category": "laboral",
+    "related": ["base-cotizacion", "contingencias-comunes", "cuota-autonomos"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "base-cotizacion",
+    "term": "Base de cotización",
+    "definition": "Cantidad sobre la que se calculan las cotizaciones a la Seguridad Social. Para empleados, se determina por el grupo de cotización y el salario. Para autónomos, se elige dentro de los límites del tramo de rendimientos correspondiente.",
+    "category": "laboral",
+    "related": ["seguridad-social", "contingencias-comunes", "cuota-autonomos"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "contingencias-comunes",
+    "term": "Contingencias comunes",
+    "definition": "Cotización a la Seguridad Social que cubre enfermedad común, accidente no laboral, maternidad, paternidad y jubilación. El trabajador paga el 4,70% y la empresa el 23,60% sobre la base de cotización.",
+    "category": "laboral",
+    "related": ["seguridad-social", "base-cotizacion", "nomina"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "cuota-autonomos",
+    "term": "Cuota de autónomos",
+    "definition": "Cotización mensual que paga el trabajador por cuenta propia al RETA (Régimen Especial de Trabajadores Autónomos). Desde 2023 se calcula según rendimientos netos reales, con 15 tramos. En 2026 oscila entre 205,88 € y 607,35 €/mes.",
+    "category": "autonomos",
+    "related": ["tarifa-plana", "reta", "base-cotizacion"],
+    "calculator": "cuota-autonomos"
+  },
+  {
+    "id": "tarifa-plana",
+    "term": "Tarifa plana de autónomos",
+    "definition": "Cuota reducida de 80 €/mes para nuevos autónomos durante los primeros 12 meses de actividad. Extensible otros 12 meses si los rendimientos son inferiores al SMI. Requisito: no haber estado de alta como autónomo en los últimos 2 años.",
+    "category": "autonomos",
+    "related": ["cuota-autonomos", "reta", "smi"],
+    "calculator": "cuota-autonomos"
+  },
+  {
+    "id": "reta",
+    "term": "RETA",
+    "definition": "Régimen Especial de Trabajadores Autónomos. Es el régimen de la Seguridad Social al que deben cotizar los trabajadores por cuenta propia. Cubre prestaciones como jubilación, incapacidad temporal, cese de actividad y asistencia sanitaria.",
+    "category": "autonomos",
+    "related": ["cuota-autonomos", "seguridad-social", "tarifa-plana"],
+    "calculator": "cuota-autonomos"
+  },
+  {
+    "id": "smi",
+    "term": "SMI (Salario Mínimo Interprofesional)",
+    "definition": "Retribución mínima legal que debe percibir un trabajador por cuenta ajena. En 2026: 1.221 €/mes en 14 pagas (1.424,50 € en 12 pagas), equivalente a 17.094 €/año. Se fija anualmente por Real Decreto.",
+    "category": "laboral",
+    "related": ["nomina", "salario-bruto", "iprem"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "iprem",
+    "term": "IPREM",
+    "definition": "Indicador Público de Renta de Efectos Múltiples. Referencia utilizada para calcular umbrales de ayudas, becas, prestaciones y vivienda protegida. En 2026: 600 €/mes (14 pagas). Sustituye al SMI como referencia para prestaciones desde 2004.",
+    "category": "laboral",
+    "related": ["smi", "prestacion-desempleo"],
+    "calculator": "prestacion-desempleo"
+  },
+  {
+    "id": "salario-bruto",
+    "term": "Salario bruto",
+    "definition": "Retribución total pactada antes de descontar cotizaciones a la Seguridad Social y la retención de IRPF. Incluye salario base, complementos, horas extra y pagas extraordinarias. Es la cifra que aparece en el contrato de trabajo.",
+    "category": "laboral",
+    "related": ["salario-neto", "nomina", "retencion"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "salario-neto",
+    "term": "Salario neto",
+    "definition": "Cantidad que realmente recibe el trabajador después de descontar las cotizaciones a la Seguridad Social (~6,5%) y la retención de IRPF. Es el importe que se ingresa en la cuenta bancaria.",
+    "category": "laboral",
+    "related": ["salario-bruto", "nomina", "retencion"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "nomina",
+    "term": "Nómina",
+    "definition": "Documento que detalla la retribución de un trabajador: devengos (salario base, complementos, pagas extra) y deducciones (Seguridad Social, IRPF). El empleado recibe el líquido a percibir (salario neto).",
+    "category": "laboral",
+    "related": ["salario-bruto", "salario-neto", "retencion"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "indemnizacion",
+    "term": "Indemnización por despido",
+    "definition": "Compensación económica que corresponde al trabajador en caso de despido. Varía según el tipo: improcedente (33 días/año, máx. 24 mensualidades), objetivo (20 días/año, máx. 12 mensualidades), disciplinario procedente (0 €).",
+    "category": "laboral",
+    "related": ["finiquito", "despido-improcedente", "antiguedad"],
+    "calculator": "indemnizacion-despido"
+  },
+  {
+    "id": "finiquito",
+    "term": "Finiquito",
+    "definition": "Liquidación económica que la empresa paga al trabajador cuando finaliza la relación laboral, independientemente de la causa. Incluye: días trabajados del mes en curso, vacaciones no disfrutadas y prorrata de pagas extras no prorrateadas.",
+    "category": "laboral",
+    "related": ["indemnizacion", "vacaciones", "pagas-extra"],
+    "calculator": "finiquito"
+  },
+  {
+    "id": "prestacion-desempleo",
+    "term": "Prestación por desempleo",
+    "definition": "Ayuda económica del SEPE para trabajadores que pierden su empleo involuntariamente. Importe: 70% de la base reguladora los primeros 6 meses, 50% después. Duración: de 4 a 24 meses según cotización. Mínimo 360 días cotizados.",
+    "category": "laboral",
+    "related": ["iprem", "base-reguladora", "sepe"],
+    "calculator": "prestacion-desempleo"
+  },
+  {
+    "id": "base-reguladora",
+    "term": "Base reguladora",
+    "definition": "Magnitud utilizada para calcular prestaciones de la Seguridad Social (desempleo, jubilación, incapacidad). Para desempleo: media de bases de cotización de los últimos 180 días. Para jubilación: media de los últimos 300 meses (25 años) dividida entre 350.",
+    "category": "laboral",
+    "related": ["prestacion-desempleo", "pension-jubilacion", "base-cotizacion"],
+    "calculator": "prestacion-desempleo"
+  },
+  {
+    "id": "euribor",
+    "term": "Euríbor",
+    "definition": "European Interbank Offered Rate. Tipo de interés al que los bancos europeos se prestan dinero entre sí. El Euríbor a 12 meses es la referencia más usada para hipotecas variables en España. Su valor fluctúa según la política monetaria del BCE.",
+    "category": "vivienda",
+    "related": ["hipoteca-variable", "bce", "tipo-interes"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "hipoteca-variable",
+    "term": "Hipoteca variable",
+    "definition": "Préstamo hipotecario cuyo tipo de interés se revisa periódicamente (normalmente cada 6 o 12 meses) en función de un índice de referencia (generalmente Euríbor) más un diferencial fijo pactado con el banco.",
+    "category": "vivienda",
+    "related": ["euribor", "hipoteca-fija", "tipo-interes"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "hipoteca-fija",
+    "term": "Hipoteca fija",
+    "definition": "Préstamo hipotecario con un tipo de interés constante durante toda la vida del préstamo. La cuota mensual no varía. Ofrece estabilidad pero generalmente el tipo inicial es más alto que el de una hipoteca variable.",
+    "category": "vivienda",
+    "related": ["hipoteca-variable", "tipo-interes", "cuota-mensual"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "itp",
+    "term": "ITP (Impuesto de Transmisiones Patrimoniales)",
+    "definition": "Impuesto que se paga al comprar una vivienda de segunda mano. Su tipo varía por comunidad autónoma: desde el 4% en País Vasco hasta el 10% en Cataluña, Comunitat Valenciana y Cantabria. Las viviendas nuevas pagan IVA (10%) en su lugar.",
+    "category": "vivienda",
+    "related": ["ajd", "iva", "gastos-compra"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "ajd",
+    "term": "AJD (Actos Jurídicos Documentados)",
+    "definition": "Impuesto que grava la formalización de documentos notariales, mercantiles y administrativos. En la compra de vivienda nueva se paga junto al IVA, con un tipo entre el 0,5% y el 1,5% según la comunidad autónoma.",
+    "category": "vivienda",
+    "related": ["itp", "iva", "gastos-compra"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "amortizacion-anticipada",
+    "term": "Amortización anticipada",
+    "definition": "Pago parcial o total del capital pendiente de una hipoteca antes del plazo previsto. Puede reducir la cuota mensual (manteniendo plazo) o el plazo (manteniendo cuota). Reducir plazo suele ahorrar más intereses en total.",
+    "category": "vivienda",
+    "related": ["hipoteca-fija", "hipoteca-variable", "cuota-mensual"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "plusvalia-municipal",
+    "term": "Plusvalía municipal",
+    "definition": "Impuesto municipal sobre el incremento de valor de terrenos urbanos que se paga al vender un inmueble. Desde la STC 182/2021, solo se paga si hay ganancia real. Se puede calcular por método real o método objetivo (el menor de los dos).",
+    "category": "vivienda",
+    "related": ["itp", "ganancia-patrimonial"],
+    "calculator": "plusvalia-municipal"
+  },
+  {
+    "id": "interes-compuesto",
+    "term": "Interés compuesto",
+    "definition": "Interés que se calcula sobre el capital inicial más los intereses acumulados en periodos anteriores. Es la base del crecimiento exponencial de las inversiones a largo plazo. A un 7% anual, el dinero se duplica aproximadamente cada 10 años.",
+    "category": "ahorro-inversion",
+    "related": ["regla-72", "rentabilidad"],
+    "calculator": "interes-compuesto"
+  },
+  {
+    "id": "regla-72",
+    "term": "Regla del 72",
+    "definition": "Método rápido para estimar cuántos años tarda una inversión en duplicarse. Se divide 72 entre el tipo de interés anual. Ejemplo: a un 8% anual, tu dinero se duplica en ~9 años (72/8). Es una aproximación, no un cálculo exacto.",
+    "category": "ahorro-inversion",
+    "related": ["interes-compuesto", "rentabilidad"],
+    "calculator": "interes-compuesto"
+  },
+  {
+    "id": "pension-jubilacion",
+    "term": "Pensión de jubilación",
+    "definition": "Prestación económica mensual de la Seguridad Social para trabajadores retirados. Se calcula aplicando un porcentaje (del 50% al 100% según años cotizados) sobre la base reguladora (media de bases de cotización de los últimos 25 años).",
+    "category": "ahorro-inversion",
+    "related": ["base-reguladora", "jubilacion-anticipada"],
+    "calculator": "pension-jubilacion"
+  },
+  {
+    "id": "igic",
+    "term": "IGIC",
+    "definition": "Impuesto General Indirecto Canario. Sustituye al IVA en las Islas Canarias. Tipo general del 7% (frente al 21% del IVA). Tiene tipos reducido (3%), cero (0%), incrementado (9,5%) y especial (15%).",
+    "category": "impuestos",
+    "related": ["iva", "ipsi"],
+    "calculator": "calculadora-iva"
+  },
+  {
+    "id": "ipsi",
+    "term": "IPSI",
+    "definition": "Impuesto sobre la Producción, los Servicios y la Importación. Se aplica en Ceuta y Melilla en lugar del IVA. Tipo general del 10%, con tipos reducido (4%) y mínimo (0,5%).",
+    "category": "impuestos",
+    "related": ["iva", "igic"],
+    "calculator": "calculadora-iva"
+  },
+  {
+    "id": "recargo-equivalencia",
+    "term": "Recargo de equivalencia",
+    "definition": "Régimen especial de IVA para comerciantes minoristas (personas físicas). El proveedor cobra un recargo adicional al IVA: 5,2% (general), 1,4% (reducido) o 0,5% (superreducido). A cambio, el minorista no presenta declaraciones de IVA.",
+    "category": "impuestos",
+    "related": ["iva"],
+    "calculator": "calculadora-iva"
+  },
+  {
+    "id": "gastos-deducibles",
+    "term": "Gastos deducibles",
+    "definition": "Gastos necesarios para la obtención de ingresos que pueden restarse de los rendimientos brutos para calcular los rendimientos netos. Para autónomos: alquiler de local, suministros, material, vehículo (con límites), dietas, seguros, asesoría.",
+    "category": "autonomos",
+    "related": ["rendimientos-netos", "irpf", "cuota-autonomos"],
+    "calculator": "cuanto-facturar"
+  },
+  {
+    "id": "modelo-303",
+    "term": "Modelo 303",
+    "definition": "Declaración trimestral de IVA que presentan autónomos y empresas. Calcula la diferencia entre el IVA cobrado a clientes (repercutido) y el IVA pagado a proveedores (soportado). Se presenta los días 1-20 de abril, julio, octubre y 1-30 de enero.",
+    "category": "autonomos",
+    "related": ["iva", "modelo-130"],
+    "calculator": "calculadora-iva"
+  },
+  {
+    "id": "modelo-130",
+    "term": "Modelo 130",
+    "definition": "Pago fraccionado trimestral del IRPF para autónomos en estimación directa. Se paga el 20% del rendimiento neto acumulado, menos las retenciones soportadas y pagos fraccionados anteriores. Mismos plazos que el modelo 303.",
+    "category": "autonomos",
+    "related": ["irpf", "modelo-303", "gastos-deducibles"],
+    "calculator": "cuanto-facturar"
+  },
+  {
+    "id": "despido-improcedente",
+    "term": "Despido improcedente",
+    "definition": "Despido declarado improcedente por no cumplir los requisitos legales. Indemnización: 33 días de salario por año trabajado, con un máximo de 24 mensualidades (720 días). Para contratos anteriores a febrero de 2012, la parte previa se calcula a 45 días/año.",
+    "category": "laboral",
+    "related": ["indemnizacion", "despido-objetivo", "finiquito"],
+    "calculator": "indemnizacion-despido"
+  },
+  {
+    "id": "despido-objetivo",
+    "term": "Despido objetivo",
+    "definition": "Despido por causas económicas, técnicas, organizativas o de producción. Indemnización: 20 días de salario por año trabajado, máximo 12 mensualidades (360 días). La empresa debe comunicarlo con 15 días de preaviso.",
+    "category": "laboral",
+    "related": ["indemnizacion", "despido-improcedente", "ere"],
+    "calculator": "indemnizacion-despido"
+  },
+  {
+    "id": "pagas-extra",
+    "term": "Pagas extraordinarias",
+    "definition": "Gratificaciones adicionales al salario mensual. En España, el mínimo legal son 2 al año (junio/julio y diciembre). Se puede optar por recibirlas aparte (14 pagas) o prorrateadas en la nómina mensual (12 pagas). El importe mínimo es de una mensualidad del SMI.",
+    "category": "laboral",
+    "related": ["nomina", "salario-bruto", "finiquito"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "vacaciones",
+    "term": "Vacaciones anuales",
+    "definition": "Derecho mínimo de 30 días naturales de vacaciones retribuidas al año (equivalente a 22 días laborables). Son proporcionales al tiempo trabajado. Las vacaciones no disfrutadas al finalizar el contrato se cobran en el finiquito.",
+    "category": "laboral",
+    "related": ["finiquito", "nomina"],
+    "calculator": "finiquito"
+  },
+  {
+    "id": "antiguedad",
+    "term": "Antigüedad laboral",
+    "definition": "Tiempo transcurrido desde el inicio de la relación laboral. Es determinante para calcular la indemnización por despido (se multiplican los días por año correspondientes por los años de antigüedad) y puede generar complementos salariales.",
+    "category": "laboral",
+    "related": ["indemnizacion", "despido-improcedente"],
+    "calculator": "indemnizacion-despido"
+  },
+  {
+    "id": "mei",
+    "term": "MEI (Mecanismo de Equidad Intergeneracional)",
+    "definition": "Cotización adicional a la Seguridad Social destinada a reforzar el fondo de reserva de las pensiones. En 2026: 0,15% a cargo del trabajador y 0,75% a cargo de la empresa. Se aplica sobre la base de cotización.",
+    "category": "laboral",
+    "related": ["seguridad-social", "contingencias-comunes", "pension-jubilacion"],
+    "calculator": "salario-neto"
+  },
+  {
+    "id": "rentabilidad-bruta",
+    "term": "Rentabilidad bruta (alquiler)",
+    "definition": "Porcentaje de retorno de una inversión inmobiliaria antes de descontar gastos. Se calcula: (alquiler anual / precio de compra) × 100. Una rentabilidad bruta del 5-7% se considera aceptable en España.",
+    "category": "vivienda",
+    "related": ["rentabilidad-neta"],
+    "calculator": "calculadora-hipoteca"
+  },
+  {
+    "id": "rentabilidad-neta",
+    "term": "Rentabilidad neta (alquiler)",
+    "definition": "Porcentaje de retorno real después de descontar todos los gastos: IBI, comunidad, seguro, mantenimiento, períodos vacíos e impuestos. Suele ser 2-3 puntos inferior a la rentabilidad bruta.",
+    "category": "vivienda",
+    "related": ["rentabilidad-bruta"],
+    "calculator": "calculadora-hipoteca"
+  }
+]
