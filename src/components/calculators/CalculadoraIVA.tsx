@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularIVA } from '@lib/calculations/impuestos';
+import CopyButton from './CopyButton';
 import type { IVAData, IVAResult, IVAInput, ComunidadAutonoma } from '@lib/types';
 import { CCAA_OPTIONS } from '@lib/types';
 
@@ -213,6 +214,7 @@ export default function CalculadoraIVA({ ivaData }: Props) {
               ? (result.recargoEquivalencia > 0 ? 'Total con recargo de equivalencia' : `Total con ${result.impuestoNombre} al ${formatPercent(result.tipoAplicado, 0)}`)
               : `Base imponible sin ${result.impuestoNombre}`}
           </p>
+          <CopyButton text={`Base: ${formatCurrency(result.base)} + ${result.impuestoNombre}: ${formatCurrency(result.cuotaIVA)} = Total: ${formatCurrency(result.total)}`} />
 
           {/* Special regime notice */}
           {result.esRegimenEspecial && (

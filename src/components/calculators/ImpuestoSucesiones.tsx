@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularSucesiones } from '@lib/calculations/impuestos';
+import CopyButton from './CopyButton';
 import type {
   SucesionesData,
   SucesionesResult,
@@ -176,6 +177,7 @@ export default function ImpuestoSucesiones({ sucesionesData }: Props) {
             {formatCurrency(result.cuotaFinal)}
           </div>
           <p class="calculator__result-label">Cuota a pagar</p>
+          <CopyButton text={`Impuesto sucesiones: ${formatCurrency(result.cuotaFinal)}`} />
 
           {result.notaCcaa && (
             <div style={{

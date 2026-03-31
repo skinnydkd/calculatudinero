@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularPlusvalia } from '@lib/calculations/impuestos';
+import CopyButton from './CopyButton';
 import type { PlusvaliaData, PlusvaliaResult } from '@lib/types';
 
 interface Props {
@@ -334,6 +335,7 @@ export default function PlusvaliaMunicipal({ plusvaliaData }: Props) {
                 {result.metodoElegido === 'real' ? 'real' : 'objetivo'} (el más
                 favorable)
               </p>
+              <CopyButton text={`Plusvalía: ${formatCurrency(result.cuotaFinal)} (método ${result.metodoElegido})`} />
 
               {/* Comparison cards */}
               <div class="plusvalia-comparison">

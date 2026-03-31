@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { formatCurrency, formatPercent } from '@lib/formatters';
 import { calcularFacturacionAutonomo } from '@lib/calculations/autonomos';
+import CopyButton from './CopyButton';
 import type {
   AutonomosData,
   IRPFData,
@@ -188,6 +189,7 @@ export default function CuantoFacturar({ autonomosData, irpfData }: Props) {
           <p class="calculator__result-label">
             Facturación mensual bruta (IVA incluido)
           </p>
+          <CopyButton text={`Facturación mensual: ${formatCurrency(result.facturacionMensualBruta)} (con IVA)`} />
 
           <p style={{ fontSize: '1.1rem', marginBottom: 'var(--space-4)' }}>
             Sin IVA: <strong style={{ fontFamily: 'var(--font-mono)' }}>
