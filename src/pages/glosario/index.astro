@@ -1,0 +1,174 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumb from '@components/layout/Breadcrumb.astro';
+import glosario from '@data/glosario.json';
+
+const title = 'Glosario Financiero: Términos de Impuestos, Nóminas e Inversión — CalculaTuDinero.net';
+const description = 'Diccionario de términos financieros en España: IRPF, IVA, nómina, hipoteca, pensión y más. Definiciones claras con enlaces a calculadoras.';
+const canonical = 'https://calculatudinero.net/glosario/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Glosario' },
+];
+
+const categoryLabels: Record<string, string> = {
+  impuestos: 'Impuestos',
+  laboral: 'Laboral',
+  autonomos: 'Autónomos',
+  vivienda: 'Vivienda',
+  'ahorro-inversion': 'Ahorro e inversión',
+};
+
+const grouped = glosario.reduce((acc: Record<string, typeof glosario>, item) => {
+  const cat = item.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(item);
+  return acc;
+}, {});
+
+const categoryOrder = ['impuestos', 'laboral', 'autonomos', 'vivienda', 'ahorro-inversion'];
+
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  'name': 'Glosario Financiero de CalculaTuDinero.net',
+  'description': description,
+  'hasDefinedTerm': glosario.map((item) => ({
+    '@type': 'DefinedTerm',
+    'name': item.term,
+    'description': item.definition,
+    'url': `https://calculatudinero.net/glosario/${item.id}/`,
+  })),
+}];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} jsonLd={jsonLd}>
+  <div class="glosario-index container">
+    <Breadcrumb items={breadcrumbItems} />
+
+    <header class="glosario-index__header">
+      <h1>Glosario financiero</h1>
+      <p class="glosario-index__subtitle">
+        {glosario.length} términos financieros explicados de forma clara y sencilla
+      </p>
+    </header>
+
+    <!-- Quick alphabet nav -->
+    <nav class="glosario-index__alpha" aria-label="Navegar por letra">
+      {[...new Set(glosario.map((g) => g.term[0].toUpperCase()))].sort().map((letter) => (
+        <span class="glosario-index__letter">{letter}</span>
+      ))}
+    </nav>
+
+    {categoryOrder.map((cat) => {
+      const items = grouped[cat];
+      if (!items) return null;
+      return (
+        <section class="glosario-section">
+          <h2 class="glosario-section__title">{categoryLabels[cat]}</h2>
+          <div class="glosario-section__grid">
+            {items.sort((a, b) => a.term.localeCompare(b.term, 'es')).map((item) => (
+              <a href={`/glosario/${item.id}/`} class="glosario-card">
+                <span class="glosario-card__term">{item.term}</span>
+                <span class="glosario-card__def">{item.definition.slice(0, 120)}...</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+</BaseLayout>
+
+<style>
+  .glosario-index {
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-16);
+  }
+
+  .glosario-index__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .glosario-index__header h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .glosario-index__subtitle {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+  }
+
+  .glosario-index__alpha {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-10);
+  }
+
+  .glosario-index__letter {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .glosario-section {
+    margin-bottom: var(--space-10);
+  }
+
+  .glosario-section__title {
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--color-accent);
+  }
+
+  .glosario-section__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .glosario-card {
+    display: block;
+    padding: var(--space-4);
+    background-color: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .glosario-card:hover {
+    background-color: var(--color-accent-light);
+    transform: translateY(-1px);
+    color: var(--color-text);
+  }
+
+  .glosario-card__term {
+    display: block;
+    font-weight: 700;
+    margin-bottom: var(--space-1);
+  }
+
+  .glosario-card__def {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .glosario-section__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
