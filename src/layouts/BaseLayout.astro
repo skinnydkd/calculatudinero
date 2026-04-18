@@ -19,6 +19,14 @@ const { title, description, canonical, ogImage, jsonLd } = Astro.props;
 <!doctype html>
 <html lang="es">
   <head>
+    <script is:inline>
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || t === 'light') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      })();
+    </script>
     <SEOHead
       title={title}
       description={description}

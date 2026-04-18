@@ -1,4 +1,6 @@
 ---
+import ThemeToggle from '../ui/ThemeToggle.tsx';
+
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
@@ -47,6 +49,8 @@ const navLinks = [
         ))}
       </ul>
     </nav>
+
+    <ThemeToggle client:load />
   </div>
 </header>
 

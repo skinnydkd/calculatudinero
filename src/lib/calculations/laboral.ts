@@ -17,6 +17,9 @@ import type {
   IndemnizacionInput,
   IndemnizacionResult,
   IRPFData,
+  NominaInput,
+  NominaLinea,
+  NominaResult,
   SalarioInput,
   SalarioResult,
   SeguridadSocialData,
@@ -631,5 +634,196 @@ export function calcularFiniquito(
     cotizacionSS,
     totalNeto,
     desglose,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// calcularNomina
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a detailed monthly payslip (nómina) showing every line item.
+ *
+ * @param input - Payslip simulator inputs
+ * @param ssData - Social Security contribution rates and bases
+ * @param irpfData - IRPF bracket data
+ * @returns Detailed monthly payslip breakdown
+ */
+export function calcularNomina(
+  input: NominaInput,
+  ssData: SeguridadSocialData,
+  irpfData: IRPFData
+): NominaResult {
+  const {
+    salarioBrutoAnual,
+    pagas,
+    ccaa,
+    grupoCotizacion,
+    tipoContrato,
+    hijos,
+  } = input;
+
+  // -----------------------------------------------------------------------
+  // 1. Monthly earnings (devengos)
+  // -----------------------------------------------------------------------
+  let salarioBase: number;
+  let prorrataPagas: number;
+
+  if (pagas === 14) {
+    // 14 pagas: monthly salary = bruto / 14, extra pagas are separate
+    salarioBase = round2(salarioBrutoAnual / 14);
+    prorrataPagas = 0;
+  } else {
+    // 12 pagas: salary base = bruto / 14, plus prorrata of 2 extra pays
+    salarioBase = round2(salarioBrutoAnual / 14);
+    prorrataPagas = round2((salarioBrutoAnual / 14) * 2 / 12);
+  }
+
+  const totalDevengos = round2(salarioBase + prorrataPagas);
+
+  // -----------------------------------------------------------------------
+  // 2. Base de cotización (always on 12-month basis including prorated extras)
+  // -----------------------------------------------------------------------
+  const grupoData = ssData.basesCotizacion2026.gruposCotizacion.find(
+    (g) => g.grupo === grupoCotizacion
+  );
+
+  let baseCotizacionMensual: number;
+
+  if (grupoData && grupoData.periodicidad === 'diaria') {
+    const baseDiaria = Math.min(
+      Math.max(salarioBrutoAnual / 365, grupoData.baseMinima),
+      grupoData.baseMaxima
+    );
+    baseCotizacionMensual = round2(baseDiaria * 30);
+  } else {
+    const baseMinima = grupoData?.baseMinima ?? ssData.basesCotizacion2026.baseMinima;
+    const baseMaxima = grupoData?.baseMaxima ?? ssData.basesCotizacion2026.baseMaxima;
+    const baseMensual = salarioBrutoAnual / 12;
+    baseCotizacionMensual = Math.min(Math.max(baseMensual, baseMinima), baseMaxima);
+  }
+
+  // -----------------------------------------------------------------------
+  // 3. Worker SS deductions (monthly)
+  // -----------------------------------------------------------------------
+  const tasaDesempleo = tipoContrato === 'indefinido'
+    ? ssData.cotizacionTrabajador.desempleoIndefinido
+    : ssData.cotizacionTrabajador.desempleoTemporal;
+
+  const contingenciasComunes = round2(baseCotizacionMensual * ssData.cotizacionTrabajador.contingenciasComunes / 100);
+  const desempleo = round2(baseCotizacionMensual * tasaDesempleo / 100);
+  const formacionProfesional = round2(baseCotizacionMensual * ssData.cotizacionTrabajador.formacionProfesional / 100);
+  const mei = round2(baseCotizacionMensual * ssData.cotizacionTrabajador.mei / 100);
+
+  const totalSeguridadSocial = round2(contingenciasComunes + desempleo + formacionProfesional + mei);
+
+  // -----------------------------------------------------------------------
+  // 4. IRPF retention (reuse existing IRPF calculation via calcularSalarioNeto)
+  // -----------------------------------------------------------------------
+  const salarioResult = calcularSalarioNeto(
+    {
+      salarioBrutoAnual,
+      numeroPagas: pagas,
+      ccaa,
+      situacionPersonal: {
+        estado: input.estadoCivil,
+        hijosCount: hijos,
+        discapacidad: input.discapacidad >= 33,
+      },
+      tipoContrato,
+      grupoCotizacion,
+    },
+    ssData,
+    irpfData
+  );
+
+  const porcentajeIRPF = salarioResult.desglose.tipoRetencion;
+  const retencionIRPF = round2(totalDevengos * porcentajeIRPF / 100);
+
+  // -----------------------------------------------------------------------
+  // 5. Total deductions and net pay
+  // -----------------------------------------------------------------------
+  const totalDeducciones = round2(totalSeguridadSocial + retencionIRPF);
+  const liquidoPercibir = round2(totalDevengos - totalDeducciones);
+
+  // -----------------------------------------------------------------------
+  // 6. Employer cost
+  // -----------------------------------------------------------------------
+  const tasaDesempleoEmpresa = tipoContrato === 'indefinido'
+    ? ssData.cotizacionEmpresa.desempleoIndefinido
+    : ssData.cotizacionEmpresa.desempleoTemporal;
+
+  const ssEmpresaPercent =
+    ssData.cotizacionEmpresa.contingenciasComunes +
+    tasaDesempleoEmpresa +
+    ssData.cotizacionEmpresa.formacionProfesional +
+    ssData.cotizacionEmpresa.mei +
+    ssData.cotizacionEmpresa.fogasa +
+    ssData.cotizacionEmpresa.accidentesTrabajoMin;
+
+  const ssEmpresa = round2(baseCotizacionMensual * ssEmpresaPercent / 100);
+  const costeEmpresa = round2(totalDevengos + ssEmpresa);
+
+  // -----------------------------------------------------------------------
+  // 7. Build lines for rendering
+  // -----------------------------------------------------------------------
+  const lineas: NominaLinea[] = [];
+
+  // Devengos
+  lineas.push({ concepto: 'Salario base', devengos: salarioBase });
+  if (pagas === 12) {
+    lineas.push({ concepto: 'Prorrata pagas extraordinarias', devengos: prorrataPagas });
+  }
+  lineas.push({ concepto: 'TOTAL DEVENGOS', devengos: totalDevengos });
+
+  // Deducciones
+  lineas.push({
+    concepto: `Contingencias comunes ${ssData.cotizacionTrabajador.contingenciasComunes.toFixed(2).replace('.', ',')}%`,
+    deducciones: contingenciasComunes,
+  });
+  lineas.push({
+    concepto: `Desempleo ${tasaDesempleo.toFixed(2).replace('.', ',')}%`,
+    deducciones: desempleo,
+  });
+  lineas.push({
+    concepto: `Formación profesional ${ssData.cotizacionTrabajador.formacionProfesional.toFixed(2).replace('.', ',')}%`,
+    deducciones: formacionProfesional,
+  });
+  lineas.push({
+    concepto: `MEI ${ssData.cotizacionTrabajador.mei.toFixed(2).replace('.', ',')}%`,
+    deducciones: mei,
+  });
+  lineas.push({ concepto: 'TOTAL SEGURIDAD SOCIAL', deducciones: totalSeguridadSocial });
+  lineas.push({
+    concepto: `IRPF ${porcentajeIRPF.toFixed(2).replace('.', ',')}%`,
+    deducciones: retencionIRPF,
+  });
+  lineas.push({ concepto: 'TOTAL DEDUCCIONES', deducciones: totalDeducciones });
+
+  // Period
+  const meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+  ];
+  const now = new Date();
+  const periodoLiquidacion = `${meses[now.getMonth()]} ${now.getFullYear()}`;
+
+  return {
+    periodoLiquidacion,
+    salarioBase,
+    prorrataPagas,
+    totalDevengos,
+    contingenciasComunes,
+    desempleo,
+    formacionProfesional,
+    mei,
+    totalSeguridadSocial,
+    retencionIRPF,
+    porcentajeIRPF,
+    totalDeducciones,
+    liquidoPercibir,
+    costeEmpresa,
+    ssEmpresa,
+    lineas,
   };
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calcularHipoteca, calcularGastosCompra } from '@lib/calculations/vivienda';
+import { calcularHipoteca, calcularGastosCompra, calcularGastosCompraComparativa } from '@lib/calculations/vivienda';
 import hipotecaData from '@data/hipoteca-reference.json';
 import itpData from '@data/itp-por-ccaa.json';
 
@@ -140,5 +140,82 @@ describe('calcularGastosCompra', () => {
     expect(result.tasacion).toBeGreaterThan(0);
     expect(result.registro).toBeGreaterThan(0);
     expect(result.totalConPrecio).toBe(150000 + result.totalGastos);
+  });
+});
+
+describe('calcularGastosCompraComparativa', () => {
+  it('returns 19 items (one per CCAA)', () => {
+    const result = calcularGastosCompraComparativa(
+      200000, false, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    expect(result).toHaveLength(19);
+  });
+
+  it('items are sorted by totalGastos ascending', () => {
+    const result = calcularGastosCompraComparativa(
+      200000, false, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    for (let i = 1; i < result.length; i++) {
+      expect(result[i].totalGastos).toBeGreaterThanOrEqual(result[i - 1].totalGastos);
+    }
+  });
+
+  it('País Vasco (4% ITP) should be cheapest for segunda mano', () => {
+    const result = calcularGastosCompraComparativa(
+      200000, false, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    expect(result[0].ccaa).toBe('pais-vasco');
+    expect(result[0].tipoImpuesto).toBe(4);
+  });
+
+  it('vivienda nueva should have same cost across all CCAAs', () => {
+    const result = calcularGastosCompraComparativa(
+      200000, true, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    const firstTotal = result[0].totalGastos;
+    for (const item of result) {
+      expect(item.totalGastos).toBe(firstTotal);
+    }
+  });
+
+  it('ahorroMinimo equals 20% of price plus totalGastos', () => {
+    const result = calcularGastosCompraComparativa(
+      200000, false, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    for (const item of result) {
+      const expected = 200000 * 0.20 + item.totalGastos;
+      expect(item.ahorroMinimo).toBeCloseTo(expected, 2);
+    }
+  });
+
+  it('each item has all required fields', () => {
+    const result = calcularGastosCompraComparativa(
+      150000, false, false,
+      hipotecaData as any, itpData as any,
+    );
+
+    for (const item of result) {
+      expect(item.ccaa).toBeDefined();
+      expect(item.ccaaLabel).toBeDefined();
+      expect(item.tipoImpuesto).toBeGreaterThan(0);
+      expect(item.impuesto).toBeGreaterThan(0);
+      expect(item.notaria).toBeGreaterThan(0);
+      expect(item.registro).toBeGreaterThan(0);
+      expect(item.gestoria).toBeGreaterThan(0);
+      expect(item.tasacion).toBeGreaterThan(0);
+      expect(item.totalGastos).toBeGreaterThan(0);
+      expect(item.totalConPrecio).toBe(150000 + item.totalGastos);
+      expect(item.ahorroMinimo).toBeGreaterThan(0);
+    }
   });
 });

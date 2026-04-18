@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calcularSalarioNeto, calcularIndemnizacion, calcularFiniquito } from '@lib/calculations/laboral';
+import { calcularSalarioNeto, calcularIndemnizacion, calcularFiniquito, calcularNomina } from '@lib/calculations/laboral';
 import ssData from '@data/seguridad-social-2026.json';
 import irpfData from '@data/irpf-2026.json';
 import indemnizacionData from '@data/indemnizacion-rules.json';
@@ -443,5 +443,203 @@ describe('calcularFiniquito', () => {
 
     // dias trabajados + vacaciones + prorrata navidad + prorrata verano
     expect(result.desglose).toHaveLength(4);
+  });
+});
+
+// ===========================================================================
+// calcularNomina
+// ===========================================================================
+
+describe('calcularNomina', () => {
+  it('14 pagas returns correct salarioBase (bruto/14)', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 28000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    expect(result.salarioBase).toBeCloseTo(28000 / 14, 1);
+    expect(result.prorrataPagas).toBe(0);
+    expect(result.totalDevengos).toBeCloseTo(28000 / 14, 1);
+  });
+
+  it('12 pagas includes prorrata', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 30000,
+        pagas: 12,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    const expectedBase = 30000 / 14;
+    const expectedProrrata = (30000 / 14) * 2 / 12;
+    expect(result.salarioBase).toBeCloseTo(expectedBase, 1);
+    expect(result.prorrataPagas).toBeCloseTo(expectedProrrata, 1);
+    expect(result.totalDevengos).toBeCloseTo(expectedBase + expectedProrrata, 1);
+  });
+
+  it('SS deductions use correct percentages for indefinido', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 30000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    // Base de cotizacion = 30000/12 = 2500
+    const baseCot = 30000 / 12;
+    expect(result.contingenciasComunes).toBeCloseTo(baseCot * 4.70 / 100, 0);
+    expect(result.desempleo).toBeCloseTo(baseCot * 1.55 / 100, 0);
+    expect(result.formacionProfesional).toBeCloseTo(baseCot * 0.10 / 100, 0);
+    expect(result.mei).toBeCloseTo(baseCot * ss.cotizacionTrabajador.mei / 100, 0);
+    expect(result.totalSeguridadSocial).toBeCloseTo(
+      result.contingenciasComunes + result.desempleo + result.formacionProfesional + result.mei,
+      1
+    );
+  });
+
+  it('temporal contract uses higher desempleo rate', () => {
+    const indefinido = calcularNomina(
+      {
+        salarioBrutoAnual: 25000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    const temporal = calcularNomina(
+      {
+        salarioBrutoAnual: 25000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'temporal',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    expect(temporal.desempleo).toBeGreaterThan(indefinido.desempleo);
+  });
+
+  it('liquidoPercibir = totalDevengos - totalDeducciones', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 35000,
+        pagas: 14,
+        ccaa: 'valencia',
+        grupoCotizacion: 3,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'casado',
+        hijos: 1,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    expect(result.liquidoPercibir).toBeCloseTo(
+      result.totalDevengos - result.totalDeducciones,
+      1
+    );
+  });
+
+  it('lineas array has expected entries for 14 pagas', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 25000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    // 14 pagas: Salario base, TOTAL DEVENGOS, CC, desempleo, formacion, MEI, TOTAL SS, IRPF, TOTAL DEDUCCIONES = 9
+    expect(result.lineas).toHaveLength(9);
+    expect(result.lineas[0].concepto).toBe('Salario base');
+    expect(result.lineas[0].devengos).toBe(result.salarioBase);
+  });
+
+  it('lineas array has prorrata entry for 12 pagas', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 25000,
+        pagas: 12,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    // 12 pagas: Salario base, Prorrata, TOTAL DEVENGOS, CC, desempleo, formacion, MEI, TOTAL SS, IRPF, TOTAL DEDUCCIONES = 10
+    expect(result.lineas).toHaveLength(10);
+    expect(result.lineas[1].concepto).toBe('Prorrata pagas extraordinarias');
+    expect(result.lineas[1].devengos).toBe(result.prorrataPagas);
+  });
+
+  it('costeEmpresa is greater than totalDevengos', () => {
+    const result = calcularNomina(
+      {
+        salarioBrutoAnual: 30000,
+        pagas: 14,
+        ccaa: 'madrid',
+        grupoCotizacion: 5,
+        tipoContrato: 'indefinido',
+        estadoCivil: 'soltero',
+        hijos: 0,
+        discapacidad: 0,
+      },
+      ss,
+      irpf
+    );
+
+    expect(result.costeEmpresa).toBeGreaterThan(result.totalDevengos);
+    expect(result.ssEmpresa).toBeGreaterThan(0);
   });
 });

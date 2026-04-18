@@ -538,6 +538,26 @@ export interface GastosCompraResult {
 }
 
 // ---------------------------------------------------------------------------
+// Calculator: Gastos de compra comparativa (todas las CCAA)
+// ---------------------------------------------------------------------------
+
+export interface GastosCompraComparativaItem {
+  ccaa: ComunidadAutonoma;
+  ccaaLabel: string;
+  tipoImpuesto: number;
+  impuesto: number;
+  notaria: number;
+  registro: number;
+  gestoria: number;
+  tasacion: number;
+  totalGastos: number;
+  totalConPrecio: number;
+  ahorroMinimo: number; // 20% + gastos
+}
+
+export type GastosCompraComparativaResult = GastosCompraComparativaItem[];
+
+// ---------------------------------------------------------------------------
 // Desempleo data structures
 // ---------------------------------------------------------------------------
 
@@ -845,6 +865,57 @@ export interface RentabilidadAlquilerDesglose {
   importe: number;
 }
 
+// ---------------------------------------------------------------------------
+// Calculator: Simulador de Nómina
+// ---------------------------------------------------------------------------
+
+export interface NominaLinea {
+  concepto: string;
+  devengos?: number;    // earnings (positive)
+  deducciones?: number; // deductions (positive number, displayed as negative)
+}
+
+export interface NominaInput {
+  salarioBrutoAnual: number;
+  pagas: 12 | 14;
+  ccaa: ComunidadAutonoma;
+  grupoCotizacion: number;  // 1-11
+  tipoContrato: 'indefinido' | 'temporal';
+  estadoCivil: 'soltero' | 'casado';
+  hijos: number;
+  discapacidad: number;
+}
+
+export interface NominaResult {
+  // Header info
+  periodoLiquidacion: string;
+
+  // Devengos (earnings)
+  salarioBase: number;
+  prorrataPagas: number;    // only if 12 pagas (extra pay prorated monthly)
+  totalDevengos: number;
+
+  // Deducciones (deductions)
+  contingenciasComunes: number;  // 4.70%
+  desempleo: number;             // 1.55% (indefinido) or 1.60% (temporal)
+  formacionProfesional: number;  // 0.10%
+  mei: number;                   // MEI (Mecanismo de Equidad Intergeneracional)
+  totalSeguridadSocial: number;
+  retencionIRPF: number;
+  porcentajeIRPF: number;
+  totalDeducciones: number;
+
+  // Net
+  liquidoPercibir: number;
+
+  // Employer cost (optional info section)
+  costeEmpresa: number;
+  ssEmpresa: number;
+
+  // Detailed lines for rendering
+  lineas: NominaLinea[];
+}
+
 export interface RentabilidadAlquilerResult {
   inversionTotal: number;
   ingresosAnuales: number;
@@ -855,4 +926,49 @@ export interface RentabilidadAlquilerResult {
   cashFlowMensual: number;
   anosRecuperacion: number;
   desglose: RentabilidadAlquilerDesglose[];
+}
+
+// ---------------------------------------------------------------------------
+// Préstamo Personal data structures (matching prestamos-referencia.json)
+// ---------------------------------------------------------------------------
+
+export interface PrestamosReferenciaData {
+  year: number;
+  lastUpdated: string;
+  tiposReferencia: Record<string, { tinMin: number; tinMax: number; tinMedia: number; descripcion: string }>;
+  comisiones: Record<string, { min: number; max: number; media: number; descripcion: string }>;
+  plazoMinimo: number;
+  plazoMaximo: number;
+  importeMinimo: number;
+  importeMaximo: number;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Préstamo Personal
+// ---------------------------------------------------------------------------
+
+export interface PrestamoPersonalInput {
+  capital: number;
+  tin: number;            // Tipo de Interés Nominal anual (%)
+  plazoMeses: number;
+  comisionApertura: number; // % over capital
+  seguroMensual: number;    // monthly insurance cost (€)
+}
+
+export interface PrestamoPersonalResult {
+  cuotaMensual: number;
+  totalIntereses: number;
+  totalPagado: number;
+  comisionAperturaImporte: number;
+  totalSeguros: number;
+  costeTotal: number;      // totalPagado + comision + seguros
+  taeCalculada: number;    // Effective annual rate including all costs
+  desglose: { concepto: string; importe: number }[];
+}
+
+export interface ComparacionPrestamos {
+  prestamo1: PrestamoPersonalResult;
+  prestamo2: PrestamoPersonalResult;
+  mejorOpcion: 1 | 2;
+  ahorro: number;
 }
