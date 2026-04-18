@@ -927,3 +927,48 @@ export interface RentabilidadAlquilerResult {
   anosRecuperacion: number;
   desglose: RentabilidadAlquilerDesglose[];
 }
+
+// ---------------------------------------------------------------------------
+// Préstamo Personal data structures (matching prestamos-referencia.json)
+// ---------------------------------------------------------------------------
+
+export interface PrestamosReferenciaData {
+  year: number;
+  lastUpdated: string;
+  tiposReferencia: Record<string, { tinMin: number; tinMax: number; tinMedia: number; descripcion: string }>;
+  comisiones: Record<string, { min: number; max: number; media: number; descripcion: string }>;
+  plazoMinimo: number;
+  plazoMaximo: number;
+  importeMinimo: number;
+  importeMaximo: number;
+}
+
+// ---------------------------------------------------------------------------
+// Calculator: Préstamo Personal
+// ---------------------------------------------------------------------------
+
+export interface PrestamoPersonalInput {
+  capital: number;
+  tin: number;            // Tipo de Interés Nominal anual (%)
+  plazoMeses: number;
+  comisionApertura: number; // % over capital
+  seguroMensual: number;    // monthly insurance cost (€)
+}
+
+export interface PrestamoPersonalResult {
+  cuotaMensual: number;
+  totalIntereses: number;
+  totalPagado: number;
+  comisionAperturaImporte: number;
+  totalSeguros: number;
+  costeTotal: number;      // totalPagado + comision + seguros
+  taeCalculada: number;    // Effective annual rate including all costs
+  desglose: { concepto: string; importe: number }[];
+}
+
+export interface ComparacionPrestamos {
+  prestamo1: PrestamoPersonalResult;
+  prestamo2: PrestamoPersonalResult;
+  mejorOpcion: 1 | 2;
+  ahorro: number;
+}

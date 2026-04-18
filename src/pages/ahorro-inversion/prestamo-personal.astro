@@ -1,0 +1,231 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import PrestamoPersonal from '@components/calculators/PrestamoPersonal';
+import prestamosData from '@data/prestamos-referencia.json';
+
+const title = 'Calculadora de Préstamo Personal: Cuota, TAE y Comparador — CalculaTuDinero.net';
+const description = 'Calcula la cuota mensual de tu préstamo personal, descubre la TAE real incluyendo comisiones y seguros, y compara dos ofertas para elegir la más barata.';
+const canonical = 'https://calculatudinero.net/ahorro-inversion/prestamo-personal/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Ahorro e inversión', href: '/ahorro-inversion/' },
+  { label: 'Préstamo Personal' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuál es la diferencia entre TIN y TAE?',
+    answer: 'El TIN (Tipo de Interés Nominal) es el porcentaje que el banco cobra por prestar el dinero, sin incluir gastos adicionales. La TAE (Tasa Anual Equivalente) incluye el TIN más comisiones, seguros vinculados y cualquier otro gasto obligatorio. La TAE es siempre igual o superior al TIN, y es el dato que debes comparar entre ofertas porque refleja el coste real del préstamo. Es obligatorio que las entidades la publiquen junto a cualquier oferta de financiación.',
+  },
+  {
+    question: '¿Qué factores hacen que la TAE sea más alta que el TIN?',
+    answer: 'La TAE sube respecto al TIN cuando hay comisión de apertura (un porcentaje sobre el capital que se cobra al inicio), seguros obligatorios vinculados al préstamo (vida, protección de pagos), gastos de estudio o formalización, y productos vinculados obligatorios (tarjetas, domiciliación de nómina con coste). Cuantos más gastos adicionales, mayor será la diferencia entre TAE y TIN. Un préstamo al 5% TIN con 2% de comisión de apertura y seguro puede tener una TAE del 7-8%.',
+  },
+  {
+    question: '¿Cuál es el tipo de interés máximo legal para un préstamo personal en España?',
+    answer: 'No existe un tipo máximo fijo por ley, pero la jurisprudencia del Tribunal Supremo (sentencia de 2015 y posteriores) considera usurario un interés que supere notablemente el tipo medio del mercado para operaciones similares. En la práctica, los tribunales han anulado préstamos con TAE superiores al doble del tipo medio del mercado. En 2026, con el tipo medio de préstamos al consumo en torno al 7-8%, una TAE por encima del 15-16% podría considerarse abusiva, aunque cada caso se analiza individualmente.',
+  },
+  {
+    question: '¿Es mejor un plazo corto o largo en un préstamo personal?',
+    answer: 'Un plazo más corto implica cuotas mensuales más altas pero un coste total mucho menor, ya que pagas intereses durante menos tiempo. Un plazo más largo reduce la cuota mensual pero aumenta significativamente el total de intereses. Por ejemplo, un préstamo de 10.000 € al 7% TIN: a 24 meses la cuota es de 448 € y pagas 762 € en intereses; a 60 meses la cuota baja a 198 € pero los intereses ascienden a 1.881 €. La recomendación es elegir el plazo más corto que te permita pagar la cuota con comodidad.',
+  },
+  {
+    question: '¿Puedo cancelar un préstamo personal anticipadamente?',
+    answer: 'Sí, la Ley 16/2011 de contratos de crédito al consumo te permite amortizar total o parcialmente un préstamo personal en cualquier momento. El banco puede cobrarte una comisión de cancelación anticipada máxima del 1% sobre el capital amortizado anticipadamente si faltan más de 12 meses para el vencimiento, o del 0,5% si falta menos de un año. Muchos bancos online ya no cobran esta comisión. Amortizar anticipadamente te ahorra intereses futuros y puede ser una buena estrategia si dispones de liquidez extra.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Préstamo Personal',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="abril 2026"
+  calculatorName="Calculadora de Préstamo Personal"
+>
+  <PrestamoPersonal client:load prestamosData={prestamosData} />
+
+  <Fragment slot="content">
+    <h2>Cuánto cuesta realmente un préstamo personal</h2>
+    <p>
+      Un préstamo personal te permite financiar compras, proyectos o necesidades sin aportar
+      una garantía real como una vivienda. A diferencia de las hipotecas, los préstamos
+      personales tienen plazos más cortos (entre 6 meses y 10 años) y tipos de interés más
+      altos, porque el banco asume mayor riesgo al no tener un activo como respaldo.
+    </p>
+    <p>
+      El coste real de un préstamo no es solo el tipo de interés (TIN) que te ofrece el banco.
+      Debes sumar la comisión de apertura, los seguros vinculados obligatorios y cualquier
+      otro gasto asociado. Por eso existe la <strong>TAE (Tasa Anual Equivalente)</strong>:
+      un indicador que integra todos estos costes en un solo número comparable.
+    </p>
+
+    <h2>TAE vs TIN: la diferencia que importa</h2>
+    <p>
+      El <strong>TIN</strong> (Tipo de Interés Nominal) es el porcentaje puro que el banco
+      cobra por prestar el dinero. Si pides 10.000 € al 7% TIN a 4 años, la cuota mensual
+      se calcula aplicando este tipo. Pero el TIN no incluye comisiones ni gastos adicionales.
+    </p>
+    <p>
+      La <strong>TAE</strong> (Tasa Anual Equivalente) es el tipo efectivo que refleja el
+      coste total del préstamo. Incluye el TIN, la comisión de apertura, los seguros vinculados
+      y la periodicidad de los pagos. Por ley, los bancos deben publicar la TAE en toda
+      oferta de financiación.
+    </p>
+    <p>
+      <strong>Regla práctica:</strong> compara siempre por TAE, no por TIN. Un préstamo al
+      5% TIN con 2% de comisión de apertura puede ser más caro que otro al 6% TIN sin comisiones.
+    </p>
+
+    <h2>Ejemplo práctico: préstamo de 10.000 € al 7% TIN a 48 meses</h2>
+    <p>
+      Con un préstamo de <strong>10.000 €</strong> al <strong>7% TIN</strong> durante
+      <strong> 48 meses</strong>, sin comisiones ni seguros:
+    </p>
+    <ul>
+      <li>Cuota mensual: <strong>239,46 €</strong></li>
+      <li>Total intereses: <strong>1.494,08 €</strong></li>
+      <li>Total pagado: <strong>11.494,08 €</strong></li>
+      <li>TAE: <strong>7,23%</strong> (ligeramente superior al TIN por la capitalización mensual)</li>
+    </ul>
+    <p>
+      Si añadimos una <strong>comisión de apertura del 1,5%</strong> (150 €) y un
+      <strong> seguro de 15 €/mes</strong> (720 € en total), el panorama cambia:
+    </p>
+    <ul>
+      <li>Coste total: <strong>12.364,08 €</strong> (intereses + comisión + seguros)</li>
+      <li>TAE real: <strong>~11%</strong> (muy por encima del 7% TIN anunciado)</li>
+    </ul>
+    <p>
+      Este ejemplo muestra por qué dos ofertas con el mismo TIN pueden tener costes totales
+      muy diferentes. Usa la pestaña "Comparar préstamos" de nuestra calculadora para
+      analizar tus ofertas reales.
+    </p>
+
+    <h2>Consejos para elegir el mejor préstamo personal</h2>
+    <ul>
+      <li>
+        <strong>Compara siempre por TAE:</strong> es el único indicador que incluye todos los
+        costes. Ignora el TIN como métrica de comparación.
+      </li>
+      <li>
+        <strong>Evita seguros vinculados innecesarios:</strong> muchos bancos ofrecen un TIN
+        más bajo si contratas un seguro de protección de pagos. Calcula si el ahorro en
+        intereses compensa realmente el coste del seguro.
+      </li>
+      <li>
+        <strong>Elige el plazo más corto que puedas asumir:</strong> cada mes adicional
+        genera más intereses. La cuota no debe superar el 35% de tus ingresos netos mensuales,
+        sumada al resto de deudas.
+      </li>
+      <li>
+        <strong>Negocia la comisión de apertura:</strong> muchos bancos online la han eliminado.
+        Una comisión del 2% sobre 20.000 € son 400 € que pagas al inicio sin obtener nada
+        a cambio.
+      </li>
+      <li>
+        <strong>Lee las condiciones de amortización anticipada:</strong> si crees que podrás
+        devolver el préstamo antes de tiempo, elige uno sin comisión de cancelación anticipada.
+      </li>
+    </ul>
+
+    <h3>Calculadoras relacionadas</h3>
+    <ul>
+      <li>
+        <a href="/vivienda/calculadora-hipoteca/">Simulador de hipoteca</a> — si buscas
+        financiación para una vivienda con garantía hipotecaria.
+      </li>
+      <li>
+        <a href="/ahorro-inversion/interes-compuesto/">Calculadora de interés compuesto</a> —
+        descubre cuánto crecería tu dinero si lo inviertes en lugar de gastarlo.
+      </li>
+      <li>
+        <a href="/laboral/salario-neto/">Calculadora de salario neto</a> — calcula cuánto
+        cobras realmente para saber qué cuota puedes asumir.
+      </li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏠', title: 'Simulador de Hipoteca', description: 'Simula tu cuota mensual y cuadro de amortización.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '📈', title: 'Interés Compuesto', description: 'Simula cómo crece tu dinero a largo plazo.', href: '/ahorro-inversion/interes-compuesto/' },
+      { icon: '💰', title: 'Salario Neto', description: 'Calcula cuánto cobras realmente al mes.', href: '/laboral/salario-neto/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

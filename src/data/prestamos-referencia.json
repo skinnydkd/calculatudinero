@@ -1,0 +1,20 @@
+{
+  "year": 2026,
+  "lastUpdated": "2026-04-18",
+  "source": "Banco de España, comparadores financieros",
+  "tiposReferencia": {
+    "personal": { "tinMin": 5.0, "tinMax": 12.0, "tinMedia": 7.5, "descripcion": "Préstamos personales sin finalidad específica" },
+    "vehiculo": { "tinMin": 4.0, "tinMax": 9.0, "tinMedia": 6.0, "descripcion": "Financiación de vehículos nuevos y usados" },
+    "reforma": { "tinMin": 3.5, "tinMax": 8.0, "tinMedia": 5.5, "descripcion": "Préstamos para reforma de vivienda" },
+    "estudios": { "tinMin": 3.0, "tinMax": 7.0, "tinMedia": 5.0, "descripcion": "Financiación de estudios y formación" },
+    "electrodomesticos": { "tinMin": 0.0, "tinMax": 15.0, "tinMedia": 8.0, "descripcion": "Financiación en punto de venta" }
+  },
+  "comisiones": {
+    "apertura": { "min": 0, "max": 2.5, "media": 1.0, "descripcion": "Comisión de apertura sobre capital concedido" },
+    "cancelacionAnticipada": { "min": 0, "max": 1.0, "media": 0.5, "descripcion": "Comisión por amortización anticipada (máx legal 1% si quedan >1 año, 0.5% si <1 año)" }
+  },
+  "plazoMinimo": 6,
+  "plazoMaximo": 120,
+  "importeMinimo": 1000,
+  "importeMaximo": 75000
+}
