@@ -583,6 +583,315 @@
   margin-top: var(--space-2);
 }
 
+/* ============================================
+   Calendario Fiscal
+   ============================================ */
+
+/* --- Next deadline banner --- */
+.calendario__banner {
+  background-color: var(--color-accent-light);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.calendario__banner-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.calendario__banner-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2);
+}
+
+.calendario__banner-modelo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  min-width: 44px;
+}
+
+.calendario__banner-nombre {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.calendario__banner-countdown {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-accent);
+}
+
+.calendario__banner-fecha {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* --- Filters --- */
+.calendario__filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* --- Timeline --- */
+.calendario__timeline {
+  margin-top: var(--space-6);
+}
+
+/* --- Month section --- */
+.calendario__month {
+  margin-bottom: var(--space-6);
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--space-5);
+}
+
+.calendario__month--current {
+  border-left-color: var(--color-accent);
+}
+
+.calendario__month-title {
+  font-size: 1.15rem;
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.calendario__month-badge {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* --- Deadlines list --- */
+.calendario__deadlines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* --- Deadline card --- */
+.calendario__deadline {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.calendario__deadline:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.calendario__deadline--pasado {
+  opacity: 0.55;
+  border-left: 3px solid var(--color-text-secondary);
+}
+
+.calendario__deadline--vencido {
+  border-left: 3px solid var(--color-error);
+  background-color: color-mix(in srgb, var(--color-error) 5%, var(--color-surface));
+}
+
+.calendario__deadline--urgente {
+  border-left: 3px solid var(--color-error);
+  background-color: color-mix(in srgb, var(--color-error) 5%, var(--color-surface));
+}
+
+.calendario__deadline--proximo {
+  border-left: 3px solid var(--color-warning);
+}
+
+.calendario__deadline--futuro {
+  border-left: 3px solid var(--color-success);
+}
+
+/* --- Deadline header --- */
+.calendario__deadline-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.calendario__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  min-width: 36px;
+  flex-shrink: 0;
+}
+
+.calendario__deadline-nombre {
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.calendario__deadline-fecha {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* --- Deadline meta --- */
+.calendario__deadline-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-2);
+}
+
+.calendario__countdown {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.calendario__countdown--pasado {
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-alt);
+}
+
+.calendario__countdown--vencido {
+  color: #FFFFFF;
+  background-color: var(--color-error);
+}
+
+.calendario__countdown--urgente {
+  color: #FFFFFF;
+  background-color: var(--color-error);
+}
+
+.calendario__countdown--proximo {
+  color: var(--color-warning);
+  background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+}
+
+.calendario__countdown--futuro {
+  color: var(--color-success);
+  background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
+}
+
+.calendario__deadline-expand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* --- Deadline detail (expanded) --- */
+.calendario__deadline-detail {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.calendario__deadline-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+}
+
+.calendario__deadline-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.calendario__tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 2px var(--space-2);
+  background-color: var(--color-bg-alt);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-sm);
+}
+
+/* --- Source --- */
+.calendario__source {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: var(--space-6);
+  font-style: italic;
+}
+
+/* --- Calendar responsive --- */
+@media (max-width: 640px) {
+  .calendario__banner-content {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .calendario__month {
+    padding-left: var(--space-3);
+  }
+
+  .calendario__deadline-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .calendario__deadline-fecha {
+    font-size: 0.75rem;
+  }
+}
+
 /* --- Responsive --- */
 @media (max-width: 640px) {
   .calculator {

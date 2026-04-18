@@ -1,0 +1,186 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import CalendarioFiscal from '@components/calculators/CalendarioFiscal';
+import calendarioData from '@data/calendario-fiscal-2026.json';
+
+const title = 'Calendario Fiscal para Autónomos 2026: Fechas y Modelos — CalculaTuDinero.net';
+const description = 'Consulta todas las fechas y plazos fiscales de 2026 para autónomos y pymes en España: IVA (303), IRPF (130), retenciones (111, 115), resúmenes anuales y declaración de la renta.';
+const canonical = 'https://calculatudinero.net/autonomos/calendario-fiscal/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Autónomos', href: '/autonomos/' },
+  { label: 'Calendario Fiscal' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuáles son los plazos trimestrales para autónomos en 2026?',
+    answer: 'Los modelos trimestrales (303 de IVA, 130 de IRPF, 111 y 115 de retenciones) se presentan del 1 al 20 de abril (1T), del 1 al 20 de julio (2T), del 1 al 20 de octubre (3T) y del 1 al 30 de enero del año siguiente (4T). Si el último día cae en festivo o fin de semana, el plazo se extiende al siguiente día hábil.',
+  },
+  {
+    question: '¿Qué pasa si presento un modelo fuera de plazo?',
+    answer: 'La presentación fuera de plazo conlleva un recargo del 1% por cada mes de retraso durante los primeros 12 meses, sin intereses de demora ni sanción. A partir del mes 12, el recargo es del 15% más intereses de demora. Si Hacienda te requiere antes de que presentes voluntariamente, se aplica una sanción que puede ser del 50% al 150% de la cantidad a ingresar.',
+  },
+  {
+    question: '¿Qué modelos anuales debe presentar un autónomo?',
+    answer: 'Los principales modelos anuales son: el modelo 390 (resumen anual de IVA), el modelo 190 (resumen anual de retenciones), el modelo 100 (declaración de la renta IRPF) y, si aplica, el modelo 347 (operaciones con terceros superiores a 3.005,06 €) y el modelo 349 (operaciones intracomunitarias). Los resúmenes anuales se presentan en enero, la renta entre abril y junio, y el 347 en febrero.',
+  },
+  {
+    question: '¿Cómo funciona la regularización de cuotas de autónomos?',
+    answer: 'Entre octubre y diciembre de cada año, la Seguridad Social regulariza las cuotas de autónomos comparando la base de cotización elegida con los rendimientos reales declarados en la renta. Si cotizaste por una base inferior a la que te correspondía, tendrás que pagar la diferencia. Si cotizaste de más, recibirás una devolución. Este proceso es automático desde la implantación del sistema de cotización por ingresos reales.',
+  },
+  {
+    question: '¿Cuándo se presenta la declaración de la renta en 2026?',
+    answer: 'La campaña de la renta 2025 (que se presenta en 2026) se abre el 2 de abril y finaliza el 30 de junio de 2026. Las primeras semanas solo se puede presentar online; la atención telefónica y presencial tiene citas a partir de mayo y junio respectivamente. Los autónomos con actividad económica están obligados a presentar la renta independientemente de sus ingresos.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calendario Fiscal para Autónomos 2026',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="abril 2026"
+  calculatorName="Calendario Fiscal 2026"
+>
+  <CalendarioFiscal client:load calendarioData={calendarioData} />
+
+  <Fragment slot="content">
+    <h2>Todas las obligaciones fiscales del autónomo en 2026</h2>
+    <p>
+      Controlar las fechas de presentación de impuestos es una de las tareas más importantes
+      para cualquier autónomo o pyme en España. Un retraso de un solo día puede suponer recargos
+      del 1% mensual, y si Hacienda te requiere antes de que regularices, la sanción puede
+      alcanzar el 150% de la cantidad adeudada.
+    </p>
+    <p>
+      Este calendario fiscal interactivo recoge todas las obligaciones tributarias del ejercicio
+      2026 — tanto las declaraciones trimestrales (IVA, IRPF, retenciones) como los resúmenes
+      anuales y las declaraciones informativas — con las fechas oficiales de la Agencia Tributaria
+      y la Seguridad Social. Filtra por perfil (autónomo o pyme) y por tipo de obligación para
+      ver solo lo que te afecta.
+    </p>
+
+    <h2>Los 4 bloques trimestrales del autónomo</h2>
+    <p>
+      El año fiscal del autónomo se divide en cuatro periodos de liquidación. Cada trimestre se presenta
+      dentro de los 20 primeros días del mes siguiente al cierre del trimestre — salvo el 4T, que tiene
+      plazo hasta el 30 de enero al coincidir con los resúmenes anuales.
+    </p>
+    <p>
+      Los modelos más habituales para un autónomo persona física en estimación directa son el <strong>modelo 303</strong>
+      (autoliquidación del IVA) y el <strong>modelo 130</strong> (pago fraccionado del IRPF). Si además tienes
+      empleados o recibes facturas con retención profesional, deberás presentar también el <strong>modelo 111</strong>
+      (retenciones de IRPF a trabajadores y profesionales). Y si alquilas un local u oficina, el <strong>modelo 115</strong>
+      (retenciones sobre alquileres).
+    </p>
+
+    <h2>Resúmenes anuales y declaraciones informativas</h2>
+    <p>
+      En enero se concentran los resúmenes anuales: el <strong>modelo 390</strong> (resumen de IVA del año) y el
+      <strong>modelo 190</strong> (resumen de retenciones). Estos modelos no suponen un pago adicional, sino que
+      recapitulan toda la información declarada trimestralmente para que Hacienda la cruce.
+    </p>
+    <p>
+      En febrero toca el <strong>modelo 347</strong>, la declaración de operaciones con terceros que superen
+      los 3.005,06 euros anuales (IVA incluido). Es meramente informativa, pero su no presentación
+      puede conllevar sanciones de hasta 20.000 euros. Si realizas operaciones con otros países de la UE,
+      también deberás presentar el <strong>modelo 349</strong> de operaciones intracomunitarias.
+    </p>
+
+    <h2>Consejos para no perder ningún plazo</h2>
+    <p>
+      La mejor estrategia para cumplir con Hacienda sin agobios es sistematizar el proceso:
+    </p>
+    <ul>
+      <li>Marca en tu calendario las fechas del 1 y 20 de abril, julio y octubre, y del 1 al 30 de enero.</li>
+      <li>Lleva la contabilidad al día — no esperes al último momento para recopilar facturas.</li>
+      <li>Contrata una gestoría si la fiscalidad no es tu fuerte. Es un gasto deducible que cuesta entre 60 y 150 euros al mes.</li>
+      <li>Utiliza un programa de facturación que genere los borradores de los modelos automáticamente.</li>
+      <li>Configura alertas en tu móvil 7 días antes de cada vencimiento.</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '💼', title: 'Cuánto facturar como autónomo', description: 'Calcula cuánto necesitas facturar para tu sueldo neto objetivo.', href: '/autonomos/cuanto-facturar/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Simula tu declaración de la renta con los tramos actualizados.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '📋', title: 'Cuota de Autónomos 2026', description: 'Descubre qué cuota te corresponde según tus rendimientos.', href: '/autonomos/cuota-autonomos/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>
