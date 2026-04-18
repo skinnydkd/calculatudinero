@@ -1,0 +1,197 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import GastosCompraVivienda from '@components/calculators/GastosCompraVivienda';
+import hipotecaData from '@data/hipoteca-reference.json';
+import itpData from '@data/itp-por-ccaa.json';
+
+const title = 'Gastos de Compra de Vivienda 2026: Calcula ITP, Notaría y Registro — CalculaTuDinero.net';
+const description = 'Calcula todos los gastos al comprar un piso en 2026: ITP o IVA, notaría, registro, gestoría y tasación. Compara los costes en las 19 comunidades autónomas.';
+const canonical = 'https://calculatudinero.net/vivienda/gastos-compra-vivienda/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Vivienda', href: '/vivienda/' },
+  { label: 'Gastos de Compra' },
+];
+
+const faqs = [
+  {
+    question: '¿Cuánto cuestan los gastos de compra de una vivienda en España?',
+    answer: 'Los gastos de compra representan entre el 10% y el 13% del precio de la vivienda. Incluyen impuestos (ITP para segunda mano o IVA+AJD para obra nueva), notaría (0,5% del precio), registro (0,3%), gestoría (unos 400 €) y tasación (unos 350 €). El principal factor que varía es el tipo impositivo, que depende de la comunidad autónoma y del tipo de vivienda.',
+  },
+  {
+    question: '¿Qué diferencia hay entre ITP e IVA al comprar vivienda?',
+    answer: 'El ITP (Impuesto de Transmisiones Patrimoniales) se paga al comprar vivienda de segunda mano y varía entre el 4% (País Vasco) y el 10% (Cataluña, Valencia, Cantabria). El IVA se paga al comprar vivienda de obra nueva y es del 10% en toda España, más el AJD (Actos Jurídicos Documentados) del 1,5%. En Canarias se aplica el IGIC en lugar del IVA.',
+  },
+  {
+    question: '¿Qué comunidad autónoma tiene los gastos de compra más baratos?',
+    answer: 'Para vivienda de segunda mano, el País Vasco es la comunidad con el ITP más bajo (4%), seguido de Madrid, Navarra, Ceuta y Melilla (6%). Para vivienda nueva, los gastos son iguales en toda España porque el IVA es estatal (10%). La diferencia entre la comunidad más barata y la más cara puede suponer más de 10.000 € en una vivienda de 200.000 €.',
+  },
+  {
+    question: '¿Cuánto ahorro necesito para comprar un piso de 200.000 €?',
+    answer: 'Necesitas al menos el 20% del precio como entrada (40.000 €) más los gastos de compra, que varían según la comunidad. En Madrid, los gastos rondan los 14.350 €, por lo que necesitarías unos 54.350 € de ahorro. En Cataluña o Valencia, donde el ITP es del 10%, los gastos suben a unos 22.350 €, elevando el ahorro necesario a unos 62.350 €.',
+  },
+  {
+    question: '¿Puedo aplicar un tipo reducido de ITP?',
+    answer: 'Sí, muchas comunidades autónomas aplican tipos reducidos de ITP para jóvenes (menores de 35-36 años), familias numerosas, personas con discapacidad o cuando la vivienda es habitual y no supera cierto precio. Por ejemplo, Andalucía reduce del 7% al 3,5% para menores de 35 años con vivienda habitual menor de 150.000 €. Consulta las condiciones específicas de tu comunidad en nuestra calculadora.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Calculadora de Gastos de Compra de Vivienda',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="abril 2026"
+  calculatorName="Gastos de Compra de Vivienda"
+>
+  <GastosCompraVivienda client:load hipotecaData={hipotecaData} itpData={itpData} />
+
+  <Fragment slot="content">
+    <h2>Cómo funciona la calculadora de gastos de compra</h2>
+    <p>
+      Esta calculadora desglosa todos los gastos asociados a la compra de una vivienda en España: impuestos
+      (ITP para segunda mano o IVA+AJD para obra nueva), notaría, registro de la propiedad, gestoría y
+      tasación. Los impuestos varían según la comunidad autónoma, mientras que notaría y registro se regulan
+      por aranceles estatales y dependen del precio del inmueble.
+    </p>
+    <p>
+      La herramienta incluye un <strong>modo comparativo</strong> que muestra los costes de las 19 comunidades
+      autónomas en una sola tabla, ordenadas de más barata a más cara. Esto te permite ver de un vistazo
+      cuánto ahorrarías comprando la misma vivienda en una comunidad u otra.
+    </p>
+
+    <h2>Ejemplo práctico: vivienda de 200.000 € en Madrid</h2>
+    <p>
+      <strong>Situación:</strong> compras una vivienda de segunda mano de 200.000 € en Madrid,
+      donde el ITP es del 6%.
+    </p>
+    <p>
+      El desglose de gastos sería: ITP (6%) = <strong>12.000 €</strong>, notaría (0,5%) =
+      <strong>1.000 €</strong>, registro (0,3%) = <strong>600 €</strong>, gestoría =
+      <strong>400 €</strong>, tasación = <strong>350 €</strong>. Total gastos:
+      <strong>14.350 €</strong>.
+    </p>
+    <p>
+      Con una financiación del 80%, necesitarías un ahorro mínimo de 40.000 € (entrada) + 14.350 € (gastos)
+      = <strong>54.350 €</strong>. En cambio, si compraras esa misma vivienda en Cataluña (ITP del 10%),
+      los gastos subirían a 22.350 € y el ahorro mínimo necesario sería de 62.350 €, es decir,
+      <strong>8.000 € más</strong>.
+    </p>
+
+    <h2>ITP por comunidades: de más barato a más caro</h2>
+    <p>
+      El Impuesto de Transmisiones Patrimoniales es el factor que más influye en los gastos de compra de
+      vivienda de segunda mano. Los tipos generales van del 4% en el País Vasco al 10% en Cataluña,
+      Comunidad Valenciana y Cantabria. Muchas comunidades ofrecen tipos reducidos para colectivos
+      específicos: jóvenes, familias numerosas, viviendas de protección oficial (VPO) o viviendas por
+      debajo de cierto precio.
+    </p>
+    <p>
+      <strong>Consejo:</strong> si cumples los requisitos para un tipo reducido, la diferencia puede
+      ser considerable. Por ejemplo, en Andalucía, un menor de 35 años comprando vivienda habitual
+      de menos de 150.000 € paga un 3,5% en lugar del 7%, lo que supone un ahorro de 5.250 € en
+      una vivienda de 150.000 €.
+    </p>
+
+    <h2>Vivienda nueva vs. segunda mano: ¿qué sale más caro?</h2>
+    <p>
+      En vivienda nueva, el impuesto es el IVA (10%) más AJD (1,5%), sumando un 11,5% sobre el precio.
+      En vivienda de segunda mano, se paga el ITP, que varía según la comunidad (del 4% al 10%).
+      Por lo tanto, en muchas comunidades la vivienda nueva resulta más cara en impuestos que la de
+      segunda mano. Solo en comunidades con ITP muy alto (10%) los gastos se igualan o incluso la
+      nueva resulta ligeramente más favorable.
+    </p>
+
+    <h2>Calculadoras relacionadas</h2>
+    <p>
+      Usa el <a href="/vivienda/calculadora-hipoteca/">simulador de hipoteca</a> para calcular tu cuota
+      mensual y saber cuánto necesitas financiar. Si ya tienes hipoteca, consulta la
+      <a href="/vivienda/amortizacion-anticipada/">calculadora de amortización anticipada</a> para ver
+      si te conviene amortizar. Y si estás vendiendo una vivienda, calcula la
+      <a href="/impuestos/plusvalia-municipal/">plusvalía municipal</a> que te corresponde pagar.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '🏠', title: 'Simulador de Hipoteca', description: 'Calcula tu cuota mensual y cuadro de amortización.', href: '/vivienda/calculadora-hipoteca/' },
+      { icon: '🏘️', title: 'Plusvalía municipal', description: 'Compara método real y objetivo para tu venta.', href: '/impuestos/plusvalia-municipal/' },
+      { icon: '💸', title: 'Amortización Anticipada', description: 'Compara reducir cuota vs reducir plazo.', href: '/vivienda/amortizacion-anticipada/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

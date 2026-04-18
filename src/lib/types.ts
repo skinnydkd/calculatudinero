@@ -538,6 +538,26 @@ export interface GastosCompraResult {
 }
 
 // ---------------------------------------------------------------------------
+// Calculator: Gastos de compra comparativa (todas las CCAA)
+// ---------------------------------------------------------------------------
+
+export interface GastosCompraComparativaItem {
+  ccaa: ComunidadAutonoma;
+  ccaaLabel: string;
+  tipoImpuesto: number;
+  impuesto: number;
+  notaria: number;
+  registro: number;
+  gestoria: number;
+  tasacion: number;
+  totalGastos: number;
+  totalConPrecio: number;
+  ahorroMinimo: number; // 20% + gastos
+}
+
+export type GastosCompraComparativaResult = GastosCompraComparativaItem[];
+
+// ---------------------------------------------------------------------------
 // Desempleo data structures
 // ---------------------------------------------------------------------------
 

@@ -15,12 +15,15 @@ import type {
   AmortizacionAnual,
   GastosCompraInput,
   GastosCompraResult,
+  GastosCompraComparativaItem,
+  GastosCompraComparativaResult,
   ITPData,
   AmortizacionAnticipadaInput,
   AmortizacionAnticipadaResult,
   RentabilidadAlquilerInput,
   RentabilidadAlquilerResult,
 } from '../types';
+import { CCAA_OPTIONS } from '../types';
 
 // ---------------------------------------------------------------------------
 // calcularHipoteca
@@ -195,6 +198,64 @@ export function calcularGastosCompra(
     totalGastos,
     totalConPrecio,
   };
+}
+
+// ---------------------------------------------------------------------------
+// calcularGastosCompraComparativa
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate purchase costs for ALL 19 autonomous communities, allowing
+ * side-by-side comparison. Results are sorted by totalGastos ascending
+ * (cheapest first).
+ *
+ * @param precioVivienda - Property price in euros
+ * @param esViviendaNueva - true for new-build (IVA), false for second-hand (ITP)
+ * @param aplicaTipoReducido - Whether to apply reduced tax rate
+ * @param hipotecaData - Reference data for fixed fees
+ * @param itpData - ITP rates by autonomous community
+ * @returns Array of 19 items sorted by totalGastos ascending
+ */
+export function calcularGastosCompraComparativa(
+  precioVivienda: number,
+  esViviendaNueva: boolean,
+  aplicaTipoReducido: boolean,
+  hipotecaData: HipotecaReferenceData,
+  itpData: ITPData,
+): GastosCompraComparativaResult {
+  const items: GastosCompraComparativaItem[] = CCAA_OPTIONS.map((opt) => {
+    const result = calcularGastosCompra(
+      {
+        precioVivienda,
+        ccaa: opt.value,
+        esViviendaNueva,
+        aplicaTipoReducido,
+      },
+      hipotecaData,
+      itpData,
+    );
+
+    const ahorroMinimo = round2(precioVivienda * 0.20 + result.totalGastos);
+
+    return {
+      ccaa: opt.value,
+      ccaaLabel: opt.label,
+      tipoImpuesto: result.impuestoTipo,
+      impuesto: result.impuesto,
+      notaria: result.notaria,
+      registro: result.registro,
+      gestoria: result.gestoria,
+      tasacion: result.tasacion,
+      totalGastos: result.totalGastos,
+      totalConPrecio: result.totalConPrecio,
+      ahorroMinimo,
+    };
+  });
+
+  // Sort by totalGastos ascending (cheapest community first)
+  items.sort((a, b) => a.totalGastos - b.totalGastos);
+
+  return items;
 }
 
 // ---------------------------------------------------------------------------
