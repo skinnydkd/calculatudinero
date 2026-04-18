@@ -865,6 +865,57 @@ export interface RentabilidadAlquilerDesglose {
   importe: number;
 }
 
+// ---------------------------------------------------------------------------
+// Calculator: Simulador de Nómina
+// ---------------------------------------------------------------------------
+
+export interface NominaLinea {
+  concepto: string;
+  devengos?: number;    // earnings (positive)
+  deducciones?: number; // deductions (positive number, displayed as negative)
+}
+
+export interface NominaInput {
+  salarioBrutoAnual: number;
+  pagas: 12 | 14;
+  ccaa: ComunidadAutonoma;
+  grupoCotizacion: number;  // 1-11
+  tipoContrato: 'indefinido' | 'temporal';
+  estadoCivil: 'soltero' | 'casado';
+  hijos: number;
+  discapacidad: number;
+}
+
+export interface NominaResult {
+  // Header info
+  periodoLiquidacion: string;
+
+  // Devengos (earnings)
+  salarioBase: number;
+  prorrataPagas: number;    // only if 12 pagas (extra pay prorated monthly)
+  totalDevengos: number;
+
+  // Deducciones (deductions)
+  contingenciasComunes: number;  // 4.70%
+  desempleo: number;             // 1.55% (indefinido) or 1.60% (temporal)
+  formacionProfesional: number;  // 0.10%
+  mei: number;                   // MEI (Mecanismo de Equidad Intergeneracional)
+  totalSeguridadSocial: number;
+  retencionIRPF: number;
+  porcentajeIRPF: number;
+  totalDeducciones: number;
+
+  // Net
+  liquidoPercibir: number;
+
+  // Employer cost (optional info section)
+  costeEmpresa: number;
+  ssEmpresa: number;
+
+  // Detailed lines for rendering
+  lineas: NominaLinea[];
+}
+
 export interface RentabilidadAlquilerResult {
   inversionTotal: number;
   ingresosAnuales: number;

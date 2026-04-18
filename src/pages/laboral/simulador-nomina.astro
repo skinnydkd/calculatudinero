@@ -1,0 +1,169 @@
+---
+import CalculatorLayout from '@layouts/CalculatorLayout.astro';
+import RelatedCalculators from '@components/layout/RelatedCalculators.astro';
+import SimuladorNomina from '@components/calculators/SimuladorNomina';
+import ssData from '@data/seguridad-social-2026.json';
+import irpfData from '@data/irpf-2026.json';
+
+const title = 'Simulador de Nomina 2026: Genera tu Nomina Detallada — CalculaTuDinero.net';
+const description = 'Genera una nomina detallada con el desglose de cada concepto: salario base, cotizaciones a la Seguridad Social, retencion de IRPF y liquido a percibir. Actualizado a 2026.';
+const canonical = 'https://calculatudinero.net/laboral/simulador-nomina/';
+
+const breadcrumbItems = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Laboral', href: '/laboral/' },
+  { label: 'Simulador de Nomina' },
+];
+
+const faqs = [
+  {
+    question: '¿Que es el salario base en la nomina?',
+    answer: 'El salario base es la retribucion fija que recibe el trabajador por su jornada laboral, establecida por el convenio colectivo o el contrato de trabajo. Es el concepto principal de los devengos y sobre el se aplican las cotizaciones a la Seguridad Social. Si cobras en 14 pagas, el salario base mensual es tu salario bruto anual dividido entre 14. Si cobras en 12 pagas, se anade la prorrata de las pagas extraordinarias.',
+  },
+  {
+    question: '¿Que son las contingencias comunes?',
+    answer: 'Las contingencias comunes son la cotizacion que cubre las prestaciones de la Seguridad Social por situaciones como enfermedad comun, accidente no laboral, maternidad, paternidad y jubilacion. En 2026, el trabajador aporta un 4,70% de su base de cotizacion y la empresa un 23,60%. Es la deduccion mas importante de la nomina despues del IRPF.',
+  },
+  {
+    question: '¿Que es el MEI y por que aparece en mi nomina?',
+    answer: 'El MEI (Mecanismo de Equidad Intergeneracional) es una cotizacion adicional creada por el Real Decreto-ley 2/2023 para garantizar la sostenibilidad del sistema de pensiones. En 2026 supone un 0,90% de la base de cotizacion, del cual el trabajador paga el 0,15% y la empresa el 0,75%. Aparece como una linea separada en las deducciones de tu nomina.',
+  },
+  {
+    question: '¿Como se calcula la retencion de IRPF en la nomina?',
+    answer: 'La retencion de IRPF se calcula aplicando un porcentaje a tus devengos mensuales. Ese porcentaje se determina a partir de tu salario bruto anual, tu situacion personal (estado civil, numero de hijos, discapacidad) y los tramos de IRPF estatales y autonomicos de tu comunidad. La empresa calcula el tipo de retencion a principio de ano y lo aplica cada mes. Puedes verificarlo con nuestra calculadora de IRPF.',
+  },
+  {
+    question: '¿Cual es la diferencia entre 12 y 14 pagas en la nomina?',
+    answer: 'Con 14 pagas recibes 12 mensualidades ordinarias mas 2 pagas extraordinarias (normalmente en junio y diciembre). Con 12 pagas, las pagas extras se prorratean y se reparten en las 12 mensualidades, por lo que cobras algo mas cada mes pero no recibes las pagas extras. El salario bruto anual es el mismo en ambos casos, pero la nomina mensual es diferente: con 12 pagas aparece el concepto "Prorrata pagas extraordinarias".',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': 'Simulador de Nomina',
+    'url': canonical,
+    'applicationCategory': 'FinanceApplication',
+    'operatingSystem': 'Web',
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'EUR',
+    },
+    'description': description,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  canonical={canonical}
+  jsonLd={jsonLd}
+  breadcrumbItems={breadcrumbItems}
+  lastUpdated="abril 2026"
+  calculatorName="Simulador de Nomina"
+>
+  <SimuladorNomina client:load ssData={ssData} irpfData={irpfData} />
+
+  <Fragment slot="content">
+    <h2>Como leer tu nomina</h2>
+    <p>
+      La nomina es el documento oficial que detalla como se compone tu salario mensual. Se divide en
+      dos grandes bloques: los <strong>devengos</strong> (lo que ganas) y las <strong>deducciones</strong>
+      (lo que se te descuenta). La diferencia entre ambos es tu <strong>liquido a percibir</strong>,
+      es decir, lo que realmente llega a tu cuenta bancaria cada mes.
+    </p>
+    <p>
+      <strong>Devengos:</strong> incluyen el salario base (fijado por convenio o contrato) y, si cobras
+      en 12 pagas, la prorrata de las pagas extraordinarias. Tambien pueden incluir complementos salariales
+      (antiguedad, peligrosidad, nocturnidad, etc.), aunque este simulador se centra en los conceptos basicos
+      que aparecen en la mayoria de nominas.
+    </p>
+    <p>
+      <strong>Deducciones:</strong> se componen de las cotizaciones a la Seguridad Social (contingencias
+      comunes, desempleo, formacion profesional y MEI) y la retencion del IRPF. Las cotizaciones a la SS
+      son un porcentaje fijo que se aplica sobre la base de cotizacion, mientras que el IRPF varia segun
+      tu salario, situacion personal y comunidad autonoma.
+    </p>
+
+    <h2>Ejemplo practico</h2>
+    <p>
+      <strong>Trabajador con 25.000 EUR brutos anuales</strong>, 14 pagas, contrato indefinido en Madrid,
+      soltero y sin hijos:
+    </p>
+    <p>
+      El salario base mensual seria 25.000 / 14 = <strong>1.785,71 EUR</strong>. Las cotizaciones a la
+      Seguridad Social se calculan sobre la base de cotizacion mensual (25.000 / 12 = 2.083,33 EUR):
+      contingencias comunes (4,70%) = 97,92 EUR, desempleo (1,55%) = 32,29 EUR, formacion (0,10%) = 2,08 EUR
+      y MEI (0,15%) = 3,13 EUR. El total de SS del trabajador es de 135,42 EUR al mes.
+    </p>
+    <p>
+      La retencion de IRPF para este salario en Madrid ronda el 12-14%, lo que supone unos 215-250 EUR
+      mensuales. El liquido a percibir queda en torno a <strong>1.400-1.435 EUR</strong> al mes en 14 pagas.
+    </p>
+
+    <h2>Preguntas frecuentes</h2>
+    {faqs.map((faq) => (
+      <details class="faq__item">
+        <summary class="faq__question">{faq.question}</summary>
+        <p class="faq__answer">{faq.answer}</p>
+      </details>
+    ))}
+  </Fragment>
+
+  <Fragment slot="related">
+    <RelatedCalculators items={[
+      { icon: '💰', title: 'Calculadora de Salario Neto', description: 'Calcula tu salario neto a partir del bruto con deducciones de SS e IRPF.', href: '/laboral/salario-neto/' },
+      { icon: '🧾', title: 'Calculadora de IRPF 2026', description: 'Calcula tu cuota de IRPF con tramos actualizados por comunidad autonoma.', href: '/impuestos/calculadora-irpf/' },
+      { icon: '📄', title: 'Calculadora de Finiquito', description: 'Calcula tu finiquito: dias trabajados, vacaciones y prorrata de pagas.', href: '/laboral/finiquito/' },
+    ]} />
+  </Fragment>
+</CalculatorLayout>
+
+<style>
+  .faq__item {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-4) 0;
+  }
+
+  .faq__question {
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.05rem;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::before {
+    content: '+ ';
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  details[open] .faq__question::before {
+    content: '- ';
+  }
+
+  .faq__answer {
+    margin-top: var(--space-3);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+</style>

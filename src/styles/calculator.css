@@ -455,6 +455,134 @@
   border-bottom-color: var(--color-accent);
 }
 
+/* --- Nomina payslip styles --- */
+.nomina {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.nomina__header {
+  background-color: var(--color-bg-alt);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 2px solid var(--color-border);
+  text-align: center;
+}
+
+.nomina__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.nomina__periodo {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.nomina__section {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nomina__section-title {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+}
+
+.nomina__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nomina__table td {
+  padding: var(--space-2) 0;
+  vertical-align: middle;
+}
+
+.nomina__table td:first-child {
+  color: var(--color-text-secondary);
+}
+
+.nomina__amount {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--color-text);
+}
+
+.nomina__amount--deduction {
+  color: var(--color-text);
+}
+
+.nomina__row-total td {
+  border-top: 2px solid var(--color-border);
+  padding-top: var(--space-3);
+}
+
+.nomina__row-total td:first-child strong,
+.nomina__row-total td:last-child strong {
+  color: var(--color-text);
+}
+
+.nomina__row-subtotal td {
+  border-top: 1px dashed var(--color-border);
+  font-weight: 600;
+  padding-top: var(--space-3);
+}
+
+.nomina__liquido {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-5) var(--space-6);
+  background-color: var(--color-bg-alt);
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nomina__liquido-amount {
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  color: var(--color-accent);
+}
+
+.nomina__coste-empresa {
+  padding: var(--space-4) var(--space-6);
+  background-color: var(--color-surface);
+  font-size: 0.85rem;
+}
+
+.nomina__coste-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-1) 0;
+  color: var(--color-text-secondary);
+}
+
+.nomina__coste-row--total {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-2);
+  margin-top: var(--space-2);
+}
+
 /* --- Responsive --- */
 @media (max-width: 640px) {
   .calculator {
@@ -485,5 +613,27 @@
   .calculator__tab {
     padding: var(--space-2) var(--space-3);
     font-size: 0.85rem;
+  }
+
+  .nomina__header,
+  .nomina__section,
+  .nomina__liquido,
+  .nomina__coste-empresa {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .nomina__liquido {
+    flex-direction: column;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  .nomina__liquido-amount {
+    font-size: 1.2rem;
+  }
+
+  .nomina__table td:first-child {
+    font-size: 0.82rem;
   }
 }
