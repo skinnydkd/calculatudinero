@@ -7,7 +7,14 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://calculatudinero.net',
   output: 'static',
-  integrations: [preact(), sitemap()],
+  integrations: [
+    preact(),
+    sitemap({
+      serialize(item) {
+        return { ...item, lastmod: new Date().toISOString() };
+      },
+    }),
+  ],
   i18n: {
     defaultLocale: 'es',
     locales: ['es'],
